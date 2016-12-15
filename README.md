@@ -41,6 +41,7 @@ To install the package (root mode):
 
     3.  Install the package:
 
+          $ rpm --import PUBLIC_KEY.PUB
           $ rpm -i intel-mlsl-devel-64-<version>.<update>-<package#>.x86_64.rpm
 
 To install the package (user mode):
