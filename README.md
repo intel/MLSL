@@ -67,13 +67,13 @@ Copyright (c) 2016 Intel Corporation.
   * No reverse engineering, decompilation, or disassembly of this software is
     permitted.
 
-   Limited patent license.  Intel Corporation grants a world-wide, royalty-free,
-   non-exclusive license under patents it now or hereafter owns or controls to 
-   make, have made, use, import, offer to sell and sell ("Utilize") this
-   software, but solely to the extent that any such patent is necessary to
-   Utilize the software alone. The patent license shall not apply to any
-   combinations which include this software. No hardware per se is licensed
-   hereunder.
+Limited patent license.  Intel Corporation grants a world-wide, royalty-free,
+non-exclusive license under patents it now or hereafter owns or controls to 
+make, have made, use, import, offer to sell and sell ("Utilize") this
+software, but solely to the extent that any such patent is necessary to
+Utilize the software alone. The patent license shall not apply to any
+combinations which include this software. No hardware per se is licensed
+hereunder.
 
     DISCLAIMER.  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
     CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
