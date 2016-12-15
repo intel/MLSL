@@ -1,5 +1,4 @@
 # Intel(R) Machine Learning Scaling Library for Linux* OS
-# README
 ## Introduction ##
 Intel(R) Machine Learning Scaling Library (Intel(R) MLSL) is a library providing
 an efficient implementation of communication patterns used in deep learning.
@@ -87,6 +86,7 @@ Copyright (c) 2016 Intel Corporation.
     WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
     OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
     ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 ## Optimization Notice ##
 Intel's compilers may or may not optimize to the same degree for non-Intel
 microprocessors for optimizations that are not unique to Intel microprocessors.
