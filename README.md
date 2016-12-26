@@ -1,5 +1,5 @@
 # Intel(R) Machine Learning Scaling Library for Linux* OS
-[![Intel blob license](https://img.shields.io/badge/license-Intel blob license-green.svg)](LICENSE.txt)
+[![EULA](https://img.shields.io/badge/license-EULA-green.svg)](EULA.txt)
 ![v2017 Beta](https://img.shields.io/badge/v.2017-Beta-orange.svg)
 ## Introduction ##
 Intel(R) Machine Learning Scaling Library (Intel(R) MLSL) is a library providing
@@ -56,7 +56,7 @@ You can uninstall the Intel(R) MLSL by manually uninstalling the RPM:
     $ rpm -e intel-mlsl-devel-64-<version>.<update>-<package#>.x86_64
 ## License ##
 Intel MLSL is licensed under 
-[Intel blob license](https://github.com/01org/MLSL/blob/master/LICENSE.txt).
+[EULA](https://github.com/01org/MLSL/blob/master/EULA.txt).
 
 ## Optimization Notice ##
 Intel's compilers may or may not optimize to the same degree for non-Intel
