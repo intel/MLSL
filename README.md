@@ -1,6 +1,6 @@
 # Intel(R) Machine Learning Scaling Library for Linux* OS
-[![EULA](https://img.shields.io/badge/license-EULA-green.svg)](EULA.txt)
-![v2017 Beta](https://img.shields.io/badge/v.2017-Beta-orange.svg)
+[![Intel Simplified Sowtware License](https://img.shields.io/badge/license-Intel%20Simplified%20Software%20License-green.svg)](LICENSE)
+![v2017 Preview](https://img.shields.io/badge/v.2017-Preview-orange.svg)
 ## Introduction ##
 Intel(R) Machine Learning Scaling Library (Intel(R) MLSL) is a library providing
 an efficient implementation of communication patterns used in deep learning.
@@ -21,28 +21,28 @@ Operating Systems:
 
     - Red Hat* Enterprise Linux* 6 or 7
     - SuSE* Linux* Enterprise Server 12
+    - Ubuntu* 16
 
 Compilers:
 
     - GNU*: C, C++ 4.4.0 or higher
     - Intel(R) C++ Compiler for Linux* OS 16.0 through 17.0 or higher
+
+Virtual Environments:
+
+    - Docker*
+    - KVM*
+
 ## Installing Intel(R) Machine Learning Scaling Library ##
 To install the package (root mode):
 
     1.  Log in as root.
-    2.  The RPM package for the Intel(R) MLSL has the 
-        following naming convention:
-
-            intel-mlsl-devel-64-<version>.<update>-<package#>.x86_64.rpm
-
-        where <version>.<update>-<package#> is a string, such as:
-
-            2017.1-009
-
-    3.  Install the package:
-
+    2.  Install the package:
           $ rpm --import PUBLIC_KEY.PUB
           $ rpm -i intel-mlsl-devel-64-<version>.<update>-<package#>.x86_64.rpm
+          where <version>.<update>-<package#> is a string, such as: 2017.0-009
+    3.  Uninstalling the Intel(R) MLSL using the RPM Package Manager
+          $ rpm -e intel-mlsl-devel-64-<version>.<update>-<package#>.x86_64
 
 To install the package (user mode):
 
@@ -50,13 +50,9 @@ To install the package (user mode):
 
     There is no uninstall script. To uninstall the Intel(R) MLSL, delete the full
     directory you have installed the package into.
-## Uninstalling Intel(R) Machine Learning Scaling Library ##
-You can uninstall the Intel(R) MLSL by manually uninstalling the RPM:
-
-    $ rpm -e intel-mlsl-devel-64-<version>.<update>-<package#>.x86_64
 ## License ##
 Intel MLSL is licensed under 
-[EULA](https://github.com/01org/MLSL/blob/master/EULA.txt).
+[Intel Simplified Software License](https://github.com/01org/MLSL/blob/master/LICENSE).
 
 ## Optimization Notice ##
 Intel's compilers may or may not optimize to the same degree for non-Intel
