@@ -1,7 +1,7 @@
------------------------------------------------------------------
-Intel(R) Machine Learning Scaling Library 2017 Beta for Linux* OS
+--------------------------------------------------------------------
+Intel(R) Machine Learning Scaling Library 2017 Preview for Linux* OS
 Release Notes
------------------------------------------------------------------
+--------------------------------------------------------------------
 
 --------
 Contents
@@ -54,6 +54,8 @@ following major features:
 - Synchronous Stochastic Gradient Descent (SGD) and its variants (AdaGrad, Momentum, etc.)
   support by communication patterns
 - Distributed weight update
+- Advanced communication statistics
+- C/C++ interfaces
 - Support for Intel(R) Xeon(R) and Intel(R) Xeon Phi(TM) processors
   (formerly code named Knights Landing)
 - Support for the following network interconnects:
@@ -73,6 +75,7 @@ Supported Hardware
       Intel(R) Core(TM) processor family or higher
       Intel(R) Xeon(R) E5 v3 processor families recommended
       Intel(R) Xeon(R) E7 v2 processor families recommended
+      2nd Generation Intel(R) Xeon Phi(TM) Processor (formerly code named Knights Landing)
       1 GB of RAM per core
       2 GB of RAM per core recommended
       1 GB of free hard disk space
@@ -85,10 +88,15 @@ systems that are not released at the date of the current Intel MLSL release)
     Systems based on the Intel(R) 64 architecture:
       Red Hat* Enterprise Linux* 6, 7
       SUSE* Linux Enterprise Server* 12
+      Ubuntu* 16
 
     Compilers:
       GNU*: C, C++ 4.4.0 or higher
       Intel(R) C++ Compiler for Linux* OS 16.0 through 17.0 or higher
+
+    Virtual Environments:
+      Docker*
+      KVM*
 
 ------------------
 Installation Notes
@@ -100,18 +108,19 @@ See the Intel(R) MLSL for Linux* OS README for details.
 Documentation
 -------------
 
-Intel(R) MLSL for Linux* OS Developer Guide and Reference, found in
-Developer_Guide_and_Reference.pdf, contains information on the following subjects:
+Intel(R) MLSL for Linux* OS Developer Guide, found in
+Developer_Guide.pdf, contains information on the following subjects:
 
      - Using Intel MLSL
-     - API Reference
-     - Environment variables
+     - Environment Variables
 
-----------------------------
-Known Issues and Limitations
-----------------------------
+Intel(R) MLSL C++ API reference found in API_Reference.htm (the main page for API documentation).
 
-     - Only Intel(R) MPI Library is supported
+---------------------------------
+Special Features and Known Issues
+---------------------------------
+
+     - Only Intel(R) MPI Library is supported.
 
      - Intel(R) MLSL API is not stabilized and will be changed in future
        releases. You are recommended to use the GetVersion() function to verify
@@ -261,7 +270,7 @@ Corporation in the U.S. and/or other countries.
 
 * Other names and brands may be claimed as the property of others.
 
-(C) 2016 Intel Corporation.
+(C) Intel Corporation.
 
 Optimization Notice
 -------------------

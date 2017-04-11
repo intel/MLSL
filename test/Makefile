@@ -1,6 +1,6 @@
-# GNU Makefile that builds and runs example.
+
 #
-# Copyright (C) 2016 Intel Corporation.
+# Copyright (C) 2017 Intel Corporation.
 # 
 # The Intel(R) Machine Learning Scaling Library ("Software") is furnished under
 # license and may only be used or copied in accordance with the terms of that
@@ -18,20 +18,20 @@
 # distributed by any means without the express written consent of
 # Intel Corporation.
 #
+ENABLE_DEBUG ?= 1
 
-all: release
+INCLUDES = -I$(MLSL_ROOT)/intel64/include
+LDFLAGS  = -L$(MLSL_ROOT)/intel64/lib -lmlsl -lrt
+CXX      = g++
+tests    = mlsl_test
 
-INCLUDES    = -I$(MLSL_ROOT)/intel64/include
-LDFLAGS     = -L$(MLSL_ROOT)/intel64/lib -lmlsl -lrt
-CXX         = icpc
-CFLAGS      = -O3
-tests       = mlsl_test
-CXX_COMPILE = $(CXX) $(CFLAGS) $(INCLUDES)
-
-# FIXME: remove that after moving to the new MLSL API
-ifneq ($(CXX), icpc)
-  CFLAGS += -fpermissive
+ifeq ($(ENABLE_DEBUG),1)
+  CFLAGS += -O0 -g
+else
+  CFLAGS += -O2
 endif
+
+CXX_COMPILE = $(CXX) $(CFLAGS) $(INCLUDES)
 
 .SUFFIXES:
 .SUFFIXES: .cpp
@@ -39,29 +39,19 @@ endif
 .cpp:
 	$(CXX_COMPILE) -o $* $< $(LDFLAGS)
 
-release: $(tests)
+all: $(tests)
 
-test: all
-	@echo "Running Data parallelism mode..."
-	@if [ "x$(VERBOSE)" == "x1" ] ; then \
-	  echo "mpiexec.hydra -n 4 ./$(tests) 1 > Data_parallel.log 2>&1" ; \
-	fi
-	@mpiexec.hydra -n 4 ./$(tests) 1 > Data_parallel.log 2>&1
-	@echo "Result in Data_parallel.log"
-	
-	@echo "Running Model parallelism mode..."
-	@if [ "x$(VERBOSE)" == "x1" ] ; then \
-	  echo "mpiexec.hydra -n 4 ./$(tests) 4 > Model_parallel.log 2>&1" ; \
-	fi
-	@mpiexec.hydra -n 4 ./$(tests) 4 > Model_parallel.log 2>&1
-	@echo "Result in Model_parallel.log"
-	
-	@echo "Running Hybrid parallelism (N/2) x 2 mode..."
-	@if [ "x$(VERBOSE)" == "x1" ] ; then \
-	  echo "mpiexec.hydra -n 4 ./$(tests) 2 > Hybrid_parallel.log 2>&1" ; \
-	fi
-	@mpiexec.hydra -n 4 ./$(tests) 2 > Hybrid_parallel.log 2>&1
-	@echo "Result in Hybrid_parallel.log"
+run: all
+	-rm -f *.log
+	echo "running mlsl_test ..." ; \
+	for group_count in 1 2 4 ; do \
+		for usr_buf in 1 0 ; do \
+			for dist_upd in 1 0 ; do \
+				echo "group_count = $$group_count, dist_update = $$dist_upd, user_buf = $$usr_buf, stats = 0" >> output.log 2>&1 ; \
+				mpiexec.hydra -n 4 -l ./$(tests) $$group_count $$dist_upd $$usr_buf 0 >> output.log 2>&1 ; \
+			done ; \
+		done ; \
+	done ;
 
 clean:
 	-rm -f $(tests).o $(tests) *.log

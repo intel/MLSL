@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2016 Intel Corporation.
+ Copyright (C) 2017 Intel Corporation.
  
  The Intel(R) Machine Learning Scaling Library ("Software") is furnished under
  license and may only be used or copied in accordance with the terms of that
@@ -17,25 +17,41 @@
  distributed by any means without the express written consent of
  Intel Corporation.
 */
-/* The Intel(R) Machine Learning Scaling Library API usage example and correctness check test */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
+/* MLSL library API usage example and correctness check test */
 
-#include "mlsl.h"
+#include <math.h>   /* fabs */
+#include <stdio.h>  /* printf */
+#include <stdlib.h> /* exit */
+
+#include <sstream>
+
+#include "mlsl.hpp"
 
 using namespace MLSL;
+using namespace std;
+
+/* Memory stuff */
+
+#if defined(__INTEL_COMPILER) || defined(__ICC)
+#define MY_MALLOC(size, align) _mm_malloc(size, align)
+#define MY_FREE(ptr)           _mm_free(ptr)
+#elif defined(__GNUC__)
+#define MY_MALLOC(size, align) malloc(size)
+#define MY_FREE(ptr)           free(ptr)
+#else 
+# error "this compiler is not supported" 
+#endif
+
 
 /* Logging stuff */
 
 #define PRINT_BUF_LEN             4096
 #define PRINT_BUF_FLUSH_THRESHOLD 3000
 char printBuf[PRINT_BUF_LEN];
-int printCount=0;
+size_t printCount=0;
 
-#define MYFLUSH()               \
+#define MY_FLUSH()              \
   do                            \
   {                             \
       printBuf[printCount] = 0; \
@@ -44,24 +60,25 @@ int printCount=0;
       fflush(stdout);           \
   } while(0)
 
-#define MYPRINTF(...)                                                                   \
+#define MY_PRINTF(...)                                                                  \
   do                                                                                    \
   {                                                                                     \
       int c = snprintf(printBuf + printCount, PRINT_BUF_LEN - printCount, __VA_ARGS__); \
       if (c > 0 && c < PRINT_BUF_LEN - printCount)                                      \
           printCount += c;                                                              \
       if (printCount > PRINT_BUF_FLUSH_THRESHOLD)                                       \
-          MYFLUSH();                                                                    \
+          MY_FLUSH();                                                                   \
   } while(0)
 
-#define MYASSERT(cond,...)                                                    \
+#define MY_ASSERT(cond,...)                                                   \
   do                                                                          \
   {                                                                           \
       if (!(cond))                                                            \
       {                                                                       \
+          MY_FLUSH();                                                         \
           printf("%s:%d:assertion '%s' failed\n", __FILE__, __LINE__, #cond); \
           printf(__VA_ARGS__);                                                \
-          Finalize();                                                         \
+          Environment::GetEnv().Finalize();                                   \
           exit(1);                                                            \
       }                                                                       \
   } while(0)
@@ -71,24 +88,27 @@ int printCount=0;
 
 #define DTYPE                 float
 #define DTYPE_SIZE            sizeof(DTYPE)
+#define MLSL_DTYPE            ((DTYPE_SIZE == 4) ? DT_FLOAT : DT_DOUBLE)
 #define CACHELINE_SIZE        64
 #define FAIL_COUNTER_MAX      5
 
 #define GLOBAL_MINIBATCH_SIZE 16
-#define NUM_LAYERS            2
-#define NUM_EPOCHS            2
+#define LAYER_COUNT           2
+#define EPOCH_COUNT           2
 #define MINIBATCH_PER_EPOCH   3
 
 class Layer;
 
-Distribution *globalDistribution;
-Layer        *layers[NUM_LAYERS];
-ComputeOp    *operations[NUM_LAYERS];
+Layer* layers[LAYER_COUNT];
+Operation* operations[LAYER_COUNT];
 
-int nodeId;
-int numGlobalNodes;
-int numGroups = 1;
-bool distUpdate = false;
+size_t processIdx;
+size_t processCount;
+
+/* default parameters */
+size_t groupCount = 1;
+bool useDistUpdate = false; // data parallelism's feature
+bool useUserBuf = false;
 
 enum LayerType
 {
@@ -99,159 +119,185 @@ enum LayerType
 
 struct LayerParams
 {
-    int layerId;
+    size_t layerIdx;
     LayerType type;
-    int ifm;
-    int ofm;
-    int ifmWidth;
-    int ifmHeight;
-    int ofmWidth;
-    int ofmHeight;
-    int kw;
-    int kh;
+    size_t ifm;
+    size_t ofm;
+    size_t ifmWidth;
+    size_t ifmHeight;
+    size_t ofmWidth;
+    size_t ofmHeight;
+    size_t kw;
+    size_t kh;
 };
-LayerParams  layerParams[NUM_LAYERS];
+LayerParams layerParams[LAYER_COUNT];
 
 class Layer
 {
-    int layerId;
-    ComputeOp *op;
-    DTYPE *inputFmBuf, *outputFmBuf;                    /* input feature map, output feature map */
-    DTYPE *inputFmGradBuf, *outputFmGradBuf;            /* gradients wrt input feature map, ouput feature map */
-    DTYPE *weightsBuf, *weightsGradBuf, *weightsIncBuf; /* weights, gradient wrt weights, weights increment */
+    size_t layerIdx;
+    Operation* op;
+    DTYPE* inputActBuf, *outputActBuf;            /* input/output activations */
+    DTYPE* inputActGradBuf, *outputActGradBuf;    /* gradients wrt input activations/ouput activations */
+    DTYPE* paramBuf, *paramGradBuf, *paramIncBuf;  /* learnable parameters, gradient wrt parameters, parameters increment */
+    size_t paramBufCount;
     bool isBackwardUnpackCalled;
 
 public:
-    Layer(int layerId, ComputeOp *op, Layer *prevLayer) : layerId(layerId), op(op), isBackwardUnpackCalled(false)
+    Layer(size_t layerIdx, Operation* op, Layer* prevLayer) : layerIdx(layerIdx), op(op), isBackwardUnpackCalled(false)
     {
-    	MYASSERT(op, "operation is NULL");
-        MYASSERT(op->InputFeatureMap(0), "input feature map is NULL");
-        MYASSERT(op->GetWeights(0), "weights are NULL");
+        MY_ASSERT(op->GetInput(0), "input activation is NULL");
+        MY_ASSERT(op->GetParameterSet(0), "parameter is NULL");
 
-        int inSize, prevOutSize;
+        size_t inActSize, prevOutActSize;
 
         if (prevLayer == NULL)
-            prevOutSize = 0;
+            prevOutActSize = 0;
         else
         {
-            MYASSERT(op->OutputFeatureMap(0), "output feature map is NULL");
-            prevOutSize = prevLayer->op->OutputFeatureMap(0)->LocalLen()
-                          * prevLayer->op->LocalMinibatchLen()
-                          * prevLayer->op->OutputFeatureMap(0)->FMSize()
-                          * DTYPE_SIZE;
+            MY_ASSERT(op->GetOutput(0), "output activation is NULL");
+            prevOutActSize = prevLayer->op->GetOutput(0)->GetLocalFmCount()
+                             * prevLayer->op->GetLocalMinibatchSize()
+                             * prevLayer->op->GetOutput(0)->GetFmSize()
+                             * DTYPE_SIZE;
         }
 
-        inSize = op->InputFeatureMap(0)->LocalLen() * op->LocalMinibatchLen() * op->InputFeatureMap(0)->FMSize() * DTYPE_SIZE;
-        if (prevOutSize > inSize) inSize = prevOutSize;
+        inActSize = op->GetInput(0)->GetLocalFmCount() * op->GetLocalMinibatchSize() * op->GetInput(0)->GetFmSize() * DTYPE_SIZE;
+        if (prevOutActSize > inActSize) inActSize = prevOutActSize;
 
-        inputFmBuf = (DTYPE *)Alloc(inSize, CACHELINE_SIZE);
-        inputFmGradBuf = (DTYPE *)Alloc(inSize, CACHELINE_SIZE);
+        inputActBuf = (DTYPE*)MY_MALLOC(inActSize, CACHELINE_SIZE);
+        inputActGradBuf = (DTYPE*)MY_MALLOC(inActSize, CACHELINE_SIZE);
 
         if (prevLayer != NULL)
         {
-            prevLayer->outputFmBuf = inputFmBuf;
-            prevLayer->outputFmGradBuf = inputFmGradBuf;
+            prevLayer->outputActBuf = inputActBuf;
+            prevLayer->outputActGradBuf = inputActGradBuf;
             op->SetPrev(prevLayer->op, 0, 0);
         }
 
-        weightsBuf = (DTYPE *)Alloc(op->GetWeights(0)->LocalLen()
-                                    * op->GetWeights(0)->WTSize()
-                                    * DTYPE_SIZE, CACHELINE_SIZE);
-        weightsGradBuf = (DTYPE *)Alloc(op->GetWeights(0)->LocalLen()
-                                        * op->GetWeights(0)->WTSize()
-                                        * DTYPE_SIZE, CACHELINE_SIZE);
-        weightsIncBuf = (DTYPE *)Alloc(op->GetWeights(0)->OwnedLen()
-                                       * op->GetWeights(0)->WTSize()
-                                       * DTYPE_SIZE, CACHELINE_SIZE);
+        paramBufCount = op->GetParameterSet(0)->GetLocalKernelCount() * op->GetParameterSet(0)->GetKernelSize();
+        size_t paramBufSize = paramBufCount * DTYPE_SIZE;
 
-        for (int idx = 0; idx < op->GetWeights(0)->LocalLen() * op->GetWeights(0)->WTSize(); idx++)
-            weightsBuf[idx] = idx;
+        size_t paramBufIncSize = op->GetParameterSet(0)->GetOwnedKernelCount()
+                                 * op->GetParameterSet(0)->GetKernelSize()
+                                 * DTYPE_SIZE;
+
+        if (useUserBuf)
+        {
+            paramBuf     = (DTYPE*)MY_MALLOC(paramBufSize, CACHELINE_SIZE);
+            paramGradBuf = (DTYPE*)MY_MALLOC(paramBufSize, CACHELINE_SIZE);
+            paramIncBuf  = (DTYPE*)MY_MALLOC(paramBufIncSize, CACHELINE_SIZE);
+        }
+        else
+        {
+            paramBuf     = (DTYPE*)Environment::GetEnv().Alloc(paramBufSize, CACHELINE_SIZE);
+            paramGradBuf = (DTYPE*)Environment::GetEnv().Alloc(paramBufSize, CACHELINE_SIZE);
+            paramIncBuf  = (DTYPE*)Environment::GetEnv().Alloc(paramBufIncSize, CACHELINE_SIZE);
+        }
+
+        MY_ASSERT(inputActBuf && inputActGradBuf && paramBuf && paramGradBuf && paramIncBuf,
+                  "error while buffers allocating");
+
+        for (size_t idx = 0; idx < paramBufCount; idx++)
+            paramBuf[idx] = idx;
     }
 
     ~Layer()
     {
-        Free(inputFmBuf);
-        Free(inputFmGradBuf);
-        Free(weightsBuf);
-        Free(weightsGradBuf);
-        Free(weightsIncBuf);
-        delete op;
+        MY_FREE(inputActBuf);
+        MY_FREE(inputActGradBuf);
+
+        if (useUserBuf)
+        {
+            MY_FREE(paramBuf);
+            MY_FREE(paramGradBuf);
+            MY_FREE(paramIncBuf);
+        }
+        else
+        {
+            Environment::GetEnv().Free(paramBuf);
+            Environment::GetEnv().Free(paramGradBuf);
+            Environment::GetEnv().Free(paramIncBuf);
+        }
     }
 
-    void PackBuffer(FeatureMap *fm, DTYPE *commBuf, DTYPE *localBuf)
+    size_t GetParamBufCount() { return paramBufCount; }
+    DTYPE* GetParamBuf() { return paramBuf; }
+
+    void PackBuffer(Activation* act, DTYPE* commBuf, DTYPE* localBuf)
     {
-        int localFmCount = fm->LocalLen();
-        for (int blockIdx = 0; blockIdx < fm->NumPackBlocks(); blockIdx++)
+        size_t localFmCount = act->GetLocalFmCount();
+        for (size_t blockIdx = 0; blockIdx < act->GetPackBlockCount(); blockIdx++)
         {
-            BlockInfo *blockInfo = fm->GetPackBlock(blockIdx);
-            int mbCount = blockInfo->MBLen();
-            int mbOffset = blockInfo->MBStart();
-            int fmCount = blockInfo->FMLen();
-            int fmOffset = blockInfo->FMStart();
-            int fmSize = blockInfo->FMSize();
+            CommBlockInfo* blockInfo = act->GetPackBlock(blockIdx);
+            size_t mbCount = blockInfo->GetMbCount();
+            size_t mbOffset = blockInfo->GetMbOffset();
+            size_t fmCount = blockInfo->GetFmCount();
+            size_t fmOffset = blockInfo->GetFmOffset();
+            size_t fmSize = blockInfo->GetFmSize();
             DTYPE* src = localBuf;
-            DTYPE* dst = commBuf + blockInfo->BufOffset();
-            for (int mbIdx = 0; mbIdx < mbCount; mbIdx++)
-                for (int fmIdx = 0; fmIdx < fmCount; fmIdx++)
-                    for (int spaceIdx = 0 ; spaceIdx < blockInfo->FMSize(); spaceIdx++)
+            DTYPE* dst = commBuf + blockInfo->GetBufOffset();
+            for (size_t mbIdx = 0; mbIdx < mbCount; mbIdx++)
+                for (size_t fmIdx = 0; fmIdx < fmCount; fmIdx++)
+                    for (size_t spaceIdx = 0 ; spaceIdx < fmSize; spaceIdx++)
                         dst[mbIdx * fmCount * fmSize + fmIdx * fmSize + spaceIdx]
                             = src[(mbIdx + mbOffset) * localFmCount * fmSize + (fmIdx + fmOffset) * fmSize + spaceIdx];
         }
     }
 
-    void UnpackBuffer(FeatureMap *fm, DTYPE *commBuf, DTYPE *localBuf)
+    void UnpackBuffer(Activation* act, DTYPE* commBuf, DTYPE* localBuf)
     {
-        int localFmCount = fm->LocalLen();
-        for (int blockIdx = 0; blockIdx < fm->NumUnpackBlocks(); blockIdx++)
+        size_t localFmCount = act->GetLocalFmCount();
+        for (size_t blockIdx = 0; blockIdx < act->GetUnpackBlockCount(); blockIdx++)
         {
-            BlockInfo *blockInfo = fm->GetUnpackBlock(blockIdx);
-            int mbCount = blockInfo->MBLen();
-            int mbOffset = blockInfo->MBStart();
-            int fmCount = blockInfo->FMLen();
-            int fmOffset = blockInfo->FMStart();
-            int fmSize = blockInfo->FMSize();
-            DTYPE *src = commBuf + blockInfo->BufOffset();
-            DTYPE *dst = localBuf;
-            for (int mbIdx = 0; mbIdx < mbCount; mbIdx++)
-                for (int fmIdx = 0; fmIdx < fmCount; fmIdx++)
-                    for (int spaceIdx = 0 ; spaceIdx < blockInfo->FMSize(); spaceIdx++)
+            CommBlockInfo* blockInfo = act->GetUnpackBlock(blockIdx);
+            size_t mbCount = blockInfo->GetMbCount();
+            size_t mbOffset = blockInfo->GetMbOffset();
+            size_t fmCount = blockInfo->GetFmCount();
+            size_t fmOffset = blockInfo->GetFmOffset();
+            size_t fmSize = blockInfo->GetFmSize();
+            DTYPE* src = commBuf + blockInfo->GetBufOffset();
+            DTYPE* dst = localBuf;
+            for (size_t mbIdx = 0; mbIdx < mbCount; mbIdx++)
+                for (size_t fmIdx = 0; fmIdx < fmCount; fmIdx++)
+                    for (size_t spaceIdx = 0 ; spaceIdx < fmSize; spaceIdx++)
                         dst[(mbIdx + mbOffset) * localFmCount * fmSize + (fmIdx + fmOffset) * fmSize + spaceIdx]
                             = src[mbIdx * fmCount * fmSize + fmIdx * fmSize + spaceIdx];
         }
     }
 
-    void ForwardCompute(DTYPE *inputFm, DTYPE *weights, DTYPE *outputFm)
+    void ForwardCompute(DTYPE* inputAct, DTYPE* param, DTYPE* outputAct)
     {
-        if (layerId == 0)
+        if (layerIdx == 0)
         {
-            /* Write to output feature map */
-            MYASSERT(op->OutputFeatureMap(0), "output feature map is NULL");
-            int outSize = op->OutputFeatureMap(0)->LocalLen() * op->LocalMinibatchLen() * op->OutputFeatureMap(0)->FMSize();
-            for (int idx = 0; idx < outSize; idx++)
-                outputFm[idx] = idx;
+            /* Write to output activation */
+            MY_ASSERT(op->GetOutput(0), "output activation is NULL");
+            size_t outSize = op->GetOutput(0)->GetLocalFmCount() * op->GetLocalMinibatchSize() * op->GetOutput(0)->GetFmSize();
+            for (size_t idx = 0; idx < outSize; idx++)
+                outputAct[idx] = idx;
         }
-        else if (layerId == 1)
+        else if (layerIdx == 1)
         {
-            /* Check for input feature map*/
-            MYASSERT(op->InputFeatureMap(0), "input feature map is NULL");
-            int fmLocalCount = op->InputFeatureMap(0)->LocalLen();
-            int mbLocalLen = op->LocalMinibatchLen();
-            int fmSize = op->InputFeatureMap(0)->FMSize();
-            int fmOffset =  op->InputFeatureMap(0)->GlobalOffset();
-            int fmGroupSize = op->GetDistribution()->GetFMGroupSize();
-            int failCounter = 0;
-            for (int mbIdx = 0; mbIdx < mbLocalLen; mbIdx++)
+            /* Check for input activation */
+            MY_ASSERT(op->GetInput(0), "input activation is NULL");
+            size_t fmLocalCount = op->GetInput(0)->GetLocalFmCount();
+            size_t mbLocalLen = op->GetLocalMinibatchSize();
+            size_t fmSize = op->GetInput(0)->GetFmSize();
+            size_t fmOffset =  op->GetInput(0)->GetGlobalFmOffset();
+            size_t fmGroupSize = op->GetDistribution()->GetProcessCount(GT_MODEL);
+            size_t failCounter = 0;
+            for (size_t mbIdx = 0; mbIdx < mbLocalLen; mbIdx++)
             {
-                for (int fmIdx = 0; fmIdx < fmLocalCount; fmIdx++)
+                for (size_t fmIdx = 0; fmIdx < fmLocalCount; fmIdx++)
                 {
-                    for (int spaceIdx = 0; spaceIdx < fmSize; spaceIdx++)
+                    for (size_t spaceIdx = 0; spaceIdx < fmSize; spaceIdx++)
                     {
                         DTYPE expected = fmGroupSize * (mbIdx * fmLocalCount * fmSize * fmGroupSize + (fmOffset + fmIdx) * fmSize + spaceIdx);
-                        int idx = mbIdx * fmLocalCount * fmSize + fmIdx * fmSize + spaceIdx;
-                        if (fabs(inputFm[idx] - expected) > 1.e-4)
+                        size_t idx = mbIdx * fmLocalCount * fmSize + fmIdx * fmSize + spaceIdx;
+                        if (fabs(inputAct[idx] - expected) > 1.e-4)
                         {
                             if (failCounter < FAIL_COUNTER_MAX)
-                                MYPRINTF("[%d] forward input feature map: idx %d: expected %4.0f - received: %4.0f\n", nodeId, idx, expected, inputFm[idx]);
+                                MY_PRINTF("[%zu] forward_%zu: input: idx %zu: expected %4.0f - received: %4.0f\n",
+                                          processIdx, layerIdx, idx, expected, inputAct[idx]);
                             failCounter++;
                         }
                     }
@@ -259,224 +305,241 @@ public:
             }
 
             if (failCounter > 0)
-                MYPRINTF("[%d] forward input feature map test FAILED num mismatch = %d\n", nodeId, failCounter);
+            {
+                MY_PRINTF("[%zu] forward_%zu: input activation test FAILED mismatch count = %zu\n", processIdx, layerIdx, failCounter);
+                MY_ASSERT(0, "exit");
+            }
             else
-                MYPRINTF("[%d] forward input feature map test PASSED\n", nodeId);
+                MY_PRINTF("[%zu] forward_%zu: input activation test PASSED\n", processIdx, layerIdx);
         }
 
-        /* Now check Weights */
-        MYASSERT(op->GetWeights(0), "weights are NULL");
-        int wSize = op->GetWeights(0)->LocalLen() * op->GetWeights(0)->WTSize();
-        int failCounter = 0;
-        for (int idx = 0; idx < wSize; idx++)
+        /* Now check ParameterSet */
+        MY_ASSERT(op->GetParameterSet(0), "parameter is NULL");
+        size_t paramSize = op->GetParameterSet(0)->GetLocalKernelCount() * op->GetParameterSet(0)->GetKernelSize();
+        size_t failCounter = 0;
+        for (size_t idx = 0; idx < paramSize; idx++)
         {
-            if (fabs(weights[idx] - idx) > 1.e-4)
+            if (fabs(param[idx] - idx) > 1.e-4)
             {
                 if (failCounter < FAIL_COUNTER_MAX)
-                    MYPRINTF("[%d] forward weights: idx %d: expected %4.0f - received: %4.0f\n",
-                             nodeId,
+                    MY_PRINTF("[%zu] forward_%zu: parameter idx %zu: expected %4.0f - received: %4.0f\n",
+                             processIdx,
+                             layerIdx,
                              idx,
                              (DTYPE)idx,
-                             weights[idx]);
+                             param[idx]);
                 failCounter++;
             }
         }
 
-        if(failCounter > 0)
-            MYPRINTF("[%d] forward weights test FAILED num mismatch = %d\n", nodeId, failCounter);
+        if (failCounter > 0)
+        {
+            MY_PRINTF("[%zu] forward_%zu: parameter test FAILED mismatch count = %zu\n", processIdx, layerIdx, failCounter);
+            MY_ASSERT(0, "exit");
+        }
         else
-            MYPRINTF("[%d] forward weights test PASSED\n", nodeId);
-
-        MYFLUSH();
+            MY_PRINTF("[%zu] forward_%zu: parameter test PASSED\n", processIdx, layerIdx);
+        MY_FLUSH();
     }
 
-    void BackwardCompute1(DTYPE *outputFmGrad, DTYPE *weights, DTYPE *inputFmGrad)
+    void BackwardCompute1(DTYPE* outputActGrad, DTYPE* param, DTYPE* inputActGrad)
     {
-        if (layerId == 0)
+        if (layerIdx == 0)
         {
             /* Check for inputs */
-            MYASSERT(op->OutputFeatureMap(0), "output feature map is NULL");
-            int fmSize = op->OutputFeatureMap(0)->LocalLen() * op->LocalMinibatchLen() * op->OutputFeatureMap(0)->FMSize();
-            int failCounter = 0;
-            for (int idx = 0; idx < fmSize; idx++)
+            MY_ASSERT(op->GetOutput(0), "output activation is NULL");
+            size_t actSize = op->GetOutput(0)->GetLocalFmCount() * op->GetLocalMinibatchSize() * op->GetOutput(0)->GetFmSize();
+            size_t failCounter = 0;
+            for (size_t idx = 0; idx < actSize; idx++)
             {
-                if (fabs(outputFmGrad[idx] - idx) > 1.e-4)
+                if (fabs(outputActGrad[idx] - idx) > 1.e-4)
                 {
                     if (failCounter < FAIL_COUNTER_MAX)
-                        MYPRINTF("[%d] backward output feature map gradient: idx %d: expected %4.0f - received: %4.0f\n",
-                                 nodeId,
+                        MY_PRINTF("[%zu] backward_%zu: output activation gradient: idx %zu: expected %4.0f - received: %4.0f\n",
+                                 processIdx,
+                                 layerIdx,
                                  idx,
                                  (DTYPE)idx,
-                                 outputFmGrad[idx]);
+                                 outputActGrad[idx]);
                     failCounter++;
                 }
             }
             if (failCounter > 0)
-                MYPRINTF("[%d] backward output feature map gradient test FAILED num mismatch = %d\n", nodeId, failCounter);
+            {
+                MY_PRINTF("[%zu] backward_%zu: output activation gradient test FAILED mismatch count = %zu\n", processIdx, layerIdx, failCounter);
+                MY_ASSERT(0, "exit");
+            }
             else
-                MYPRINTF("[%d] backward output feature map gradient test PASSED\n", nodeId);
+                MY_PRINTF("[%zu] backward_%zu: output activation gradient test PASSED\n", processIdx, layerIdx);
         }
-        else if (layerId == 1)
+        else if (layerIdx == 1)
         {
             /* Write to output */
-            MYASSERT(op->InputFeatureMap(0), "input feature map is NULL");
-            int fmLocalCount = op->InputFeatureMap(0)->LocalLen();
-            int mbLocalLen = op->LocalMinibatchLen();
-            int fmSize = op->InputFeatureMap(0)->FMSize();
-            int fmOffset =  op->InputFeatureMap(0)->GlobalOffset();
-            int groupSize = op->GetDistribution()->GetFMGroupSize();
-            for (int mbIdx = 0; mbIdx < mbLocalLen; mbIdx++)
-                for (int fmIdx = 0; fmIdx < fmLocalCount; fmIdx++)
-                    for (int spaceIdx = 0; spaceIdx < fmSize; spaceIdx++)
+            MY_ASSERT(op->GetInput(0), "input activation is NULL");
+            size_t fmLocalCount = op->GetInput(0)->GetLocalFmCount();
+            size_t mbLocalLen = op->GetLocalMinibatchSize();
+            size_t fmSize = op->GetInput(0)->GetFmSize();
+            size_t actOffset =  op->GetInput(0)->GetGlobalFmOffset();
+            size_t groupSize = op->GetDistribution()->GetProcessCount(GT_MODEL);
+            for (size_t mbIdx = 0; mbIdx < mbLocalLen; mbIdx++)
+                for (size_t fmIdx = 0; fmIdx < fmLocalCount; fmIdx++)
+                    for (size_t spaceIdx = 0; spaceIdx < fmSize; spaceIdx++)
                     {
-                        int idx = mbIdx * fmLocalCount * fmSize + fmIdx * fmSize + spaceIdx;
-                        inputFmGrad[idx] = mbIdx * fmLocalCount * fmSize * groupSize + (fmOffset + fmIdx) * fmSize + spaceIdx;
+                        size_t idx = mbIdx * fmLocalCount * fmSize + fmIdx * fmSize + spaceIdx;
+                        inputActGrad[idx] = mbIdx * fmLocalCount * fmSize * groupSize + (actOffset + fmIdx) * fmSize + spaceIdx;
                     }
         }
-        MYFLUSH();
+        MY_FLUSH();
     }
 
-    void BackwardCompute2(DTYPE *outputFmGrad, DTYPE *inputFm, DTYPE *weightsGrad)
+    void BackwardCompute2(DTYPE* outputActGrad, DTYPE* inputAct, DTYPE* paramGrad)
     {
-        MYASSERT(op->GetWeights(0), "weights are NULL");
-        int wSize = op->GetWeights(0)->LocalLen() * op->GetWeights(0)->WTSize();
-        for (int idx = 0; idx < wSize; idx++)
-            weightsGrad[idx] = idx;
+        MY_ASSERT(op->GetParameterSet(0), "parameter is NULL");
+        size_t paramSize = op->GetParameterSet(0)->GetLocalKernelCount() * op->GetParameterSet(0)->GetKernelSize();
+        for (size_t idx = 0; idx < paramSize; idx++)
+            paramGrad[idx] = idx;
     }
 
-    void UpdateCompute(DTYPE *weightsGrad, DTYPE *weightsInc, DTYPE *ownedWeights, int ownedSize)
+    void UpdateCompute(DTYPE* paramGrad, DTYPE* paramInc, DTYPE* ownedParam, size_t ownedSize)
     {
-        MYASSERT(op->GetWeights(0), "weights are NULL");
-        int mbGroupSize = op->GetDistribution()->GetMBGroupSize();
-        int ownedOffset = op->GetWeights(0)->OwnedStart() * op->GetWeights(0)->WTSize();
-        int failCounter = 0;
-        for (int idx = 0; idx < ownedSize; idx++)
+        MY_ASSERT(op->GetParameterSet(0), "parameter is NULL");
+        size_t mbGroupSize = op->GetDistribution()->GetProcessCount(GT_DATA);
+        size_t ownedOffset = op->GetParameterSet(0)->GetOwnedKernelOffset() * op->GetParameterSet(0)->GetKernelSize();
+        size_t failCounter = 0;
+        for (size_t idx = 0; idx < ownedSize; idx++)
         {
             DTYPE expected = mbGroupSize * (ownedOffset + idx);
-            if (fabs(weightsGrad[idx] - expected) > 1.e-4)
+            if (fabs(paramGrad[idx] - expected) > 1.e-4)
                 failCounter++;
-            ownedWeights[idx] = ownedOffset + idx;
+            ownedParam[idx] = ownedOffset + idx;
         }
         if (failCounter > 0)
-            MYPRINTF("[%d] weights gradient test FAILED num mismatch = %d\n", nodeId, failCounter);
+        {
+            MY_PRINTF("[%zu] update_%zu: parameter gradient test FAILED mismatch count = %zu\n", processIdx, layerIdx, failCounter);
+            MY_ASSERT(0, "exit");
+        }
         else
-            MYPRINTF("[%d] weights gradient test PASSED\n", nodeId);
-        MYFLUSH();
+            MY_PRINTF("[%zu] update_%zu: parameter gradient test PASSED\n", processIdx, layerIdx);
+        MY_FLUSH();
     }
 
-    /* Recv weights increments (in case of distributed update) and input feature maps, send output feature maps */
+    /* Recv parameter increments (in case of distributed update) and input activations, send output activations */
     void Forward()
     {
-        MYASSERT(op->InputFeatureMap(0), "input feature map is NULL");
-        MYASSERT(op->OutputFeatureMap(0), "output feature map is NULL");
+        MY_ASSERT(op->GetInput(0), "input activation is NULL");
+        MY_ASSERT(op->GetOutput(0), "otput activation is NULL");
 
-        FeatureMap *fm = op->InputFeatureMap(0);
-        DTYPE *commBuf = (DTYPE *)fm->CommsWait();
-        UnpackBuffer(fm, commBuf, inputFmBuf);
-        if (op->HasWeights())
+        Activation* act = op->GetInput(0);
+        DTYPE* commBuf = (DTYPE*)act->WaitComm();
+        UnpackBuffer(act, commBuf, inputActBuf);
+        if (op->HasParameterSets())
         {
-            MYASSERT(op->GetWeights(0), "weights are NULL");
-            op->GetWeights(0)->CommsWaitWtInc();
+            MY_ASSERT(op->GetParameterSet(0), "parameter is NULL");
+            op->GetParameterSet(0)->WaitIncrementComm();
         }
 
-        ForwardCompute(inputFmBuf, weightsBuf, outputFmBuf);
+        ForwardCompute(inputActBuf, paramBuf, outputActBuf);
 
-        fm = op->OutputFeatureMap(0);
-        DTYPE * outputFmCommBuf = (DTYPE *)fm->CBuf()->GetPtr();
-        PackBuffer(fm, outputFmCommBuf, outputFmBuf);
-        fm->CommsStart(outputFmCommBuf);
+        act = op->GetOutput(0);
+        DTYPE* outputActCommBuf = (DTYPE*)act->GetCommBuf();
+        PackBuffer(act, outputActCommBuf, outputActBuf);
+        act->StartComm(outputActCommBuf);
         isBackwardUnpackCalled = false;
     }
 
-    /* Calculate gradient wrt input feature mapand send it */
+    /* Calculate gradient wrt input activation and send it */
     void Backward1()
     {
-        MYASSERT(op->InputFeatureMap(0), "input feature map is NULL");
+        MY_ASSERT(op->GetInput(0), "input activation is NULL");
 
         if (!isBackwardUnpackCalled)
         {
-            MYASSERT(op->OutputFeatureMap(0), "output feature map is NULL");
-            FeatureMap *fm = op->OutputFeatureMap(0);
-            DTYPE *commBuf = (DTYPE *)fm->CommsWait();
-            UnpackBuffer(fm, commBuf, outputFmGradBuf);
+            MY_ASSERT(op->GetOutput(0), "output activation is NULL");
+            Activation* act = op->GetOutput(0);
+            DTYPE* commBuf = (DTYPE*)act->WaitComm();
+            UnpackBuffer(act, commBuf, outputActGradBuf);
             isBackwardUnpackCalled = true;
         }
 
-        BackwardCompute1(outputFmGradBuf, weightsBuf, inputFmGradBuf);
+        BackwardCompute1(outputActGradBuf, paramBuf, inputActGradBuf);
 
-        FeatureMap *fm = op->InputFeatureMap(0);
-        DTYPE * inputFmCommBuf = (DTYPE *)fm->CBuf()->GetPtr();
-        PackBuffer(fm, inputFmCommBuf, inputFmGradBuf);
-        fm->CommsStart(inputFmCommBuf);
+        Activation* act = op->GetInput(0);
+        DTYPE* inputActCommBuf = (DTYPE*)act->GetCommBuf();
+        PackBuffer(act, inputActCommBuf, inputActGradBuf);
+        act->StartComm(inputActCommBuf);
     }
 
-    /* Calculate gradient wrt weights and send it */
+    /* Calculate gradient wrt parameters and send it */
     void Backward2()
     {
         if (!isBackwardUnpackCalled)
         {
-            MYASSERT(op->OutputFeatureMap(0), "output feature map is NULL");
-            FeatureMap *fm = op->OutputFeatureMap(0);
-            DTYPE *commBuf = (DTYPE *)fm->CommsWait();
-            UnpackBuffer(fm, commBuf, outputFmGradBuf);
+            MY_ASSERT(op->GetOutput(0), "output activation is NULL");
+            Activation* act = op->GetOutput(0);
+            DTYPE* commBuf = (DTYPE*)act->WaitComm();
+            UnpackBuffer(act, commBuf, outputActGradBuf);
             isBackwardUnpackCalled = true;
         }
 
-        BackwardCompute2(outputFmGradBuf, inputFmBuf, weightsGradBuf);
-        if (op->HasWeights())
+        BackwardCompute2(outputActGradBuf, inputActBuf, paramGradBuf);
+        if (op->HasParameterSets())
         {
-            MYASSERT(op->GetWeights(0), "weights are NULL");
-            op->GetWeights(0)->CommsStartDelWt(weightsGradBuf);
+            MY_ASSERT(op->GetParameterSet(0), "parameter is NULL");
+            op->GetParameterSet(0)->StartGradientComm(paramGradBuf);
         }
     }
 
-    /* Recv gradient wrt weights and update weights/send weights increments (in case of distributed update) */
+    /* Recv gradient wrt parameters and update parameters/send parameter increments (in case of distributed update) */
     void Update()
     {
-        if (op->HasWeights())
+        if (op->HasParameterSets())
         {
-            MYASSERT(op->GetWeights(0), "weights are NULL");
-            DTYPE *commBuf = (DTYPE*)op->GetWeights(0)->CommsWaitDelWt();
-            DTYPE *ownedWeightsBuf = weightsBuf + op->GetWeights(0)->OwnedStart() * op->GetWeights(0)->WTSize();
-            UpdateCompute(commBuf == NULL ? weightsGradBuf : commBuf,
-                          weightsIncBuf,
-                          ownedWeightsBuf,
-                          op->GetWeights(0)->OwnedLen() * op->GetWeights(0)->WTSize());
-            op->GetWeights(0)->CommsStartWtInc(weightsBuf);
+            MY_ASSERT(op->GetParameterSet(0), "parameter is NULL");
+            DTYPE* commBuf = (DTYPE*)op->GetParameterSet(0)->WaitGradientComm();
+            DTYPE* ownedParamBuf = paramBuf + op->GetParameterSet(0)->GetOwnedKernelOffset() * op->GetParameterSet(0)->GetKernelSize();
+            UpdateCompute(commBuf == NULL ? paramGradBuf : commBuf,
+                          paramIncBuf,
+                          ownedParamBuf,
+                          op->GetParameterSet(0)->GetOwnedKernelCount() * op->GetParameterSet(0)->GetKernelSize());
+            op->GetParameterSet(0)->StartIncrementComm(paramBuf);
         }
     }
 };
 
 /* Layer initialization */
-Layer *CreateLayer(LayerType type, LayerParams *lParams, Distribution *distribution, Layer *prevLayer)
+Layer* CreateLayer(Session* session, LayerType type, LayerParams* lParams, Distribution* distribution, Layer* prevLayer)
 {
-    MYASSERT((type == CONV_MIMO || type == CONV_FLAT || type == FC), "incorrect op type");
+    MY_ASSERT((type == CONV_MIMO || type == CONV_FLAT || type == FC), "incorrect op type");
 
-    int layerId = lParams->layerId;
+    size_t layerIdx = lParams->layerIdx;
 
-    ComputeOpRegInfo *regInfo = new ComputeOpRegInfo(COMP_OP_TYPE_CC);
-    regInfo->SetName("MyLayerName");
-    regInfo->AddInputFeatureMap(lParams->ifm, lParams->ifmWidth * lParams->ifmHeight, (DTYPE_SIZE == 4) ? DT_FLOAT : DT_DOUBLE);
-    regInfo->AddOutputFeatureMap(lParams->ofm, lParams->ofmWidth * lParams->ofmHeight, (DTYPE_SIZE == 4) ? DT_FLOAT : DT_DOUBLE);
-    regInfo->AddWeights(lParams->ifm * lParams->ofm, lParams->kw * lParams->kh, (DTYPE_SIZE == 4) ? DT_FLOAT : DT_DOUBLE, distUpdate);
+    OperationRegInfo* regInfo = session->CreateOperationRegInfo(OT_CC);
+    stringstream stream;
+    stream << "layer_" << layerIdx;
+    regInfo->SetName(stream.str().c_str());
+    regInfo->AddInput(lParams->ifm, lParams->ifmWidth * lParams->ifmHeight, MLSL_DTYPE);
+    regInfo->AddOutput(lParams->ofm, lParams->ofmWidth * lParams->ofmHeight, MLSL_DTYPE);
+    regInfo->AddParameterSet(lParams->ifm * lParams->ofm, lParams->kw * lParams->kh, MLSL_DTYPE, useDistUpdate);
 
-    ComputeOp *op = new ComputeOp(regInfo, distribution);
-    operations[layerId] = op;
-    Layer *layer = new Layer(layerId, op, prevLayer);
-    delete regInfo;
+    size_t opIdx = session->AddOperation(regInfo, distribution);
+    session->DeleteOperationRegInfo(regInfo);
+
+    Operation* op = session->GetOperation(opIdx);
+    operations[layerIdx] = op;
+    Layer* layer = new Layer(layerIdx, op, prevLayer);
 
     return layer;
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-    if (argc < 2 || argc > 3)
+    if (argc < 2)
     {
-        printf("specify parameters: mlsl_test [NUM_GROUPS] [DIST_UPDATE]\n");
-        return 0;
+        printf("specify parameters: mlsl_test GROUP_COUNT [DIST_UPDATE] [USER_BUF]\n");
+        exit(0);
     }
 
-    int runtime_version = GetVersion();
+    int runtime_version = Environment::GetEnv().GetVersion();
     printf("built with MLSL API version: %d.%d, used MLSL API version: %d.%d\n",
            MLSL_MAJOR_VERSION, MLSL_MINOR_VERSION, MLSL_MAJOR(runtime_version), MLSL_MINOR(runtime_version));
 
@@ -487,31 +550,34 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    Init(&argc, &argv);
-    SetMinibatchSize(GLOBAL_MINIBATCH_SIZE);
+    Environment::GetEnv().Init(&argc, &argv);
+    Session* session = Environment::GetEnv().CreateSession();
+    session->SetGlobalMinibatchSize(GLOBAL_MINIBATCH_SIZE);
+    processCount = Environment::GetEnv().GetProcessCount();
 
-    numGlobalNodes = GetNumNodes();
-    if (argc > 1) numGroups = atoi(argv[1]);
-    if (argc > 2) distUpdate = (atoi(argv[2]) != 0);
-    if (numGroups < 1) numGroups = 1;
-    if (numGroups > numGlobalNodes) numGroups = numGlobalNodes;
+    if (argc > 1) groupCount    = atoi(argv[1]);
+    if (argc > 2) useDistUpdate = (atoi(argv[2]) != 0);
+    if (argc > 3) useUserBuf    = (atoi(argv[3]) != 0);
 
-    nodeId = GetNodeId();
-    if (nodeId == 0)
-        printf("num_nodes = %d, distribution = %dx%d (MBParts x FMParts), dist_update = %d\n",
-               numGlobalNodes, numGlobalNodes/numGroups, numGroups, distUpdate);
+    if (groupCount < 1) groupCount = 1;
+    if (groupCount > processCount) groupCount = processCount;
+
+    processIdx = Environment::GetEnv().GetProcessIdx();
+    if (processIdx == 0)
+        printf("\nprocess_count = %zu, distribution = %zu x %zu (data_parts x model_parts), dist_update %d, user_buf %d\n\n",
+               processCount, processCount/groupCount, groupCount, useDistUpdate, useUserBuf);
 
     /* Correctness test assumes both the layers use same distribution */
-    globalDistribution = new Distribution(numGlobalNodes/numGroups, numGroups);
+    Distribution* distribution = Environment::GetEnv().CreateDistribution(processCount/groupCount, groupCount);
 
     /* Init all the layers */
-    int layerIdx;
-    for (layerIdx = 0; layerIdx < NUM_LAYERS; layerIdx++)
+    size_t layerIdx;
+    for (layerIdx = 0; layerIdx < LAYER_COUNT; layerIdx++)
     {
         /* Set layerParams for each layer */
         if (layerIdx == 0)
         {
-            layerParams[layerIdx].layerId = layerIdx;
+            layerParams[layerIdx].layerIdx = layerIdx;
             layerParams[layerIdx].type = CONV_MIMO;
             layerParams[layerIdx].ifm  = 128;
             layerParams[layerIdx].ofm  = 256;
@@ -524,7 +590,7 @@ int main(int argc, char **argv)
         }
         else if (layerIdx == 1)
         {
-            layerParams[layerIdx].layerId = layerIdx;
+            layerParams[layerIdx].layerIdx = layerIdx;
             layerParams[layerIdx].type = CONV_MIMO;
             layerParams[layerIdx].ifm  = 256;
             layerParams[layerIdx].ofm  = 256;
@@ -536,62 +602,71 @@ int main(int argc, char **argv)
             layerParams[layerIdx].kh = 3;
         }
 
-        layers[layerIdx] = CreateLayer(layerParams[layerIdx].type,
+        layers[layerIdx] = CreateLayer(session,
+                                       layerParams[layerIdx].type,
                                        &layerParams[layerIdx],
-                                       globalDistribution,
+                                       distribution,
                                        (layerIdx == 0 ? NULL : layers[layerIdx - 1]));
+        CommReq* req = distribution->Bcast(layers[layerIdx]->GetParamBuf(), layers[layerIdx]->GetParamBufCount(), MLSL_DTYPE, 0, GT_GLOBAL);
+        Environment::GetEnv().Wait(req);
     }
 
-    for (layerIdx = 0; layerIdx < NUM_LAYERS; layerIdx++)
-    {
-        operations[layerIdx]->Finalize();
-        operations[layerIdx]->AllocCommsBufs();
-    }
+    session->Commit();
 
-    /* Optional Barrier call */
-    Barrier();
+    Statistics* stats = session->GetStats();
+    stats->Start();
 
-    for (int epochIdx = 0; epochIdx < NUM_EPOCHS; epochIdx++)
+    for (size_t epochIdx = 0; epochIdx < EPOCH_COUNT; epochIdx++)
     {
-        for (int mbIdx = 0; mbIdx < MINIBATCH_PER_EPOCH; mbIdx++)
+        for (size_t mbIdx = 0; mbIdx < MINIBATCH_PER_EPOCH; mbIdx++)
         {
-            for (layerIdx = 0; layerIdx < NUM_LAYERS; layerIdx++)
+            for (layerIdx = 0; layerIdx < LAYER_COUNT; layerIdx++)
                 layers[layerIdx]->Forward();
 
-            for (layerIdx = NUM_LAYERS - 1; layerIdx >= 0; layerIdx--)
+            for (layerIdx = 0; layerIdx < LAYER_COUNT; layerIdx++)
             {
                 /* Split backward phase on 2 steps to achieve comp/comm overlapping */
-                layers[layerIdx]->Backward1();
-                layers[layerIdx]->Backward2();
+                layers[LAYER_COUNT - layerIdx - 1]->Backward1();
+                layers[LAYER_COUNT - layerIdx - 1]->Backward2();
             }
 
-            for (layerIdx = 0; layerIdx < NUM_LAYERS; layerIdx++)
+            for (layerIdx = 0; layerIdx < LAYER_COUNT; layerIdx++)
+            {
                 layers[layerIdx]->Update();
+            }
+
+            if (stats->IsEnabled())
+            {
+                printf("\n ++[%zu] total isolation comm cycles: %llu", processIdx, stats->GetTotalIsolationCommCycles());
+                printf("\n ++[%zu] total communication bytes: %zu", processIdx, stats->GetTotalCommSize());
+                printf("\n ++[%zu] total communication cycles: %lld", processIdx, stats->GetTotalCommCycles());
+                printf("\n ++[%zu] total compute cycles: %llu\n", processIdx, stats->GetTotalComputeCycles());
+            }
         }
 
-        /* Finish Weights comms before ending epoch */
-        for (layerIdx = 0; layerIdx < NUM_LAYERS; layerIdx++)
+        /* Finish ParameterSet comms before ending epoch */
+        for (layerIdx = 0; layerIdx < LAYER_COUNT; layerIdx++)
         {
-            ComputeOp *op = operations[layerIdx];
-            if (op->HasWeights())
+            Operation* op = operations[layerIdx];
+            if (op->HasParameterSets())
             {
-                MYASSERT(op->GetWeights(0), "weights are NULL");
-                op->GetWeights(0)->CommsWaitWtInc();
+                MY_ASSERT(op->GetParameterSet(0), "parameter is NULL");
+                op->GetParameterSet(0)->WaitIncrementComm();
             }
         }
     }
 
-    /* Let everybody finish */
-    Barrier();
+    stats->Stop();
+    stats->Print();
 
-    for (layerIdx = 0; layerIdx < NUM_LAYERS; layerIdx++)
+    for (layerIdx = 0; layerIdx < LAYER_COUNT; layerIdx++)
         delete layers[layerIdx];
 
-    delete globalDistribution;
+    Environment::GetEnv().DeleteSession(session);
+    Environment::GetEnv().DeleteDistribution(distribution);
+    Environment::GetEnv().Finalize();
 
-    Finalize();
-
-    printf("[%d] exited normally\n", nodeId);
+    printf("[%zu] exited normally\n", processIdx);
 
     return 0;
 }
