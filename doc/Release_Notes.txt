@@ -1,13 +1,14 @@
---------------------------------------------------------------------
-Intel(R) Machine Learning Scaling Library 2017 Preview for Linux* OS
+---------------------------------------------------------------------
+Intel(R) Machine Learning Scaling Library 2017 Update 1 for Linux* OS
 Release Notes
---------------------------------------------------------------------
+---------------------------------------------------------------------
 
 --------
 Contents
 --------
 
 - Overview
+- What's New
 - Key Features
 - System Requirements
 - Installation Notes
@@ -33,6 +34,17 @@ an efficient implementation of communication patterns used in deep learning.
 Intel(R) MLSL package comprises the Intel MLSL Software Development Kit (SDK)
 and the Intel(R) MPI Library Runtime components.
 
+----------
+What's New
+----------
+
+Intel MLSL 2017 Update 1:
+   - Added Python bindings.
+   - Bug fixes.
+
+Intel MLSL 2017
+   - Initial release.
+
 Product Contents
 ----------------
 The Intel(R) Machine Learning Scaling Library contains the tools you need
@@ -55,7 +67,7 @@ following major features:
   support by communication patterns
 - Distributed weight update
 - Advanced communication statistics
-- C/C++ interfaces
+- C/C++ and Python interfaces
 - Support for Intel(R) Xeon(R) and Intel(R) Xeon Phi(TM) processors
   (formerly code named Knights Landing)
 - Support for the following network interconnects:
@@ -97,6 +109,9 @@ systems that are not released at the date of the current Intel MLSL release)
     Virtual Environments:
       Docker*
       KVM*
+
+    Python* Interpreters:
+      Python 2.x
 
 ------------------
 Installation Notes
