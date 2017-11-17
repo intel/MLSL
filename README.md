@@ -1,6 +1,6 @@
 # Intel(R) Machine Learning Scaling Library for Linux* OS
 [![Intel Simplified Sowtware License](https://img.shields.io/badge/license-Intel%20Simplified%20Software%20License-green.svg)](LICENSE)
-![v2017.1 Preview](https://img.shields.io/badge/v.2017.1-Preview-orange.svg)
+![v2017.2 Preview](https://img.shields.io/badge/v.2017.2-Preview-orange.svg)
 ## Introduction ##
 Intel(R) Machine Learning Scaling Library (Intel(R) MLSL) is a library providing
 an efficient implementation of communication patterns used in deep learning.
@@ -52,7 +52,7 @@ To install the package (user mode):
     directory you have installed the package into.
 ## License ##
 Intel MLSL is licensed under 
-[Intel Simplified Software License](https://github.com/01org/MLSL/blob/master/LICENSE).
+[Intel Simplified Software License](https://github.com/intel/MLSL/blob/master/LICENSE).
 
 ## Optimization Notice ##
 Intel's compilers may or may not optimize to the same degree for non-Intel

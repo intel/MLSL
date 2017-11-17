@@ -59,7 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1OperationRegInfo.html#a3ed51c1c39660fb44f56a2b26ced6e20">SetName</a> (const char *name)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1OperationRegInfo.html#a2c161b0c438d107ee7382f72021c2c66">AddInput</a> (size_t featureMapCount, size_t featureMapSize, <a class="el" href="namespaceMLSL.html#a09825f36959e78645dd9bc70bdf840ba">DataType</a> dataType)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1OperationRegInfo.html#a45cbce304460cf8ca13adb7b2ed194ce">AddOutput</a> (size_t featureMapCount, size_t featureMapSize, <a class="el" href="namespaceMLSL.html#a09825f36959e78645dd9bc70bdf840ba">DataType</a> dataType)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1OperationRegInfo.html#ab821e3337ac38ff5c95d4e20632bc6ff">AddParameterSet</a> (size_t kernelCount, size_t kernelSize, <a class="el" href="namespaceMLSL.html#a09825f36959e78645dd9bc70bdf840ba">DataType</a> dataType, bool distributedUpdate=false)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1OperationRegInfo.html#ad5212c42654f0fe581684dfd8c327e3a">AddParameterSet</a> (size_t kernelCount, size_t kernelSize, <a class="el" href="namespaceMLSL.html#a09825f36959e78645dd9bc70bdf840ba">DataType</a> dataType, bool distributedUpdate=false, <a class="el" href="namespaceMLSL.html#a68b033a19889eaa288c1d10b85d23ea2">CompressionType</a> compressType=CT_NONE)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1OperationRegInfo.html#ab85cd09ead3ca351625f457a1e88555b">Validate</a> (<a class="el" href="classMLSL_1_1Distribution.html">Distribution</a> *dist=NULL)</td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
@@ -152,7 +152,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 </div>
 </div>
-<a class="anchor" id="ab821e3337ac38ff5c95d4e20632bc6ff"></a><!-- doxytag: member="MLSL::OperationRegInfo::AddParameterSet" ref="ab821e3337ac38ff5c95d4e20632bc6ff" args="(size_t kernelCount, size_t kernelSize, DataType dataType, bool distributedUpdate=false)" -->
+<a class="anchor" id="ad5212c42654f0fe581684dfd8c327e3a"></a><!-- doxytag: member="MLSL::OperationRegInfo::AddParameterSet" ref="ad5212c42654f0fe581684dfd8c327e3a" args="(size_t kernelCount, size_t kernelSize, DataType dataType, bool distributedUpdate=false, CompressionType compressType=CT_NONE)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -178,7 +178,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>distributedUpdate</em> = <code>false</code></td><td>&nbsp;</td>
+          <td class="paramname"> <em>distributedUpdate</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceMLSL.html#a68b033a19889eaa288c1d10b85d23ea2">CompressionType</a>&nbsp;</td>
+          <td class="paramname"> <em>compressType</em> = <code>CT_NONE</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -195,6 +201,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <tr><td valign="top"></td><td valign="top"><em>kernelSize</em>&nbsp;</td><td>the size of a single kernel in DataType elements </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>dataType</em>&nbsp;</td><td>the data type of kernel's elements </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>distributedUpdate</em>&nbsp;</td><td>tells whether to use the distributed update of parameters (ReduceScatter+AllGather instead of AllReduce) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>compressType</em>&nbsp;</td><td>the type of compression (one must call SetQuantizationParams before any AddParameterSet with enabled quantization) </td></tr>
   </table>
   </dd>
 </dl>
@@ -261,7 +268,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -270,7 +277,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr size="1"/><address style="text-align: right;"><small>Generated on 8 Apr 2017 for Intel® Machine Learning Scaling Library by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on 7 Nov 2017 for Intel® Machine Learning Scaling Library by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

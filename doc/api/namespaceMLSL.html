@@ -49,6 +49,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#_details">More...</a></p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Classes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMLSL_1_1QuantParams.html">QuantParams</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Quantization parameter description.  <a href="structMLSL_1_1QuantParams.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1CommBlockInfo.html">CommBlockInfo</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A class to hold block information for activations packing/unpacking.  <a href="classMLSL_1_1CommBlockInfo.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Activation.html">Activation</a></td></tr>
@@ -70,21 +72,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2>Typedefs</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMLSL.html#aaf6e40eb1d3e48bb109f529d625e4087">CommReq</a></td></tr>
 <tr><td colspan="2"><h2>Enumerations</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMLSL.html#a09825f36959e78645dd9bc70bdf840ba">DataType</a> { <a class="el" href="namespaceMLSL.html#a09825f36959e78645dd9bc70bdf840baaaff0417a027fdca78a786341e8738b9b">DT_FLOAT</a> =  1, 
-<a class="el" href="namespaceMLSL.html#a09825f36959e78645dd9bc70bdf840baaa95b7af7c2724d0edd7733d08bdfada5">DT_DOUBLE</a> =  2
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMLSL.html#a09825f36959e78645dd9bc70bdf840ba">DataType</a> { <a class="el" href="namespaceMLSL.html#a09825f36959e78645dd9bc70bdf840baaaff0417a027fdca78a786341e8738b9b">DT_FLOAT</a> =  0, 
+<a class="el" href="namespaceMLSL.html#a09825f36959e78645dd9bc70bdf840baaa95b7af7c2724d0edd7733d08bdfada5">DT_DOUBLE</a> =  1
  }</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMLSL.html#a7d1938ee24117d29200c2d29562db712">PhaseType</a> { <a class="el" href="namespaceMLSL.html#a7d1938ee24117d29200c2d29562db712a1c904b49427b2bbe7e84ee65ad939f05">PT_TRAIN</a> =  1, 
-<a class="el" href="namespaceMLSL.html#a7d1938ee24117d29200c2d29562db712a2ff42be7234d913c778f6c8cf8a259a3">PT_TEST</a> =  2
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMLSL.html#a7d1938ee24117d29200c2d29562db712">PhaseType</a> { <a class="el" href="namespaceMLSL.html#a7d1938ee24117d29200c2d29562db712a1c904b49427b2bbe7e84ee65ad939f05">PT_TRAIN</a> =  0, 
+<a class="el" href="namespaceMLSL.html#a7d1938ee24117d29200c2d29562db712a2ff42be7234d913c778f6c8cf8a259a3">PT_TEST</a> =  1
  }</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMLSL.html#a9629292da8a376647d4b14a34cda9b95">GroupType</a> { <a class="el" href="namespaceMLSL.html#a9629292da8a376647d4b14a34cda9b95af88ffdbe7280e91f4567aaa1529209d1">GT_DATA</a> =  1, 
-<a class="el" href="namespaceMLSL.html#a9629292da8a376647d4b14a34cda9b95a86219d2c56b5d2d980fa1611e8c24353">GT_MODEL</a> =  2, 
-<a class="el" href="namespaceMLSL.html#a9629292da8a376647d4b14a34cda9b95af7f072326039cee9c6a9c0d810c98700">GT_GLOBAL</a> =  3
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMLSL.html#a9629292da8a376647d4b14a34cda9b95">GroupType</a> { <a class="el" href="namespaceMLSL.html#a9629292da8a376647d4b14a34cda9b95af88ffdbe7280e91f4567aaa1529209d1">GT_DATA</a> =  0, 
+<a class="el" href="namespaceMLSL.html#a9629292da8a376647d4b14a34cda9b95a86219d2c56b5d2d980fa1611e8c24353">GT_MODEL</a> =  1, 
+<a class="el" href="namespaceMLSL.html#a9629292da8a376647d4b14a34cda9b95af7f072326039cee9c6a9c0d810c98700">GT_GLOBAL</a> =  2
  }</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><p>Groups of processes supported by Intel MLSL. </p>
  <a href="namespaceMLSL.html#a9629292da8a376647d4b14a34cda9b95">More...</a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMLSL.html#a6513313f07b5a1b8b93ee7dd5557b27c">ReductionType</a> { <a class="el" href="namespaceMLSL.html#a6513313f07b5a1b8b93ee7dd5557b27ca9ce70a1366a7c2d3025f3052b95163de">RT_SUM</a> =  1, 
-<a class="el" href="namespaceMLSL.html#a6513313f07b5a1b8b93ee7dd5557b27ca3c2808b1ae87ba0c3aa97195ce4b8774">RT_MIN</a> =  2, 
-<a class="el" href="namespaceMLSL.html#a6513313f07b5a1b8b93ee7dd5557b27caa478b673a991fa9c4884802138a9710d">RT_MAX</a> =  3
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMLSL.html#a6513313f07b5a1b8b93ee7dd5557b27c">ReductionType</a> { <a class="el" href="namespaceMLSL.html#a6513313f07b5a1b8b93ee7dd5557b27ca9ce70a1366a7c2d3025f3052b95163de">RT_SUM</a> =  0, 
+<a class="el" href="namespaceMLSL.html#a6513313f07b5a1b8b93ee7dd5557b27ca3c2808b1ae87ba0c3aa97195ce4b8774">RT_MIN</a> =  1, 
+<a class="el" href="namespaceMLSL.html#a6513313f07b5a1b8b93ee7dd5557b27caa478b673a991fa9c4884802138a9710d">RT_MAX</a> =  2
  }</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMLSL.html#a1366e5621278eafc7ecb03de012824bf">OpType</a> { <br/>
 &nbsp;&nbsp;<a class="el" href="namespaceMLSL.html#a1366e5621278eafc7ecb03de012824bfa70295c28704cb7c887a072686c4f5305">OT_CC</a> =  0, 
@@ -103,6 +105,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  }</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><p>Compute operation types. </p>
  <a href="namespaceMLSL.html#a1366e5621278eafc7ecb03de012824bf">More...</a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceMLSL.html#a68b033a19889eaa288c1d10b85d23ea2">CompressionType</a> { <a class="el" href="namespaceMLSL.html#a68b033a19889eaa288c1d10b85d23ea2aff711dbf9b304ee795e007e5e667cd52">CT_NONE</a> =  0, 
+<a class="el" href="namespaceMLSL.html#a68b033a19889eaa288c1d10b85d23ea2a387a43f9648f4692e3d939b34082c395">CT_QUANTIZATION</a> =  1
+ }</td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>The namespace containigs all Intel MLSL classes and types. </p>
@@ -122,6 +127,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr/><h2>Enumeration Type Documentation</h2>
+<a class="anchor" id="a68b033a19889eaa288c1d10b85d23ea2"></a><!-- doxytag: member="MLSL::CompressionType" ref="a68b033a19889eaa288c1d10b85d23ea2" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceMLSL.html#a68b033a19889eaa288c1d10b85d23ea2">MLSL::CompressionType</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Compression type. </p>
+<dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a68b033a19889eaa288c1d10b85d23ea2aff711dbf9b304ee795e007e5e667cd52"></a><!-- doxytag: member="CT_NONE" ref="a68b033a19889eaa288c1d10b85d23ea2aff711dbf9b304ee795e007e5e667cd52" args="" -->CT_NONE</em>&nbsp;</td><td>
+<p>Do not use compression </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a68b033a19889eaa288c1d10b85d23ea2a387a43f9648f4692e3d939b34082c395"></a><!-- doxytag: member="CT_QUANTIZATION" ref="a68b033a19889eaa288c1d10b85d23ea2a387a43f9648f4692e3d939b34082c395" args="" -->CT_QUANTIZATION</em>&nbsp;</td><td>
+<p>Use quantization </p>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a09825f36959e78645dd9bc70bdf840ba"></a><!-- doxytag: member="MLSL::DataType" ref="a09825f36959e78645dd9bc70bdf840ba" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -281,7 +310,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -290,7 +319,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr size="1"/><address style="text-align: right;"><small>Generated on 8 Apr 2017 for Intel® Machine Learning Scaling Library by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on 7 Nov 2017 for Intel® Machine Learning Scaling Library by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

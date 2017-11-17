@@ -22,7 +22,7 @@ ENABLE_DEBUG ?= 1
 
 INCLUDES = -I$(MLSL_ROOT)/intel64/include
 LDFLAGS  = -L$(MLSL_ROOT)/intel64/lib -lmlsl -lrt
-CXX      = g++
+CXX     ?= g++
 tests    = mlsl_test
 
 ifeq ($(ENABLE_DEBUG),1)
@@ -30,6 +30,9 @@ ifeq ($(ENABLE_DEBUG),1)
 else
   CFLAGS += -O2
 endif
+
+CFLAGS  += $(EXTRA_CFLAGS)
+LDFLAGS += $(EXTRA_LDFLAGS)
 
 CXX_COMPILE = $(CXX) $(CFLAGS) $(INCLUDES)
 
@@ -48,7 +51,21 @@ run: all
 		for usr_buf in 1 0 ; do \
 			for dist_upd in 1 0 ; do \
 				echo "group_count = $$group_count, dist_update = $$dist_upd, user_buf = $$usr_buf, stats = 0" >> output.log 2>&1 ; \
-				mpiexec.hydra -n 4 -l ./$(tests) $$group_count $$dist_upd $$usr_buf 0 >> output.log 2>&1 ; \
+				mpiexec.hydra -n 4 -ppn 1 -l ./$(tests) $$group_count $$dist_upd $$usr_buf 0 >> output.log 2>&1 ; \
+			done ; \
+		done ; \
+	done ;
+	if [ $(PATH_TO_QUANT_LIB) ] ; then \
+		echo "running mlsl_test with quantization ..." ; \
+		echo "group_count = 1, dist_update = 0, user_buf = 0, stats = 0" >> output_with_quant.log 2>&1 ; \
+		mpiexec.hydra -n 4 -ppn 1 -l ./$(tests) 1 0 0 0 $(PATH_TO_QUANT_LIB) >> output_with_quant.log 2>&1 ; \
+	fi ;
+	echo "running mlsl_test.py ..." ; \
+	for group_count in 1 2 4 ; do \
+		for usr_buf in 0 ; do \
+			for dist_upd in 1 0 ; do \
+				echo "group_count = $$group_count, dist_update = $$dist_upd, user_buf = $$usr_buf, stats = 0" >> output_py.log 2>&1 ; \
+				mpiexec.hydra -n 4 -ppn 1 -l python ./$(tests).py $$group_count $$dist_upd $$usr_buf 0 >> output_py.log 2>&1 ; \
 			done ; \
 		done ; \
 	done ;

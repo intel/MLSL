@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------
-Intel(R) Machine Learning Scaling Library 2017 Update 1 for Linux* OS
+Intel(R) Machine Learning Scaling Library 2017 Update 2 for Linux* OS
 Release Notes
 ---------------------------------------------------------------------
 
@@ -37,6 +37,13 @@ and the Intel(R) MPI Library Runtime components.
 ----------
 What's New
 ----------
+
+Intel MLSL 2017 Update 2:
+   - Support for fine-grained tuning of internal launch mechanism
+     (see MLSL_SERVER_CREATION_TYPE, MLSL_HOSTNAME_TYPE, MLSL_HOSTNAME).
+   - Improved stability.
+   - Support for parameter quantization (see a sample file in the package for reference).
+   - Intel(R) MPI Library runtime updated to version 2018 Update 1.
 
 Intel MLSL 2017 Update 1:
    - Added Python bindings.

@@ -59,16 +59,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#a9be813a8ed0b85dc3a8839e51473e6c0">Configure</a> (const char *config=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#ae67919c3898381047079de60ba8d7a06">Init</a> (int *argc, char **argv[])</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#a90ebcccc5b469bbb2e32a840aaca4192">Finalize</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#a85d1ab0f45d26251438895945c34b02c">IsInitialized</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#ae50e6d87304ebdd530337ad33f61d16c">GetProcessIdx</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#a23eaf9e8d9414aa192823f1fad15c490">GetProcessCount</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMLSL_1_1Session.html">Session</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#a5b697cdcd3483460e943ee31938feda8">CreateSession</a> (<a class="el" href="namespaceMLSL.html#a7d1938ee24117d29200c2d29562db712">PhaseType</a> phaseType=PT_TRAIN)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#a536bbc70aaf25a82e492fc8b7a2b9dfe">DeleteSession</a> (<a class="el" href="classMLSL_1_1Session.html">Session</a> *session)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMLSL_1_1Distribution.html">Distribution</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#af205e0f9d6fc31d562264d4d40f75af8">CreateDistribution</a> (size_t dataPartitions, size_t modelPartitions)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMLSL_1_1Distribution.html">Distribution</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#aee14fb5697c5fe3b7a8ef025c0dfa438">CreateDistributionWithColors</a> (int dataColor, int modelColor)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#a6ab113964860c6c09186b012ab2d1f2c">DeleteDistribution</a> (<a class="el" href="classMLSL_1_1Distribution.html">Distribution</a> *distribution)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#a544ba3dd62063c28d78aa131b4789b74">Wait</a> (<a class="el" href="namespaceMLSL.html#aaf6e40eb1d3e48bb109f529d625e4087">CommReq</a> *req)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#acee6a46cd0d22d5b7467b5808713f62a">Test</a> (<a class="el" href="namespaceMLSL.html#aaf6e40eb1d3e48bb109f529d625e4087">CommReq</a> *req, bool *isCompleted)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#ad95956dcbc59f786e3463c49b5e47937">Alloc</a> (size_t size, size_t alignment)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#a04bd31f3ece4795e61beaa40a2568e3d">Free</a> (void *ptr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#aa04d7afb4713e0be0a83e33f896fb2e8">SetQuantizationParams</a> (<a class="el" href="structMLSL_1_1QuantParams.html">QuantParams</a> *params)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structMLSL_1_1QuantParams.html">QuantParams</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#abec57561f49241450ed358adc623d7a5">GetQuantizationParams</a> ()</td></tr>
 <tr><td colspan="2"><h2>Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classMLSL_1_1Environment.html">Environment</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#aa196f4c0aa718ae2994b4c23963c7114">GetEnv</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMLSL_1_1Environment.html#aa40c1ec47e82b18a83b4eb5f18e3e716">GetVersion</a> ()</td></tr>
@@ -167,6 +171,42 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>dataPartitions</em>&nbsp;</td><td>the number of partitions for data (partitions on global mini-batch) </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>modelPartitions</em>&nbsp;</td><td>the number of partitions for model (partitions on input activation) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A distribution. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aee14fb5697c5fe3b7a8ef025c0dfa438"></a><!-- doxytag: member="MLSL::Environment::CreateDistributionWithColors" ref="aee14fb5697c5fe3b7a8ef025c0dfa438" args="(int dataColor, int modelColor)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classMLSL_1_1Distribution.html">Distribution</a>* MLSL::Environment::CreateDistributionWithColors </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>dataColor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>modelColor</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Creates a new <a class="el" href="classMLSL_1_1Distribution.html" title="A class to hold the information about the parallelism scheme being used.">Distribution</a> object based on process colors passed. Don't use this method unless you absolutely need it. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>dataColor</em>&nbsp;</td><td>defines partitions on global mini-batch. Processes with the same dataColor get into the same data group </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>modelColor</em>&nbsp;</td><td>defines partitions on input activation. Processes with the same modelColor get into the same model group </td></tr>
   </table>
   </dd>
 </dl>
@@ -347,6 +387,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 </div>
 </div>
+<a class="anchor" id="abec57561f49241450ed358adc623d7a5"></a><!-- doxytag: member="MLSL::Environment::GetQuantizationParams" ref="abec57561f49241450ed358adc623d7a5" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structMLSL_1_1QuantParams.html">QuantParams</a>* MLSL::Environment::GetQuantizationParams </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>A pointer to the structure that contains information about quant lib. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="aa40c1ec47e82b18a83b4eb5f18e3e716"></a><!-- doxytag: member="MLSL::Environment::GetVersion" ref="aa40c1ec47e82b18a83b4eb5f18e3e716" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -394,6 +452,48 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>argc</em>&nbsp;</td><td>a pointer to the number of arguments </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>argv</em>&nbsp;</td><td>an argument vector </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a85d1ab0f45d26251438895945c34b02c"></a><!-- doxytag: member="MLSL::Environment::IsInitialized" ref="a85d1ab0f45d26251438895945c34b02c" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MLSL::Environment::IsInitialized </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aa04d7afb4713e0be0a83e33f896fb2e8"></a><!-- doxytag: member="MLSL::Environment::SetQuantizationParams" ref="aa04d7afb4713e0be0a83e33f896fb2e8" args="(QuantParams *params)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MLSL::Environment::SetQuantizationParams </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structMLSL_1_1QuantParams.html">QuantParams</a> *&nbsp;</td>
+          <td class="paramname"> <em>params</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Set quntization parameters. One must set quantization parameters before any AddParameterSet with enabled quantization. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>params</em>&nbsp;</td><td>the structure that contains information about quantization library </td></tr>
   </table>
   </dd>
 </dl>
@@ -469,7 +569,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -478,7 +578,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr size="1"/><address style="text-align: right;"><small>Generated on 8 Apr 2017 for Intel® Machine Learning Scaling Library by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on 7 Nov 2017 for Intel® Machine Learning Scaling Library by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

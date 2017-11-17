@@ -24,6 +24,7 @@
 #include <stdio.h>  /* printf */
 #include <stdlib.h> /* exit */
 
+#include <string.h>
 #include <sstream>
 
 #include "mlsl.hpp"
@@ -31,25 +32,12 @@
 using namespace MLSL;
 using namespace std;
 
-/* Memory stuff */
-
-#if defined(__INTEL_COMPILER) || defined(__ICC)
-#define MY_MALLOC(size, align) _mm_malloc(size, align)
-#define MY_FREE(ptr)           _mm_free(ptr)
-#elif defined(__GNUC__)
-#define MY_MALLOC(size, align) malloc(size)
-#define MY_FREE(ptr)           free(ptr)
-#else 
-# error "this compiler is not supported" 
-#endif
-
-
 /* Logging stuff */
 
 #define PRINT_BUF_LEN             4096
 #define PRINT_BUF_FLUSH_THRESHOLD 3000
 char printBuf[PRINT_BUF_LEN];
-size_t printCount=0;
+int printCount = 0;
 
 #define MY_FLUSH()              \
   do                            \
@@ -90,7 +78,7 @@ size_t printCount=0;
 #define DTYPE_SIZE            sizeof(DTYPE)
 #define MLSL_DTYPE            ((DTYPE_SIZE == 4) ? DT_FLOAT : DT_DOUBLE)
 #define CACHELINE_SIZE        64
-#define FAIL_COUNTER_MAX      5
+#define FAIL_COUNTER_MAX      size_t(5)
 
 #define GLOBAL_MINIBATCH_SIZE 16
 #define LAYER_COUNT           2
@@ -109,6 +97,10 @@ size_t processCount;
 size_t groupCount = 1;
 bool useDistUpdate = false; // data parallelism's feature
 bool useUserBuf = false;
+bool useTest = false;
+
+QuantParams* quantParams = NULL;
+CompressionType compressType = CT_NONE;
 
 enum LayerType
 {
@@ -164,8 +156,8 @@ public:
         inActSize = op->GetInput(0)->GetLocalFmCount() * op->GetLocalMinibatchSize() * op->GetInput(0)->GetFmSize() * DTYPE_SIZE;
         if (prevOutActSize > inActSize) inActSize = prevOutActSize;
 
-        inputActBuf = (DTYPE*)MY_MALLOC(inActSize, CACHELINE_SIZE);
-        inputActGradBuf = (DTYPE*)MY_MALLOC(inActSize, CACHELINE_SIZE);
+        inputActBuf = (DTYPE*)malloc(inActSize);
+        inputActGradBuf = (DTYPE*)malloc(inActSize);
 
         if (prevLayer != NULL)
         {
@@ -183,9 +175,9 @@ public:
 
         if (useUserBuf)
         {
-            paramBuf     = (DTYPE*)MY_MALLOC(paramBufSize, CACHELINE_SIZE);
-            paramGradBuf = (DTYPE*)MY_MALLOC(paramBufSize, CACHELINE_SIZE);
-            paramIncBuf  = (DTYPE*)MY_MALLOC(paramBufIncSize, CACHELINE_SIZE);
+            paramBuf     = (DTYPE*)malloc(paramBufSize);
+            paramGradBuf = (DTYPE*)malloc(paramBufSize);
+            paramIncBuf  = (DTYPE*)malloc(paramBufIncSize);
         }
         else
         {
@@ -203,14 +195,14 @@ public:
 
     ~Layer()
     {
-        MY_FREE(inputActBuf);
-        MY_FREE(inputActGradBuf);
+        free(inputActBuf);
+        free(inputActGradBuf);
 
         if (useUserBuf)
         {
-            MY_FREE(paramBuf);
-            MY_FREE(paramGradBuf);
-            MY_FREE(paramIncBuf);
+            free(paramBuf);
+            free(paramGradBuf);
+            free(paramIncBuf);
         }
         else
         {
@@ -406,12 +398,43 @@ public:
         size_t mbGroupSize = op->GetDistribution()->GetProcessCount(GT_DATA);
         size_t ownedOffset = op->GetParameterSet(0)->GetOwnedKernelOffset() * op->GetParameterSet(0)->GetKernelSize();
         size_t failCounter = 0;
-        for (size_t idx = 0; idx < ownedSize; idx++)
+        if (compressType == CT_NONE)
         {
-            DTYPE expected = mbGroupSize * (ownedOffset + idx);
-            if (fabs(paramGrad[idx] - expected) > 1.e-4)
-                failCounter++;
-            ownedParam[idx] = ownedOffset + idx;
+            for (size_t idx = 0; idx < ownedSize; idx++)
+            {
+                DTYPE expected = mbGroupSize * (ownedOffset + idx);
+                if (fabs(paramGrad[idx] - expected) > 1.e-4)
+                    failCounter++;
+                ownedParam[idx] = ownedOffset + idx;
+            }
+        }
+        else
+        {
+            DTYPE expected = mbGroupSize * ownedOffset;
+            DTYPE diff= fabs(paramGrad[0] - expected);
+            if (expected != 0)
+                diff /= expected;
+            DTYPE min = diff ;
+            DTYPE max = diff;
+            DTYPE avr = diff;
+            size_t diffCount = 0;
+            for (size_t idx = 1; idx < ownedSize; idx++)
+            {
+                expected = mbGroupSize * (ownedOffset + idx);
+                diff = fabs(paramGrad[idx] - expected);
+                if (expected != 0)
+                    diff /= expected;
+                if ( min > diff)
+                    min = diff;
+                if ( max < diff)
+                    max = diff;
+                if (diff != 0)
+                    diffCount++;
+                ownedParam[idx] = ownedOffset + idx;
+            }
+//            MY_PRINTF("[%zu] update_%zu: parameter gradient test. avr diff(\%) = %4.4f\%, min = %4.4f\%, max = %4.4f\%, count different (all) = %zu (%zu)\n",
+//                      processIdx, layerIdx, avr / ownedSize * 100.0f, min * 100.0f, max * 100.0f, diffCount, ownedSize);
+
         }
         if (failCounter > 0)
         {
@@ -495,7 +518,16 @@ public:
         if (op->HasParameterSets())
         {
             MY_ASSERT(op->GetParameterSet(0), "parameter is NULL");
-            DTYPE* commBuf = (DTYPE*)op->GetParameterSet(0)->WaitGradientComm();
+            DTYPE* commBuf = NULL;
+            if (useTest)
+            {
+                bool isCompleted = false;
+                while (!isCompleted)
+                    commBuf = (DTYPE*)op->GetParameterSet(0)->TestGradientComm(&isCompleted);
+            }
+            else
+                commBuf = (DTYPE*)op->GetParameterSet(0)->WaitGradientComm();
+
             DTYPE* ownedParamBuf = paramBuf + op->GetParameterSet(0)->GetOwnedKernelOffset() * op->GetParameterSet(0)->GetKernelSize();
             UpdateCompute(commBuf == NULL ? paramGradBuf : commBuf,
                           paramIncBuf,
@@ -519,7 +551,10 @@ Layer* CreateLayer(Session* session, LayerType type, LayerParams* lParams, Distr
     regInfo->SetName(stream.str().c_str());
     regInfo->AddInput(lParams->ifm, lParams->ifmWidth * lParams->ifmHeight, MLSL_DTYPE);
     regInfo->AddOutput(lParams->ofm, lParams->ofmWidth * lParams->ofmHeight, MLSL_DTYPE);
-    regInfo->AddParameterSet(lParams->ifm * lParams->ofm, lParams->kw * lParams->kh, MLSL_DTYPE, useDistUpdate);
+    if (compressType == CT_QUANTIZATION)
+        regInfo->AddParameterSet(lParams->ifm * lParams->ofm, lParams->kw * lParams->kh, MLSL_DTYPE, useDistUpdate, compressType);
+    else
+        regInfo->AddParameterSet(lParams->ifm * lParams->ofm, lParams->kw * lParams->kh, MLSL_DTYPE, useDistUpdate);
 
     size_t opIdx = session->AddOperation(regInfo, distribution);
     session->DeleteOperationRegInfo(regInfo);
@@ -535,7 +570,7 @@ int main(int argc, char** argv)
 {
     if (argc < 2)
     {
-        printf("specify parameters: mlsl_test GROUP_COUNT [DIST_UPDATE] [USER_BUF]\n");
+        printf("specify parameters: mlsl_test GROUP_COUNT [DIST_UPDATE] [USER_BUF] [USE_TEST] [PATH_TO_QUANTIZATION_LIB]\n");
         exit(0);
     }
 
@@ -558,14 +593,32 @@ int main(int argc, char** argv)
     if (argc > 1) groupCount    = atoi(argv[1]);
     if (argc > 2) useDistUpdate = (atoi(argv[2]) != 0);
     if (argc > 3) useUserBuf    = (atoi(argv[3]) != 0);
+    if (argc > 4) useTest       = (atoi(argv[4]) != 0);
+    if (argc > 5)
+    {
+        compressType = CT_QUANTIZATION;
+        quantParams = new QuantParams();
+        quantParams->lib_path = strdup(argv[5]);
+        quantParams->quant_buffer_func_name = strdup("dl_comp_compress_buffer");
+        quantParams->dequant_buffer_func_name = strdup("dl_comp_decompress_buffer");
+        quantParams->reduce_sum_func_name = strdup("dl_comp_compressed_buffer_reduce_sum");
+        quantParams->block_size = 268;
+        quantParams->elem_in_block = 256;
+        Environment::GetEnv().SetQuantizationParams(quantParams);
+        free(quantParams->lib_path);
+        free(quantParams->quant_buffer_func_name);
+        free(quantParams->dequant_buffer_func_name);
+        free(quantParams->reduce_sum_func_name);
+        delete quantParams;
+    }
 
     if (groupCount < 1) groupCount = 1;
     if (groupCount > processCount) groupCount = processCount;
 
     processIdx = Environment::GetEnv().GetProcessIdx();
     if (processIdx == 0)
-        printf("\nprocess_count = %zu, distribution = %zu x %zu (data_parts x model_parts), dist_update %d, user_buf %d\n\n",
-               processCount, processCount/groupCount, groupCount, useDistUpdate, useUserBuf);
+        printf("\nprocess_count = %zu, distribution = %zu x %zu (data_parts x model_parts), dist_update %d, user_buf %d, use_test %d\n\n",
+               processCount, processCount/groupCount, groupCount, useDistUpdate, useUserBuf, useTest);
 
     /* Correctness test assumes both the layers use same distribution */
     Distribution* distribution = Environment::GetEnv().CreateDistribution(processCount/groupCount, groupCount);

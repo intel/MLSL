@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul>
       <li class="current"><a href="functions.html"><span>All</span></a></li>
       <li><a href="functions_func.html"><span>Functions</span></a></li>
+      <li><a href="functions_vars.html"><span>Variables</span></a></li>
     </ul>
   </div>
   <div class="tabs">
@@ -55,11 +56,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_b"><span>b</span></a></li>
       <li><a href="#index_c"><span>c</span></a></li>
       <li><a href="#index_d"><span>d</span></a></li>
+      <li><a href="#index_e"><span>e</span></a></li>
       <li><a href="#index_f"><span>f</span></a></li>
       <li><a href="#index_g"><span>g</span></a></li>
       <li><a href="#index_h"><span>h</span></a></li>
       <li><a href="#index_i"><span>i</span></a></li>
+      <li><a href="#index_l"><span>l</span></a></li>
       <li><a href="#index_p"><span>p</span></a></li>
+      <li><a href="#index_q"><span>q</span></a></li>
       <li><a href="#index_r"><span>r</span></a></li>
       <li><a href="#index_s"><span>s</span></a></li>
       <li><a href="#index_t"><span>t</span></a></li>
@@ -82,13 +86,19 @@ Here is a list of all class members with links to the classes they belong to:
 : <a class="el" href="classMLSL_1_1OperationRegInfo.html#a45cbce304460cf8ca13adb7b2ed194ce">MLSL::OperationRegInfo</a>
 </li>
 <li>AddParameterSet()
-: <a class="el" href="classMLSL_1_1OperationRegInfo.html#ab821e3337ac38ff5c95d4e20632bc6ff">MLSL::OperationRegInfo</a>
+: <a class="el" href="classMLSL_1_1OperationRegInfo.html#ad5212c42654f0fe581684dfd8c327e3a">MLSL::OperationRegInfo</a>
+</li>
+<li>AllGather()
+: <a class="el" href="classMLSL_1_1Distribution.html#a5dae9afadecee65e8f60e084b5bc16a2">MLSL::Distribution</a>
 </li>
 <li>Alloc()
 : <a class="el" href="classMLSL_1_1Environment.html#ad95956dcbc59f786e3463c49b5e47937">MLSL::Environment</a>
 </li>
 <li>AllReduce()
 : <a class="el" href="classMLSL_1_1Distribution.html#af3c4ce169214ee560ee83a0d7e8445a0">MLSL::Distribution</a>
+</li>
+<li>AlltoAll()
+: <a class="el" href="classMLSL_1_1Distribution.html#a3e8e2d765cb7023bb7e66f2b3a209190">MLSL::Distribution</a>
 </li>
 </ul>
 
@@ -99,6 +109,9 @@ Here is a list of all class members with links to the classes they belong to:
 </li>
 <li>Bcast()
 : <a class="el" href="classMLSL_1_1Distribution.html#a3b8a002da3ec6f6e72bcc13064257df8">MLSL::Distribution</a>
+</li>
+<li>block_size
+: <a class="el" href="structMLSL_1_1QuantParams.html#a9a384f669eae7ed99707f5a56c0cf9f3">MLSL::QuantParams</a>
 </li>
 </ul>
 
@@ -112,6 +125,9 @@ Here is a list of all class members with links to the classes they belong to:
 </li>
 <li>CreateDistribution()
 : <a class="el" href="classMLSL_1_1Environment.html#af205e0f9d6fc31d562264d4d40f75af8">MLSL::Environment</a>
+</li>
+<li>CreateDistributionWithColors()
+: <a class="el" href="classMLSL_1_1Environment.html#aee14fb5697c5fe3b7a8ef025c0dfa438">MLSL::Environment</a>
 </li>
 <li>CreateOperationRegInfo()
 : <a class="el" href="classMLSL_1_1Session.html#a882c57575b67320b17e3e357bcde2c31">MLSL::Session</a>
@@ -131,6 +147,16 @@ Here is a list of all class members with links to the classes they belong to:
 </li>
 <li>DeleteSession()
 : <a class="el" href="classMLSL_1_1Environment.html#a536bbc70aaf25a82e492fc8b7a2b9dfe">MLSL::Environment</a>
+</li>
+<li>dequant_buffer_func_name
+: <a class="el" href="structMLSL_1_1QuantParams.html#ac8f95f6abe7e8f117e85a90265cc420f">MLSL::QuantParams</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_e">- e -</a></h3><ul>
+<li>elem_in_block
+: <a class="el" href="structMLSL_1_1QuantParams.html#ad0e8588ca701c062f8a96cbf235c5d18">MLSL::QuantParams</a>
 </li>
 </ul>
 
@@ -155,6 +181,9 @@ Here is a list of all class members with links to the classes they belong to:
 <li>GetCommBuf()
 : <a class="el" href="classMLSL_1_1Activation.html#ac05d33b303e0f33acfff79a8d99cf267">MLSL::Activation</a>
 </li>
+<li>GetCommBufSize()
+: <a class="el" href="classMLSL_1_1Activation.html#a46a52035bdde07e3d8501745e7023baa">MLSL::Activation</a>
+</li>
 <li>GetCommCycles()
 : <a class="el" href="classMLSL_1_1Statistics.html#a8591dea86b3c871763b2006c205662d2">MLSL::Statistics</a>
 </li>
@@ -165,9 +194,9 @@ Here is a list of all class members with links to the classes they belong to:
 : <a class="el" href="classMLSL_1_1Statistics.html#a7772490eb71c397c500c99389e8da21d">MLSL::Statistics</a>
 </li>
 <li>GetDataType()
-: <a class="el" href="classMLSL_1_1Activation.html#a6df9d76224dbe137b88fea2c55ce3708">MLSL::Activation</a>
+: <a class="el" href="classMLSL_1_1CommBlockInfo.html#af4de10f37568c71b78aed7c8be925ea4">MLSL::CommBlockInfo</a>
+, <a class="el" href="classMLSL_1_1Activation.html#a6df9d76224dbe137b88fea2c55ce3708">MLSL::Activation</a>
 , <a class="el" href="classMLSL_1_1ParameterSet.html#af6e4237232b9eae4e74fc0e8bfeace47">MLSL::ParameterSet</a>
-, <a class="el" href="classMLSL_1_1CommBlockInfo.html#af4de10f37568c71b78aed7c8be925ea4">MLSL::CommBlockInfo</a>
 </li>
 <li>GetDistribution()
 : <a class="el" href="classMLSL_1_1Operation.html#aa8343c64cb4306d990e54a7fcad772e6">MLSL::Operation</a>
@@ -182,8 +211,8 @@ Here is a list of all class members with links to the classes they belong to:
 : <a class="el" href="classMLSL_1_1CommBlockInfo.html#a8314af2bdbfe3d5193315374a769589e">MLSL::CommBlockInfo</a>
 </li>
 <li>GetFmSize()
-: <a class="el" href="classMLSL_1_1CommBlockInfo.html#adcdb538a542426be853fabb14513ce4c">MLSL::CommBlockInfo</a>
-, <a class="el" href="classMLSL_1_1Activation.html#ad7ef946e5e52a5cbc2c39ed147a814e6">MLSL::Activation</a>
+: <a class="el" href="classMLSL_1_1Activation.html#ad7ef946e5e52a5cbc2c39ed147a814e6">MLSL::Activation</a>
+, <a class="el" href="classMLSL_1_1CommBlockInfo.html#adcdb538a542426be853fabb14513ce4c">MLSL::CommBlockInfo</a>
 </li>
 <li>GetGlobalFmCount()
 : <a class="el" href="classMLSL_1_1Activation.html#af105b2a9b3f3ca51f71a5372c8af8012">MLSL::Activation</a>
@@ -278,6 +307,9 @@ Here is a list of all class members with links to the classes they belong to:
 : <a class="el" href="classMLSL_1_1Environment.html#ae50e6d87304ebdd530337ad33f61d16c">MLSL::Environment</a>
 , <a class="el" href="classMLSL_1_1Distribution.html#a477e334955de1821d6df50a0ff79b299">MLSL::Distribution</a>
 </li>
+<li>GetQuantizationParams()
+: <a class="el" href="classMLSL_1_1Environment.html#abec57561f49241450ed358adc623d7a5">MLSL::Environment</a>
+</li>
 <li>GetSession()
 : <a class="el" href="classMLSL_1_1Operation.html#a44ae77acd2eff8cad2187bb8d7834ae1">MLSL::Operation</a>
 </li>
@@ -325,8 +357,18 @@ Here is a list of all class members with links to the classes they belong to:
 <li>IsEnabled()
 : <a class="el" href="classMLSL_1_1Statistics.html#a66b3cabc6bacc175659bb82c7cbb9939">MLSL::Statistics</a>
 </li>
+<li>IsInitialized()
+: <a class="el" href="classMLSL_1_1Environment.html#a85d1ab0f45d26251438895945c34b02c">MLSL::Environment</a>
+</li>
 <li>IsStarted()
 : <a class="el" href="classMLSL_1_1Statistics.html#ac19290d3f561f101c5a70f63b0a80e41">MLSL::Statistics</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_l">- l -</a></h3><ul>
+<li>lib_path
+: <a class="el" href="structMLSL_1_1QuantParams.html#a124d9ee5323d9dccdbabb031d5464c3a">MLSL::QuantParams</a>
 </li>
 </ul>
 
@@ -338,9 +380,19 @@ Here is a list of all class members with links to the classes they belong to:
 </ul>
 
 
+<h3><a class="anchor" id="index_q">- q -</a></h3><ul>
+<li>quant_buffer_func_name
+: <a class="el" href="structMLSL_1_1QuantParams.html#a350a858ed5502252435fa7608edda416">MLSL::QuantParams</a>
+</li>
+</ul>
+
+
 <h3><a class="anchor" id="index_r">- r -</a></h3><ul>
 <li>Reduce()
 : <a class="el" href="classMLSL_1_1Distribution.html#ac22445628780dfce8120f617d9d0b45b">MLSL::Distribution</a>
+</li>
+<li>reduce_sum_func_name
+: <a class="el" href="structMLSL_1_1QuantParams.html#a25df9562472e1ff98079a8943667d157">MLSL::QuantParams</a>
 </li>
 <li>ReduceScatter()
 : <a class="el" href="classMLSL_1_1Distribution.html#a7d65790975910bda14ac82b9d6156c5e">MLSL::Distribution</a>
@@ -373,6 +425,9 @@ Here is a list of all class members with links to the classes they belong to:
 <li>SetPrev()
 : <a class="el" href="classMLSL_1_1Operation.html#aaba248e9778f276502025d24f09c75d7">MLSL::Operation</a>
 </li>
+<li>SetQuantizationParams()
+: <a class="el" href="classMLSL_1_1Environment.html#aa04d7afb4713e0be0a83e33f896fb2e8">MLSL::Environment</a>
+</li>
 <li>Start()
 : <a class="el" href="classMLSL_1_1Statistics.html#ac173f46251f1733a057e3d57723cb4a3">MLSL::Statistics</a>
 </li>
@@ -394,6 +449,9 @@ Here is a list of all class members with links to the classes they belong to:
 <h3><a class="anchor" id="index_t">- t -</a></h3><ul>
 <li>Test()
 : <a class="el" href="classMLSL_1_1Environment.html#acee6a46cd0d22d5b7467b5808713f62a">MLSL::Environment</a>
+</li>
+<li>TestGradientComm()
+: <a class="el" href="classMLSL_1_1ParameterSet.html#a31f20a95505e161573b84db11120c36b">MLSL::ParameterSet</a>
 </li>
 </ul>
 
@@ -425,7 +483,7 @@ Here is a list of all class members with links to the classes they belong to:
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&nbsp;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&nbsp;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&nbsp;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&nbsp;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&nbsp;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&nbsp;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&nbsp;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&nbsp;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&nbsp;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&nbsp;</span>Defines</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -434,7 +492,7 @@ Here is a list of all class members with links to the classes they belong to:
 </iframe>
 </div>
 
-<hr size="1"/><address style="text-align: right;"><small>Generated on 8 Apr 2017 for Intel® Machine Learning Scaling Library by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on 7 Nov 2017 for Intel® Machine Learning Scaling Library by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>
