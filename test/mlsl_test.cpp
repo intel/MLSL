@@ -1,24 +1,17 @@
 /*
- Copyright (C) 2017 Intel Corporation.
+ Copyright 2018 Intel Corporation.
  
- The Intel(R) Machine Learning Scaling Library ("Software") is furnished under
- license and may only be used or copied in accordance with the terms of that
- license. No license, express or implied, by estoppel or otherwise, to any
- intellectual property rights is granted by this document. The Software is
- subject to change without notice, and should not be construed as a commitment
- by Intel Corporation to market, license, sell or support any product or
- technology. Unless otherwise provided for in the license under which this
- Software is provided, the Software is provided AS IS, with no warranties of any
- kind, express or implied. Except as expressly permitted by the Software license,
- neither Intel Corporation nor its suppliers assumes any responsibility or
- liability for any errors or inaccuracies that may appear herein. Except as
- expressly permitted by the Software license, no part of the Software may be
- reproduced, stored in a retrieval system, transmitted in any form, or
- distributed by any means without the express written consent of
- Intel Corporation.
+ This software and the related documents are Intel copyrighted materials, and your use of
+ them is governed by the express license under which they were provided to you (License).
+ Unless the License provides otherwise, you may not use, modify, copy, publish, distribute,
+ disclose or transmit this software or the related documents without Intel's prior written
+ permission.
+ 
+ This software and the related documents are provided as is, with no express or implied
+ warranties, other than those that are expressly stated in the License.
 */
 
-/* MLSL library API usage example and correctness check test */
+/* Intel(R) MLSL library API usage example and correctness check test */
 
 #include <math.h>   /* fabs */
 #include <stdio.h>  /* printf */
@@ -72,7 +65,7 @@ int printCount = 0;
   } while(0)
 
 
-/* MLSL Test stuff */
+/* Intel(R) MLSL Test stuff */
 
 #define DTYPE                 float
 #define DTYPE_SIZE            sizeof(DTYPE)
@@ -410,30 +403,24 @@ public:
         }
         else
         {
-            DTYPE expected = mbGroupSize * ownedOffset;
-            DTYPE diff= fabs(paramGrad[0] - expected);
-            if (expected != 0)
-                diff /= expected;
-            DTYPE min = diff ;
-            DTYPE max = diff;
-            DTYPE avr = diff;
+            DTYPE min = 0.0, max = 0.0, sum = 0.0;
             size_t diffCount = 0;
-            for (size_t idx = 1; idx < ownedSize; idx++)
+            for (size_t idx = 0; idx < ownedSize; idx++)
             {
-                expected = mbGroupSize * (ownedOffset + idx);
-                diff = fabs(paramGrad[idx] - expected);
-                if (expected != 0)
-                    diff /= expected;
-                if ( min > diff)
-                    min = diff;
-                if ( max < diff)
-                    max = diff;
-                if (diff != 0)
-                    diffCount++;
+                DTYPE expected = mbGroupSize * (ownedOffset + idx);
+                DTYPE diff = fabs(paramGrad[idx] - expected);
+                if (expected != 0) diff /= expected;
+                if (idx == 0) min = diff;
+                if (diff < min) min = diff;
+                if (diff > max) max = diff;
+                if (diff != 0) diffCount++;
+                sum += diff;
                 ownedParam[idx] = ownedOffset + idx;
             }
-//            MY_PRINTF("[%zu] update_%zu: parameter gradient test. avr diff(\%) = %4.4f\%, min = %4.4f\%, max = %4.4f\%, count different (all) = %zu (%zu)\n",
-//                      processIdx, layerIdx, avr / ownedSize * 100.0f, min * 100.0f, max * 100.0f, diffCount, ownedSize);
+            if (processIdx == 0)
+                MY_PRINTF("[%zu] update_%zu: parameter gradient test: average diff = %4.4f %%, min diff = %4.4f %%, max diff = %4.4f %%, "
+                         "diff count = %zu, total count = %zu\n",
+                         processIdx, layerIdx, sum / (DTYPE)ownedSize * 100.0f, min * 100.0f, max * 100.0f, diffCount, ownedSize);
 
         }
         if (failCounter > 0)
@@ -551,10 +538,8 @@ Layer* CreateLayer(Session* session, LayerType type, LayerParams* lParams, Distr
     regInfo->SetName(stream.str().c_str());
     regInfo->AddInput(lParams->ifm, lParams->ifmWidth * lParams->ifmHeight, MLSL_DTYPE);
     regInfo->AddOutput(lParams->ofm, lParams->ofmWidth * lParams->ofmHeight, MLSL_DTYPE);
-    if (compressType == CT_QUANTIZATION)
-        regInfo->AddParameterSet(lParams->ifm * lParams->ofm, lParams->kw * lParams->kh, MLSL_DTYPE, useDistUpdate, compressType);
-    else
-        regInfo->AddParameterSet(lParams->ifm * lParams->ofm, lParams->kw * lParams->kh, MLSL_DTYPE, useDistUpdate);
+    regInfo->AddParameterSet(lParams->ifm * lParams->ofm, lParams->kw * lParams->kh, MLSL_DTYPE,
+                             useDistUpdate, compressType);
 
     size_t opIdx = session->AddOperation(regInfo, distribution);
     session->DeleteOperationRegInfo(regInfo);
@@ -575,12 +560,12 @@ int main(int argc, char** argv)
     }
 
     int runtime_version = Environment::GetEnv().GetVersion();
-    printf("built with MLSL API version: %d.%d, used MLSL API version: %d.%d\n",
+    printf("built with Intel(R) MLSL API version: %d.%d, used Intel(R) MLSL API version: %d.%d\n",
            MLSL_MAJOR_VERSION, MLSL_MINOR_VERSION, MLSL_MAJOR(runtime_version), MLSL_MINOR(runtime_version));
 
     if (MLSL_MAJOR_VERSION != MLSL_MAJOR(runtime_version))
     {
-        printf("incompatible MLSL API version: %d.%d, exit\n",
+        printf("incompatible Intel(R) MLSL API version: %d.%d, exit\n",
                MLSL_MAJOR(runtime_version), MLSL_MINOR(runtime_version));
         return 0;
     }
@@ -589,6 +574,7 @@ int main(int argc, char** argv)
     Session* session = Environment::GetEnv().CreateSession();
     session->SetGlobalMinibatchSize(GLOBAL_MINIBATCH_SIZE);
     processCount = Environment::GetEnv().GetProcessCount();
+    quantParams = new QuantParams();
 
     if (argc > 1) groupCount    = atoi(argv[1]);
     if (argc > 2) useDistUpdate = (atoi(argv[2]) != 0);
@@ -597,7 +583,6 @@ int main(int argc, char** argv)
     if (argc > 5)
     {
         compressType = CT_QUANTIZATION;
-        quantParams = new QuantParams();
         quantParams->lib_path = strdup(argv[5]);
         quantParams->quant_buffer_func_name = strdup("dl_comp_compress_buffer");
         quantParams->dequant_buffer_func_name = strdup("dl_comp_decompress_buffer");
@@ -609,7 +594,6 @@ int main(int argc, char** argv)
         free(quantParams->quant_buffer_func_name);
         free(quantParams->dequant_buffer_func_name);
         free(quantParams->reduce_sum_func_name);
-        delete quantParams;
     }
 
     if (groupCount < 1) groupCount = 1;
@@ -617,8 +601,9 @@ int main(int argc, char** argv)
 
     processIdx = Environment::GetEnv().GetProcessIdx();
     if (processIdx == 0)
-        printf("\nprocess_count = %zu, distribution = %zu x %zu (data_parts x model_parts), dist_update %d, user_buf %d, use_test %d\n\n",
-               processCount, processCount/groupCount, groupCount, useDistUpdate, useUserBuf, useTest);
+        printf("\nprocess_count = %zu, distribution = %zu x %zu (data_parts x model_parts), dist_update %d, "
+              "user_buf %d, use_test %d, quantization library %s\n\n",
+              processCount, processCount/groupCount, groupCount, useDistUpdate, useUserBuf, useTest, quantParams->lib_path);
 
     /* Correctness test assumes both the layers use same distribution */
     Distribution* distribution = Environment::GetEnv().CreateDistribution(processCount/groupCount, groupCount);
@@ -718,6 +703,7 @@ int main(int argc, char** argv)
     Environment::GetEnv().DeleteSession(session);
     Environment::GetEnv().DeleteDistribution(distribution);
     Environment::GetEnv().Finalize();
+    delete quantParams;
 
     printf("[%zu] exited normally\n", processIdx);
 

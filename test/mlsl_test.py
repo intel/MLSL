@@ -1,27 +1,20 @@
 #!/usr/bin/python
 #
-# Copyright (C) 2017 Intel Corporation.
+# Copyright 2018 Intel Corporation.
 # 
-# The Intel(R) Machine Learning Scaling Library ("Software") is furnished under
-# license and may only be used or copied in accordance with the terms of that
-# license. No license, express or implied, by estoppel or otherwise, to any
-# intellectual property rights is granted by this document. The Software is
-# subject to change without notice, and should not be construed as a commitment
-# by Intel Corporation to market, license, sell or support any product or
-# technology. Unless otherwise provided for in the license under which this
-# Software is provided, the Software is provided AS IS, with no warranties of any
-# kind, express or implied. Except as expressly permitted by the Software license,
-# neither Intel Corporation nor its suppliers assumes any responsibility or
-# liability for any errors or inaccuracies that may appear herein. Except as
-# expressly permitted by the Software license, no part of the Software may be
-# reproduced, stored in a retrieval system, transmitted in any form, or
-# distributed by any means without the express written consent of
-# Intel Corporation.
+# This software and the related documents are Intel copyrighted materials, and your use of
+# them is governed by the express license under which they were provided to you (License).
+# Unless the License provides otherwise, you may not use, modify, copy, publish, distribute,
+# disclose or transmit this software or the related documents without Intel's prior written
+# permission.
+# 
+# This software and the related documents are provided as is, with no express or implied
+# warranties, other than those that are expressly stated in the License.
 #
 
-# MLSL library API usage example and correctness check test
+# Intel(R) MLSL library API usage example and correctness check test
 
-from builtins import range
+#from builtins import range
 from collections import namedtuple
 import mlsl
 import numpy as np

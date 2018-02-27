@@ -1,11 +1,12 @@
 var searchData=
 [
-  ['scatter',['Scatter',['../classMLSL_1_1Distribution.html#af7e853810bbcbe0d90a4467f8d8334a9',1,'MLSL::Distribution']]],
+  ['scatter',['Scatter',['../classMLSL_1_1Distribution.html#ab3de8f49c9c21f905fcc860c121dd01b',1,'MLSL::Distribution']]],
   ['setdistribution',['SetDistribution',['../classMLSL_1_1Operation.html#a1712a9b9d34b60d8323370f1cf5b7aa1',1,'MLSL::Operation']]],
   ['setglobalminibatchsize',['SetGlobalMinibatchSize',['../classMLSL_1_1Session.html#afa9f32e81f919bdb2ad7552ba7b6336d',1,'MLSL::Session']]],
   ['setname',['SetName',['../classMLSL_1_1OperationRegInfo.html#a3ed51c1c39660fb44f56a2b26ced6e20',1,'MLSL::OperationRegInfo']]],
   ['setnext',['SetNext',['../classMLSL_1_1Operation.html#a8213acc517e27f003672f88fa6c8269d',1,'MLSL::Operation']]],
   ['setprev',['SetPrev',['../classMLSL_1_1Operation.html#aaba248e9778f276502025d24f09c75d7',1,'MLSL::Operation']]],
+  ['setquantizationparams',['SetQuantizationParams',['../classMLSL_1_1Environment.html#aa04d7afb4713e0be0a83e33f896fb2e8',1,'MLSL::Environment']]],
   ['start',['Start',['../classMLSL_1_1Statistics.html#ac173f46251f1733a057e3d57723cb4a3',1,'MLSL::Statistics']]],
   ['startcomm',['StartComm',['../classMLSL_1_1Activation.html#a23a1448b3653d0f950b004fb901f8ae0',1,'MLSL::Activation']]],
   ['startgradientcomm',['StartGradientComm',['../classMLSL_1_1ParameterSet.html#a5a29f0be1a2ecac5f11672cd81df79f8',1,'MLSL::ParameterSet']]],
