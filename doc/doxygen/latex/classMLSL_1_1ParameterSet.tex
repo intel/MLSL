@@ -1,0 +1,195 @@
+\hypertarget{classMLSL_1_1ParameterSet}{\section{M\-L\-S\-L\-:\-:Parameter\-Set Class Reference}
+\label{classMLSL_1_1ParameterSet}\index{M\-L\-S\-L\-::\-Parameter\-Set@{M\-L\-S\-L\-::\-Parameter\-Set}}
+}
+
+
+A wrapper class for operation parameters.  
+
+
+
+
+{\ttfamily \#include $<$mlsl.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1ParameterSet_aba87f78ad51b89e2821ec9d4c709e2c6}{Get\-Global\-Kernel\-Count} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1ParameterSet_af9a05d84923d2cc23d84e82dc60f6dbd}{Get\-Global\-Kernel\-Offset} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1ParameterSet_ab0c4422047412818aec77d6920fc8949}{Get\-Local\-Kernel\-Count} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1ParameterSet_a1db8d919538c69ab50d66f2b07c39853}{Get\-Owned\-Kernel\-Count} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1ParameterSet_a833ad4bd71f441c2b65ad863ee869165}{Get\-Owned\-Kernel\-Offset} ()
+\item 
+\hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} \hyperlink{classMLSL_1_1ParameterSet_af6e4237232b9eae4e74fc0e8bfeace47}{Get\-Data\-Type} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1ParameterSet_a98b4e7d8d9dc174223d1fb07723d964e}{Get\-Kernel\-Size} ()
+\item 
+bool \hyperlink{classMLSL_1_1ParameterSet_a848c20b29fb599d682c84ce07525ce1b}{Is\-Distributed\-Update} ()
+\item 
+void \hyperlink{classMLSL_1_1ParameterSet_a5a29f0be1a2ecac5f11672cd81df79f8}{Start\-Gradient\-Comm} (void $\ast$buf)
+\item 
+void \hyperlink{classMLSL_1_1ParameterSet_a7988f04a1de14e9ab2375ed97efca1c0}{Start\-Increment\-Comm} (void $\ast$buf)
+\item 
+void $\ast$ \hyperlink{classMLSL_1_1ParameterSet_a870d16e0b4aa32af415edbc30f34e519}{Wait\-Gradient\-Comm} ()
+\item 
+void $\ast$ \hyperlink{classMLSL_1_1ParameterSet_a31f20a95505e161573b84db11120c36b}{Test\-Gradient\-Comm} (bool $\ast$is\-Completed)
+\item 
+void $\ast$ \hyperlink{classMLSL_1_1ParameterSet_a8376f1d8fbf2c6675659df822269fbfc}{Wait\-Increment\-Comm} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A wrapper class for operation parameters. 
+
+Holds information about the shape of learnable parameters and allows performing associated communications.\par
+ Weights and biases should have separate instances. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classMLSL_1_1ParameterSet_af6e4237232b9eae4e74fc0e8bfeace47}{\index{M\-L\-S\-L\-::\-Parameter\-Set@{M\-L\-S\-L\-::\-Parameter\-Set}!Get\-Data\-Type@{Get\-Data\-Type}}
+\index{Get\-Data\-Type@{Get\-Data\-Type}!MLSL::ParameterSet@{M\-L\-S\-L\-::\-Parameter\-Set}}
+\subsubsection[{Get\-Data\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Data\-Type} M\-L\-S\-L\-::\-Parameter\-Set\-::\-Get\-Data\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1ParameterSet_af6e4237232b9eae4e74fc0e8bfeace47}
+\begin{DoxyReturn}{Returns}
+The data type of the kernel elements. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1ParameterSet_aba87f78ad51b89e2821ec9d4c709e2c6}{\index{M\-L\-S\-L\-::\-Parameter\-Set@{M\-L\-S\-L\-::\-Parameter\-Set}!Get\-Global\-Kernel\-Count@{Get\-Global\-Kernel\-Count}}
+\index{Get\-Global\-Kernel\-Count@{Get\-Global\-Kernel\-Count}!MLSL::ParameterSet@{M\-L\-S\-L\-::\-Parameter\-Set}}
+\subsubsection[{Get\-Global\-Kernel\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Parameter\-Set\-::\-Get\-Global\-Kernel\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1ParameterSet_aba87f78ad51b89e2821ec9d4c709e2c6}
+\begin{DoxyReturn}{Returns}
+The global count of kernels. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1ParameterSet_af9a05d84923d2cc23d84e82dc60f6dbd}{\index{M\-L\-S\-L\-::\-Parameter\-Set@{M\-L\-S\-L\-::\-Parameter\-Set}!Get\-Global\-Kernel\-Offset@{Get\-Global\-Kernel\-Offset}}
+\index{Get\-Global\-Kernel\-Offset@{Get\-Global\-Kernel\-Offset}!MLSL::ParameterSet@{M\-L\-S\-L\-::\-Parameter\-Set}}
+\subsubsection[{Get\-Global\-Kernel\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Parameter\-Set\-::\-Get\-Global\-Kernel\-Offset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1ParameterSet_af9a05d84923d2cc23d84e82dc60f6dbd}
+\begin{DoxyReturn}{Returns}
+The offset of the local portion of kernels in the global count of kernels. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1ParameterSet_a98b4e7d8d9dc174223d1fb07723d964e}{\index{M\-L\-S\-L\-::\-Parameter\-Set@{M\-L\-S\-L\-::\-Parameter\-Set}!Get\-Kernel\-Size@{Get\-Kernel\-Size}}
+\index{Get\-Kernel\-Size@{Get\-Kernel\-Size}!MLSL::ParameterSet@{M\-L\-S\-L\-::\-Parameter\-Set}}
+\subsubsection[{Get\-Kernel\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Parameter\-Set\-::\-Get\-Kernel\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1ParameterSet_a98b4e7d8d9dc174223d1fb07723d964e}
+\begin{DoxyReturn}{Returns}
+The size of a kernel in Data\-Type elements. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1ParameterSet_ab0c4422047412818aec77d6920fc8949}{\index{M\-L\-S\-L\-::\-Parameter\-Set@{M\-L\-S\-L\-::\-Parameter\-Set}!Get\-Local\-Kernel\-Count@{Get\-Local\-Kernel\-Count}}
+\index{Get\-Local\-Kernel\-Count@{Get\-Local\-Kernel\-Count}!MLSL::ParameterSet@{M\-L\-S\-L\-::\-Parameter\-Set}}
+\subsubsection[{Get\-Local\-Kernel\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Parameter\-Set\-::\-Get\-Local\-Kernel\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1ParameterSet_ab0c4422047412818aec77d6920fc8949}
+\begin{DoxyReturn}{Returns}
+The local count of kernels (the length of the local portion being processed by this process). 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1ParameterSet_a1db8d919538c69ab50d66f2b07c39853}{\index{M\-L\-S\-L\-::\-Parameter\-Set@{M\-L\-S\-L\-::\-Parameter\-Set}!Get\-Owned\-Kernel\-Count@{Get\-Owned\-Kernel\-Count}}
+\index{Get\-Owned\-Kernel\-Count@{Get\-Owned\-Kernel\-Count}!MLSL::ParameterSet@{M\-L\-S\-L\-::\-Parameter\-Set}}
+\subsubsection[{Get\-Owned\-Kernel\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Parameter\-Set\-::\-Get\-Owned\-Kernel\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1ParameterSet_a1db8d919538c69ab50d66f2b07c39853}
+\begin{DoxyReturn}{Returns}
+The count of kernels on which this process performs synchronous Stochastic Gradient Descent (S\-G\-D).\par
+ Differs from local kernel count only when distributed\-Update = true. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1ParameterSet_a833ad4bd71f441c2b65ad863ee869165}{\index{M\-L\-S\-L\-::\-Parameter\-Set@{M\-L\-S\-L\-::\-Parameter\-Set}!Get\-Owned\-Kernel\-Offset@{Get\-Owned\-Kernel\-Offset}}
+\index{Get\-Owned\-Kernel\-Offset@{Get\-Owned\-Kernel\-Offset}!MLSL::ParameterSet@{M\-L\-S\-L\-::\-Parameter\-Set}}
+\subsubsection[{Get\-Owned\-Kernel\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Parameter\-Set\-::\-Get\-Owned\-Kernel\-Offset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1ParameterSet_a833ad4bd71f441c2b65ad863ee869165}
+\begin{DoxyReturn}{Returns}
+The offset of the owned portion of kernels in the local count of kernels. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1ParameterSet_a848c20b29fb599d682c84ce07525ce1b}{\index{M\-L\-S\-L\-::\-Parameter\-Set@{M\-L\-S\-L\-::\-Parameter\-Set}!Is\-Distributed\-Update@{Is\-Distributed\-Update}}
+\index{Is\-Distributed\-Update@{Is\-Distributed\-Update}!MLSL::ParameterSet@{M\-L\-S\-L\-::\-Parameter\-Set}}
+\subsubsection[{Is\-Distributed\-Update}]{\setlength{\rightskip}{0pt plus 5cm}bool M\-L\-S\-L\-::\-Parameter\-Set\-::\-Is\-Distributed\-Update (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1ParameterSet_a848c20b29fb599d682c84ce07525ce1b}
+\begin{DoxyReturn}{Returns}
+True if the exchange for the current parameter set is split into 2 communications (Reduce\-Scatter for gradients + All\-Gather for increments) instead of 1 communication (All\-Reduce for gradients), false otherwise. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1ParameterSet_a5a29f0be1a2ecac5f11672cd81df79f8}{\index{M\-L\-S\-L\-::\-Parameter\-Set@{M\-L\-S\-L\-::\-Parameter\-Set}!Start\-Gradient\-Comm@{Start\-Gradient\-Comm}}
+\index{Start\-Gradient\-Comm@{Start\-Gradient\-Comm}!MLSL::ParameterSet@{M\-L\-S\-L\-::\-Parameter\-Set}}
+\subsubsection[{Start\-Gradient\-Comm}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Parameter\-Set\-::\-Start\-Gradient\-Comm (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{buf}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1ParameterSet_a5a29f0be1a2ecac5f11672cd81df79f8}
+Starts the non-\/blocking exchange of the gradient with respect to parameters. 
+\begin{DoxyParams}{Parameters}
+{\em buf} & the buffer containing the gradient \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1ParameterSet_a7988f04a1de14e9ab2375ed97efca1c0}{\index{M\-L\-S\-L\-::\-Parameter\-Set@{M\-L\-S\-L\-::\-Parameter\-Set}!Start\-Increment\-Comm@{Start\-Increment\-Comm}}
+\index{Start\-Increment\-Comm@{Start\-Increment\-Comm}!MLSL::ParameterSet@{M\-L\-S\-L\-::\-Parameter\-Set}}
+\subsubsection[{Start\-Increment\-Comm}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Parameter\-Set\-::\-Start\-Increment\-Comm (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{buf}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1ParameterSet_a7988f04a1de14e9ab2375ed97efca1c0}
+Starts the non-\/blocking exchange of parameters increment. Applicable only when distributed\-Update = true. 
+\begin{DoxyParams}{Parameters}
+{\em buf} & the buffer containing the increment \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1ParameterSet_a31f20a95505e161573b84db11120c36b}{\index{M\-L\-S\-L\-::\-Parameter\-Set@{M\-L\-S\-L\-::\-Parameter\-Set}!Test\-Gradient\-Comm@{Test\-Gradient\-Comm}}
+\index{Test\-Gradient\-Comm@{Test\-Gradient\-Comm}!MLSL::ParameterSet@{M\-L\-S\-L\-::\-Parameter\-Set}}
+\subsubsection[{Test\-Gradient\-Comm}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ M\-L\-S\-L\-::\-Parameter\-Set\-::\-Test\-Gradient\-Comm (
+\begin{DoxyParamCaption}
+\item[{bool $\ast$}]{is\-Completed}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1ParameterSet_a31f20a95505e161573b84db11120c36b}
+Tests for completion of the exchange of gradients with respect to parameters. 
+\begin{DoxyParams}{Parameters}
+{\em is\-Completed} & the completion status of the request, true if request is completed, false otherwise \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the buffer containing the aggregated gradients with respect to parameters if request is completed, N\-U\-L\-L otherwise 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1ParameterSet_a870d16e0b4aa32af415edbc30f34e519}{\index{M\-L\-S\-L\-::\-Parameter\-Set@{M\-L\-S\-L\-::\-Parameter\-Set}!Wait\-Gradient\-Comm@{Wait\-Gradient\-Comm}}
+\index{Wait\-Gradient\-Comm@{Wait\-Gradient\-Comm}!MLSL::ParameterSet@{M\-L\-S\-L\-::\-Parameter\-Set}}
+\subsubsection[{Wait\-Gradient\-Comm}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ M\-L\-S\-L\-::\-Parameter\-Set\-::\-Wait\-Gradient\-Comm (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1ParameterSet_a870d16e0b4aa32af415edbc30f34e519}
+Waits for completion of the exchange of gradients with respect to parameters. \begin{DoxyReturn}{Returns}
+A pointer to the buffer containing the aggregated gradients with respect to parameters. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1ParameterSet_a8376f1d8fbf2c6675659df822269fbfc}{\index{M\-L\-S\-L\-::\-Parameter\-Set@{M\-L\-S\-L\-::\-Parameter\-Set}!Wait\-Increment\-Comm@{Wait\-Increment\-Comm}}
+\index{Wait\-Increment\-Comm@{Wait\-Increment\-Comm}!MLSL::ParameterSet@{M\-L\-S\-L\-::\-Parameter\-Set}}
+\subsubsection[{Wait\-Increment\-Comm}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ M\-L\-S\-L\-::\-Parameter\-Set\-::\-Wait\-Increment\-Comm (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1ParameterSet_a8376f1d8fbf2c6675659df822269fbfc}
+Waits for completion of the exchange of parameters increment. \begin{DoxyReturn}{Returns}
+A pointer to the buffer containing the increment obtained with the synchronous S\-G\-D. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mlsl_8hpp}{mlsl.\-hpp}\end{DoxyCompactItemize}

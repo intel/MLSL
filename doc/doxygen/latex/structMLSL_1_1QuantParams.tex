@@ -1,0 +1,58 @@
+\hypertarget{structMLSL_1_1QuantParams}{\section{M\-L\-S\-L\-:\-:Quant\-Params Struct Reference}
+\label{structMLSL_1_1QuantParams}\index{M\-L\-S\-L\-::\-Quant\-Params@{M\-L\-S\-L\-::\-Quant\-Params}}
+}
+
+
+A struct to hold quantization parameters.  
+
+
+
+
+{\ttfamily \#include $<$mlsl.\-hpp$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{structMLSL_1_1QuantParams_a124d9ee5323d9dccdbabb031d5464c3a}{lib\-\_\-path}
+\item 
+char $\ast$ \hyperlink{structMLSL_1_1QuantParams_a350a858ed5502252435fa7608edda416}{quant\-\_\-buffer\-\_\-func\-\_\-name}
+\item 
+char $\ast$ \hyperlink{structMLSL_1_1QuantParams_ac8f95f6abe7e8f117e85a90265cc420f}{dequant\-\_\-buffer\-\_\-func\-\_\-name}
+\item 
+char $\ast$ \hyperlink{structMLSL_1_1QuantParams_a25df9562472e1ff98079a8943667d157}{reduce\-\_\-sum\-\_\-func\-\_\-name}
+\item 
+size\-\_\-t \hyperlink{structMLSL_1_1QuantParams_a9a384f669eae7ed99707f5a56c0cf9f3}{block\-\_\-size}
+\item 
+size\-\_\-t \hyperlink{structMLSL_1_1QuantParams_ad0e8588ca701c062f8a96cbf235c5d18}{elem\-\_\-in\-\_\-block}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A struct to hold quantization parameters. 
+
+Holds information about the quantization library and functions. 
+
+\subsection{Member Data Documentation}
+\hypertarget{structMLSL_1_1QuantParams_a9a384f669eae7ed99707f5a56c0cf9f3}{\index{M\-L\-S\-L\-::\-Quant\-Params@{M\-L\-S\-L\-::\-Quant\-Params}!block\-\_\-size@{block\-\_\-size}}
+\index{block\-\_\-size@{block\-\_\-size}!MLSL::QuantParams@{M\-L\-S\-L\-::\-Quant\-Params}}
+\subsubsection[{block\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Quant\-Params\-::block\-\_\-size}}\label{structMLSL_1_1QuantParams_a9a384f669eae7ed99707f5a56c0cf9f3}
+Quantization meta data\-: block size in bytes. \hypertarget{structMLSL_1_1QuantParams_ac8f95f6abe7e8f117e85a90265cc420f}{\index{M\-L\-S\-L\-::\-Quant\-Params@{M\-L\-S\-L\-::\-Quant\-Params}!dequant\-\_\-buffer\-\_\-func\-\_\-name@{dequant\-\_\-buffer\-\_\-func\-\_\-name}}
+\index{dequant\-\_\-buffer\-\_\-func\-\_\-name@{dequant\-\_\-buffer\-\_\-func\-\_\-name}!MLSL::QuantParams@{M\-L\-S\-L\-::\-Quant\-Params}}
+\subsubsection[{dequant\-\_\-buffer\-\_\-func\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ M\-L\-S\-L\-::\-Quant\-Params\-::dequant\-\_\-buffer\-\_\-func\-\_\-name}}\label{structMLSL_1_1QuantParams_ac8f95f6abe7e8f117e85a90265cc420f}
+Name of the function for buffer dequantization. \hypertarget{structMLSL_1_1QuantParams_ad0e8588ca701c062f8a96cbf235c5d18}{\index{M\-L\-S\-L\-::\-Quant\-Params@{M\-L\-S\-L\-::\-Quant\-Params}!elem\-\_\-in\-\_\-block@{elem\-\_\-in\-\_\-block}}
+\index{elem\-\_\-in\-\_\-block@{elem\-\_\-in\-\_\-block}!MLSL::QuantParams@{M\-L\-S\-L\-::\-Quant\-Params}}
+\subsubsection[{elem\-\_\-in\-\_\-block}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Quant\-Params\-::elem\-\_\-in\-\_\-block}}\label{structMLSL_1_1QuantParams_ad0e8588ca701c062f8a96cbf235c5d18}
+Quantization meta data\-: number of elements in a block. \hypertarget{structMLSL_1_1QuantParams_a124d9ee5323d9dccdbabb031d5464c3a}{\index{M\-L\-S\-L\-::\-Quant\-Params@{M\-L\-S\-L\-::\-Quant\-Params}!lib\-\_\-path@{lib\-\_\-path}}
+\index{lib\-\_\-path@{lib\-\_\-path}!MLSL::QuantParams@{M\-L\-S\-L\-::\-Quant\-Params}}
+\subsubsection[{lib\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ M\-L\-S\-L\-::\-Quant\-Params\-::lib\-\_\-path}}\label{structMLSL_1_1QuantParams_a124d9ee5323d9dccdbabb031d5464c3a}
+Quantization library path. \hypertarget{structMLSL_1_1QuantParams_a350a858ed5502252435fa7608edda416}{\index{M\-L\-S\-L\-::\-Quant\-Params@{M\-L\-S\-L\-::\-Quant\-Params}!quant\-\_\-buffer\-\_\-func\-\_\-name@{quant\-\_\-buffer\-\_\-func\-\_\-name}}
+\index{quant\-\_\-buffer\-\_\-func\-\_\-name@{quant\-\_\-buffer\-\_\-func\-\_\-name}!MLSL::QuantParams@{M\-L\-S\-L\-::\-Quant\-Params}}
+\subsubsection[{quant\-\_\-buffer\-\_\-func\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ M\-L\-S\-L\-::\-Quant\-Params\-::quant\-\_\-buffer\-\_\-func\-\_\-name}}\label{structMLSL_1_1QuantParams_a350a858ed5502252435fa7608edda416}
+Name of the function for buffer quantization. \hypertarget{structMLSL_1_1QuantParams_a25df9562472e1ff98079a8943667d157}{\index{M\-L\-S\-L\-::\-Quant\-Params@{M\-L\-S\-L\-::\-Quant\-Params}!reduce\-\_\-sum\-\_\-func\-\_\-name@{reduce\-\_\-sum\-\_\-func\-\_\-name}}
+\index{reduce\-\_\-sum\-\_\-func\-\_\-name@{reduce\-\_\-sum\-\_\-func\-\_\-name}!MLSL::QuantParams@{M\-L\-S\-L\-::\-Quant\-Params}}
+\subsubsection[{reduce\-\_\-sum\-\_\-func\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ M\-L\-S\-L\-::\-Quant\-Params\-::reduce\-\_\-sum\-\_\-func\-\_\-name}}\label{structMLSL_1_1QuantParams_a25df9562472e1ff98079a8943667d157}
+Name of the function for reduction of quantized buffers. 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mlsl_8hpp}{mlsl.\-hpp}\end{DoxyCompactItemize}

@@ -1,0 +1,202 @@
+\hypertarget{classMLSL_1_1Statistics}{\section{M\-L\-S\-L\-:\-:Statistics Class Reference}
+\label{classMLSL_1_1Statistics}\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}}
+}
+
+
+A class to measure and store performance statistics of communication among processes that perform computation in the computational graph.  
+
+
+
+
+{\ttfamily \#include $<$mlsl.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classMLSL_1_1Statistics_ac173f46251f1733a057e3d57723cb4a3}{Start} ()
+\item 
+void \hyperlink{classMLSL_1_1Statistics_acfa11bde67753006289bc571463cf14b}{Stop} ()
+\item 
+void \hyperlink{classMLSL_1_1Statistics_a3b94e3f38700cb737f740e3e899b7d87}{Reset} ()
+\item 
+bool \hyperlink{classMLSL_1_1Statistics_ac19290d3f561f101c5a70f63b0a80e41}{Is\-Started} ()
+\item 
+bool \hyperlink{classMLSL_1_1Statistics_a66b3cabc6bacc175659bb82c7cbb9939}{Is\-Enabled} ()
+\item 
+void \hyperlink{classMLSL_1_1Statistics_aebec5c8f85db34be6af88d5d6eb9f122}{Print} ()
+\item 
+unsigned long long \hyperlink{classMLSL_1_1Statistics_a34c311c5ac0f725dcfafe425f3bd0f9a}{Get\-Isolation\-Comm\-Cycles} (size\-\_\-t op\-Idx)
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Statistics_afcd2fc8a168865016ad75dbca4cd5033}{Get\-Comm\-Size} (size\-\_\-t op\-Idx)
+\item 
+unsigned long long \hyperlink{classMLSL_1_1Statistics_a8591dea86b3c871763b2006c205662d2}{Get\-Comm\-Cycles} (size\-\_\-t op\-Idx)
+\item 
+unsigned long long \hyperlink{classMLSL_1_1Statistics_a7772490eb71c397c500c99389e8da21d}{Get\-Compute\-Cycles} (size\-\_\-t op\-Idx)
+\item 
+unsigned long long \hyperlink{classMLSL_1_1Statistics_a43579639543144d2f5655e08b5edec9c}{Get\-Total\-Isolation\-Comm\-Cycles} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Statistics_af6d0b83154c9ee3a632baf9f2dcd82cb}{Get\-Total\-Comm\-Size} ()
+\item 
+unsigned long long \hyperlink{classMLSL_1_1Statistics_a6ed3157fc2b0b490a7dab4a3101f9e94}{Get\-Total\-Comm\-Cycles} ()
+\item 
+unsigned long long \hyperlink{classMLSL_1_1Statistics_a7acb51f50741e7b7ac3f14e248fd7943}{Get\-Total\-Compute\-Cycles} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A class to measure and store performance statistics of communication among processes that perform computation in the computational graph. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classMLSL_1_1Statistics_a8591dea86b3c871763b2006c205662d2}{\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}!Get\-Comm\-Cycles@{Get\-Comm\-Cycles}}
+\index{Get\-Comm\-Cycles@{Get\-Comm\-Cycles}!MLSL::Statistics@{M\-L\-S\-L\-::\-Statistics}}
+\subsubsection[{Get\-Comm\-Cycles}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long long M\-L\-S\-L\-::\-Statistics\-::\-Get\-Comm\-Cycles (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{op\-Idx}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Statistics_a8591dea86b3c871763b2006c205662d2}
+Returns the communication time of a particular operation. 
+\begin{DoxyParams}{Parameters}
+{\em op\-Idx} & operation's index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The time in C\-P\-U clock cyles 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Statistics_afcd2fc8a168865016ad75dbca4cd5033}{\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}!Get\-Comm\-Size@{Get\-Comm\-Size}}
+\index{Get\-Comm\-Size@{Get\-Comm\-Size}!MLSL::Statistics@{M\-L\-S\-L\-::\-Statistics}}
+\subsubsection[{Get\-Comm\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Statistics\-::\-Get\-Comm\-Size (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{op\-Idx}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Statistics_afcd2fc8a168865016ad75dbca4cd5033}
+Returns the communication size of a particular operation. 
+\begin{DoxyParams}{Parameters}
+{\em op\-Idx} & the operation index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The size value in bytes. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Statistics_a7772490eb71c397c500c99389e8da21d}{\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}!Get\-Compute\-Cycles@{Get\-Compute\-Cycles}}
+\index{Get\-Compute\-Cycles@{Get\-Compute\-Cycles}!MLSL::Statistics@{M\-L\-S\-L\-::\-Statistics}}
+\subsubsection[{Get\-Compute\-Cycles}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long long M\-L\-S\-L\-::\-Statistics\-::\-Get\-Compute\-Cycles (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{op\-Idx}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Statistics_a7772490eb71c397c500c99389e8da21d}
+Returns the compute time of a particular operation. 
+\begin{DoxyParams}{Parameters}
+{\em op\-Idx} & operation's index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The time in C\-P\-U clock cyles 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Statistics_a34c311c5ac0f725dcfafe425f3bd0f9a}{\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}!Get\-Isolation\-Comm\-Cycles@{Get\-Isolation\-Comm\-Cycles}}
+\index{Get\-Isolation\-Comm\-Cycles@{Get\-Isolation\-Comm\-Cycles}!MLSL::Statistics@{M\-L\-S\-L\-::\-Statistics}}
+\subsubsection[{Get\-Isolation\-Comm\-Cycles}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long long M\-L\-S\-L\-::\-Statistics\-::\-Get\-Isolation\-Comm\-Cycles (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{op\-Idx}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Statistics_a34c311c5ac0f725dcfafe425f3bd0f9a}
+Returns the isolation communication time of a particular operation for one iteration. 
+\begin{DoxyParams}{Parameters}
+{\em op\-Idx} & operation's index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The time in C\-P\-U clock cyles 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Statistics_a6ed3157fc2b0b490a7dab4a3101f9e94}{\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}!Get\-Total\-Comm\-Cycles@{Get\-Total\-Comm\-Cycles}}
+\index{Get\-Total\-Comm\-Cycles@{Get\-Total\-Comm\-Cycles}!MLSL::Statistics@{M\-L\-S\-L\-::\-Statistics}}
+\subsubsection[{Get\-Total\-Comm\-Cycles}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long long M\-L\-S\-L\-::\-Statistics\-::\-Get\-Total\-Comm\-Cycles (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Statistics_a6ed3157fc2b0b490a7dab4a3101f9e94}
+Returns the total communication time for all operations. \begin{DoxyReturn}{Returns}
+The time in C\-P\-U clock cyles. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Statistics_af6d0b83154c9ee3a632baf9f2dcd82cb}{\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}!Get\-Total\-Comm\-Size@{Get\-Total\-Comm\-Size}}
+\index{Get\-Total\-Comm\-Size@{Get\-Total\-Comm\-Size}!MLSL::Statistics@{M\-L\-S\-L\-::\-Statistics}}
+\subsubsection[{Get\-Total\-Comm\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Statistics\-::\-Get\-Total\-Comm\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Statistics_af6d0b83154c9ee3a632baf9f2dcd82cb}
+Returns the total communication size. \begin{DoxyReturn}{Returns}
+The size value in bytes. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Statistics_a7acb51f50741e7b7ac3f14e248fd7943}{\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}!Get\-Total\-Compute\-Cycles@{Get\-Total\-Compute\-Cycles}}
+\index{Get\-Total\-Compute\-Cycles@{Get\-Total\-Compute\-Cycles}!MLSL::Statistics@{M\-L\-S\-L\-::\-Statistics}}
+\subsubsection[{Get\-Total\-Compute\-Cycles}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long long M\-L\-S\-L\-::\-Statistics\-::\-Get\-Total\-Compute\-Cycles (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Statistics_a7acb51f50741e7b7ac3f14e248fd7943}
+Returns the total compute time for all operations. \begin{DoxyReturn}{Returns}
+The time in C\-P\-U clock cyles. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Statistics_a43579639543144d2f5655e08b5edec9c}{\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}!Get\-Total\-Isolation\-Comm\-Cycles@{Get\-Total\-Isolation\-Comm\-Cycles}}
+\index{Get\-Total\-Isolation\-Comm\-Cycles@{Get\-Total\-Isolation\-Comm\-Cycles}!MLSL::Statistics@{M\-L\-S\-L\-::\-Statistics}}
+\subsubsection[{Get\-Total\-Isolation\-Comm\-Cycles}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long long M\-L\-S\-L\-::\-Statistics\-::\-Get\-Total\-Isolation\-Comm\-Cycles (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Statistics_a43579639543144d2f5655e08b5edec9c}
+Returns the total isolation communication time for all operations for one iteration. \begin{DoxyReturn}{Returns}
+The time in C\-P\-U clock cyles 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Statistics_a66b3cabc6bacc175659bb82c7cbb9939}{\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}!Is\-Enabled@{Is\-Enabled}}
+\index{Is\-Enabled@{Is\-Enabled}!MLSL::Statistics@{M\-L\-S\-L\-::\-Statistics}}
+\subsubsection[{Is\-Enabled}]{\setlength{\rightskip}{0pt plus 5cm}bool M\-L\-S\-L\-::\-Statistics\-::\-Is\-Enabled (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Statistics_a66b3cabc6bacc175659bb82c7cbb9939}
+\begin{DoxyReturn}{Returns}
+True if statistics collection is enabled, false otherwise. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Statistics_ac19290d3f561f101c5a70f63b0a80e41}{\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}!Is\-Started@{Is\-Started}}
+\index{Is\-Started@{Is\-Started}!MLSL::Statistics@{M\-L\-S\-L\-::\-Statistics}}
+\subsubsection[{Is\-Started}]{\setlength{\rightskip}{0pt plus 5cm}bool M\-L\-S\-L\-::\-Statistics\-::\-Is\-Started (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Statistics_ac19290d3f561f101c5a70f63b0a80e41}
+\begin{DoxyReturn}{Returns}
+True if the statistics collection is started, false otherwise. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Statistics_aebec5c8f85db34be6af88d5d6eb9f122}{\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}!Print@{Print}}
+\index{Print@{Print}!MLSL::Statistics@{M\-L\-S\-L\-::\-Statistics}}
+\subsubsection[{Print}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Statistics\-::\-Print (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Statistics_aebec5c8f85db34be6af88d5d6eb9f122}
+Prints the measured statistics information. \hypertarget{classMLSL_1_1Statistics_a3b94e3f38700cb737f740e3e899b7d87}{\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}!Reset@{Reset}}
+\index{Reset@{Reset}!MLSL::Statistics@{M\-L\-S\-L\-::\-Statistics}}
+\subsubsection[{Reset}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Statistics\-::\-Reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Statistics_a3b94e3f38700cb737f740e3e899b7d87}
+Clears the measured statistics information. \hypertarget{classMLSL_1_1Statistics_ac173f46251f1733a057e3d57723cb4a3}{\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}!Start@{Start}}
+\index{Start@{Start}!MLSL::Statistics@{M\-L\-S\-L\-::\-Statistics}}
+\subsubsection[{Start}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Statistics\-::\-Start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Statistics_ac173f46251f1733a057e3d57723cb4a3}
+Starts statistics collection. \hypertarget{classMLSL_1_1Statistics_acfa11bde67753006289bc571463cf14b}{\index{M\-L\-S\-L\-::\-Statistics@{M\-L\-S\-L\-::\-Statistics}!Stop@{Stop}}
+\index{Stop@{Stop}!MLSL::Statistics@{M\-L\-S\-L\-::\-Statistics}}
+\subsubsection[{Stop}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Statistics\-::\-Stop (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Statistics_acfa11bde67753006289bc571463cf14b}
+Stops statistics collection. 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mlsl_8hpp}{mlsl.\-hpp}\end{DoxyCompactItemize}

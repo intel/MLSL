@@ -1,6 +1,4 @@
 # Intel(R) Machine Learning Scaling Library for Linux* OS
-[![Apache License, Version 2.0](https://img.shields.io/badge/license-Apache%20License,%20Version%202.0-green.svg)](LICENSE)
-![v2018.0 Preview](https://img.shields.io/badge/v.2018.1-Preview-orange.svg)
 ## Introduction ##
 Intel(R) Machine Learning Scaling Library (Intel(R) MLSL) is a library providing
 an efficient implementation of communication patterns used in deep learning.
@@ -29,31 +27,50 @@ Compilers:
     - Intel(R) C++ Compiler for Linux* OS 16.0 through 17.0 or higher
 
 Virtual Environments:
-
     - Docker*
     - KVM*
-
 ## Installing Intel(R) Machine Learning Scaling Library ##
-To install the package (root mode):
+Installing the Intel(R) MLSL using RPM Package Manager (root mode):
 
-    1.  Log in as root.
-    2.  Install the package:
-          $ rpm --import PUBLIC_KEY.PUB
-          $ rpm -i intel-mlsl-devel-64-<version>.<update>-<package#>.x86_64.rpm
-          where <version>.<update>-<package#> is a string, such as: 2017.0-009
-    3.  Uninstalling the Intel(R) MLSL using the RPM Package Manager
-          $ rpm -e intel-mlsl-devel-64-<version>.<update>-<package#>.x86_64
+    1. Log in as root
 
-To install the package (user mode):
+    2. Install the package:
 
-    1.  Run install.sh and follow the instructions.
+        $ rpm -i intel-mlsl-devel-64-<version>.<update>-<package#>.x86_64.rpm
 
-    There is no uninstall script. To uninstall the Intel(R) MLSL, delete the full
-    directory you have installed the package into.
+        where <version>.<update>-<package#> is a string, such as: 2017.0-009
+
+    3. Uninstalling the Intel(R) MLSL using the RPM Package Manager
+
+        $ rpm -e intel-mlsl-devel-64-<version>.<update>-<package#>.x86_64
+
+Installing the Intel(R) MLSL using install.sh (user mode):
+
+    1. Run install.sh and follow the instructions.
+
+    There is no uninstall script. To uninstall the Intel(R) MLSL, delete the
+    full directory you have installed the package into.
+Installing the Intel(R) MLSL using Makefile:
+
+    1. make
+
+    2. [MLSL_INSTALL_PATH=/path] make install
+    By default MLSL_INSTALL_PATH=$PWD/_install
+
+## Launching Sample Application ##
+
+Before you start using the Intel(R) MLSL, make sure to set up the library environment.
+Use the command:
+
+    $ source <install_dir>/intel64/bin/mlslvars.sh
+    $ cd <install_dir>/test
+    $ make run
+
+Log file with output will be in the same directory.
+Here  <install_dir> is the Intel MLSL installation directory.
+
 ## License ##
-Intel MLSL is licensed under 
-[Apache License, Version 2.0](https://github.com/intel/MLSL/blob/master/LICENSE).
-
+Intel MLSL is licensed under [Intel Simplified Software License](https://github.com/01org/MLSL/blob/master/LICENSE).
 ## Optimization Notice ##
 Intel's compilers may or may not optimize to the same degree for non-Intel
 microprocessors for optimizations that are not unique to Intel microprocessors.

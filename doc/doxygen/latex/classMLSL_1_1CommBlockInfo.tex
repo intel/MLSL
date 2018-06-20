@@ -1,0 +1,112 @@
+\hypertarget{classMLSL_1_1CommBlockInfo}{\section{M\-L\-S\-L\-:\-:Comm\-Block\-Info Class Reference}
+\label{classMLSL_1_1CommBlockInfo}\index{M\-L\-S\-L\-::\-Comm\-Block\-Info@{M\-L\-S\-L\-::\-Comm\-Block\-Info}}
+}
+
+
+A class to hold block information for activations packing/unpacking.  
+
+
+
+
+{\ttfamily \#include $<$mlsl.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1CommBlockInfo_aa7f6567949a34c4f644b13c351ded78b}{Get\-Mb\-Offset} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1CommBlockInfo_a07f0b0ec811eb98644847cfbf431efc2}{Get\-Mb\-Count} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1CommBlockInfo_a8314af2bdbfe3d5193315374a769589e}{Get\-Fm\-Offset} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1CommBlockInfo_aa3748f33c500ebfc9ce5396ac15fc75f}{Get\-Fm\-Count} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1CommBlockInfo_adcdb538a542426be853fabb14513ce4c}{Get\-Fm\-Size} ()
+\item 
+\hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} \hyperlink{classMLSL_1_1CommBlockInfo_af4de10f37568c71b78aed7c8be925ea4}{Get\-Data\-Type} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1CommBlockInfo_a32520c2683fa63dcb02985b3f5308502}{Get\-Buf\-Offset} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A class to hold block information for activations packing/unpacking. 
+
+Holds information about \hyperlink{classMLSL_1_1Activation}{Activation} partitioning and is used for packing/upacking to/from the communication buffer. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classMLSL_1_1CommBlockInfo_a32520c2683fa63dcb02985b3f5308502}{\index{M\-L\-S\-L\-::\-Comm\-Block\-Info@{M\-L\-S\-L\-::\-Comm\-Block\-Info}!Get\-Buf\-Offset@{Get\-Buf\-Offset}}
+\index{Get\-Buf\-Offset@{Get\-Buf\-Offset}!MLSL::CommBlockInfo@{M\-L\-S\-L\-::\-Comm\-Block\-Info}}
+\subsubsection[{Get\-Buf\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Comm\-Block\-Info\-::\-Get\-Buf\-Offset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1CommBlockInfo_a32520c2683fa63dcb02985b3f5308502}
+\begin{DoxyReturn}{Returns}
+The offset in \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{M\-L\-S\-L\-::\-Data\-Type} elements within the communication buffer where to pack to/unpack from. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1CommBlockInfo_af4de10f37568c71b78aed7c8be925ea4}{\index{M\-L\-S\-L\-::\-Comm\-Block\-Info@{M\-L\-S\-L\-::\-Comm\-Block\-Info}!Get\-Data\-Type@{Get\-Data\-Type}}
+\index{Get\-Data\-Type@{Get\-Data\-Type}!MLSL::CommBlockInfo@{M\-L\-S\-L\-::\-Comm\-Block\-Info}}
+\subsubsection[{Get\-Data\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Data\-Type} M\-L\-S\-L\-::\-Comm\-Block\-Info\-::\-Get\-Data\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1CommBlockInfo_af4de10f37568c71b78aed7c8be925ea4}
+\begin{DoxyReturn}{Returns}
+The datatype of the feature map elements. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1CommBlockInfo_aa3748f33c500ebfc9ce5396ac15fc75f}{\index{M\-L\-S\-L\-::\-Comm\-Block\-Info@{M\-L\-S\-L\-::\-Comm\-Block\-Info}!Get\-Fm\-Count@{Get\-Fm\-Count}}
+\index{Get\-Fm\-Count@{Get\-Fm\-Count}!MLSL::CommBlockInfo@{M\-L\-S\-L\-::\-Comm\-Block\-Info}}
+\subsubsection[{Get\-Fm\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Comm\-Block\-Info\-::\-Get\-Fm\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1CommBlockInfo_aa3748f33c500ebfc9ce5396ac15fc75f}
+\begin{DoxyReturn}{Returns}
+The length of the feature map portion. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1CommBlockInfo_a8314af2bdbfe3d5193315374a769589e}{\index{M\-L\-S\-L\-::\-Comm\-Block\-Info@{M\-L\-S\-L\-::\-Comm\-Block\-Info}!Get\-Fm\-Offset@{Get\-Fm\-Offset}}
+\index{Get\-Fm\-Offset@{Get\-Fm\-Offset}!MLSL::CommBlockInfo@{M\-L\-S\-L\-::\-Comm\-Block\-Info}}
+\subsubsection[{Get\-Fm\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Comm\-Block\-Info\-::\-Get\-Fm\-Offset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1CommBlockInfo_a8314af2bdbfe3d5193315374a769589e}
+\begin{DoxyReturn}{Returns}
+The offset of the feature map portion. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1CommBlockInfo_adcdb538a542426be853fabb14513ce4c}{\index{M\-L\-S\-L\-::\-Comm\-Block\-Info@{M\-L\-S\-L\-::\-Comm\-Block\-Info}!Get\-Fm\-Size@{Get\-Fm\-Size}}
+\index{Get\-Fm\-Size@{Get\-Fm\-Size}!MLSL::CommBlockInfo@{M\-L\-S\-L\-::\-Comm\-Block\-Info}}
+\subsubsection[{Get\-Fm\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Comm\-Block\-Info\-::\-Get\-Fm\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1CommBlockInfo_adcdb538a542426be853fabb14513ce4c}
+\begin{DoxyReturn}{Returns}
+The size of a feature map in \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{M\-L\-S\-L\-::\-Data\-Type} elements. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1CommBlockInfo_a07f0b0ec811eb98644847cfbf431efc2}{\index{M\-L\-S\-L\-::\-Comm\-Block\-Info@{M\-L\-S\-L\-::\-Comm\-Block\-Info}!Get\-Mb\-Count@{Get\-Mb\-Count}}
+\index{Get\-Mb\-Count@{Get\-Mb\-Count}!MLSL::CommBlockInfo@{M\-L\-S\-L\-::\-Comm\-Block\-Info}}
+\subsubsection[{Get\-Mb\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Comm\-Block\-Info\-::\-Get\-Mb\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1CommBlockInfo_a07f0b0ec811eb98644847cfbf431efc2}
+\begin{DoxyReturn}{Returns}
+The length of the mini-\/batch portion. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1CommBlockInfo_aa7f6567949a34c4f644b13c351ded78b}{\index{M\-L\-S\-L\-::\-Comm\-Block\-Info@{M\-L\-S\-L\-::\-Comm\-Block\-Info}!Get\-Mb\-Offset@{Get\-Mb\-Offset}}
+\index{Get\-Mb\-Offset@{Get\-Mb\-Offset}!MLSL::CommBlockInfo@{M\-L\-S\-L\-::\-Comm\-Block\-Info}}
+\subsubsection[{Get\-Mb\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Comm\-Block\-Info\-::\-Get\-Mb\-Offset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1CommBlockInfo_aa7f6567949a34c4f644b13c351ded78b}
+\begin{DoxyReturn}{Returns}
+The offset of the mini-\/batch portion. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mlsl_8hpp}{mlsl.\-hpp}\end{DoxyCompactItemize}

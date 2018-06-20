@@ -1,0 +1,171 @@
+\hypertarget{classMLSL_1_1Session}{\section{M\-L\-S\-L\-:\-:Session Class Reference}
+\label{classMLSL_1_1Session}\index{M\-L\-S\-L\-::\-Session@{M\-L\-S\-L\-::\-Session}}
+}
+
+
+A class to represent a collection of \hyperlink{classMLSL_1_1Operation}{Operation} objects with the same global mini-\/batch size.  
+
+
+
+
+{\ttfamily \#include $<$mlsl.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classMLSL_1_1Session_afa9f32e81f919bdb2ad7552ba7b6336d}{Set\-Global\-Minibatch\-Size} (size\-\_\-t global\-Minibatch\-Size)
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Session_afc5b66026bb9df019723ea8d829e6eb5}{Get\-Global\-Minibatch\-Size} ()
+\item 
+\hyperlink{namespaceMLSL_a7d1938ee24117d29200c2d29562db712}{Phase\-Type} \hyperlink{classMLSL_1_1Session_a89e3d6e9677d9e916fba45c421755478}{Get\-Phase\-Type} ()
+\item 
+\hyperlink{classMLSL_1_1OperationRegInfo}{Operation\-Reg\-Info} $\ast$ \hyperlink{classMLSL_1_1Session_a882c57575b67320b17e3e357bcde2c31}{Create\-Operation\-Reg\-Info} (\hyperlink{namespaceMLSL_a1366e5621278eafc7ecb03de012824bf}{Op\-Type} op\-Type)
+\item 
+void \hyperlink{classMLSL_1_1Session_af3aef5f1a74cddad39747743787ef1c5}{Delete\-Operation\-Reg\-Info} (\hyperlink{classMLSL_1_1OperationRegInfo}{Operation\-Reg\-Info} $\ast$info)
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Session_a165a77b678517fd7991777974681916c}{Add\-Operation} (\hyperlink{classMLSL_1_1OperationRegInfo}{Operation\-Reg\-Info} $\ast$info, \hyperlink{classMLSL_1_1Distribution}{Distribution} $\ast$dist=N\-U\-L\-L)
+\item 
+void \hyperlink{classMLSL_1_1Session_a6bdd4c1df2ce8b00e55b38278b330847}{Remove\-Operations} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Session_ac29bfe7dfda91a83e24a1181ca3fd070}{Get\-Operation\-Count} ()
+\item 
+\hyperlink{classMLSL_1_1Operation}{Operation} $\ast$ \hyperlink{classMLSL_1_1Session_ad24bd55c98a82b7ede9df63e1f36f7e2}{Get\-Operation} (size\-\_\-t idx)
+\item 
+void \hyperlink{classMLSL_1_1Session_a246d3dd4a2c5e5c5f49a5634641479f9}{Commit} ()
+\item 
+\hyperlink{classMLSL_1_1Statistics}{Statistics} $\ast$ \hyperlink{classMLSL_1_1Session_abd65aefd366220d1fc86f1780a8185c7}{Get\-Stats} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A class to represent a collection of \hyperlink{classMLSL_1_1Operation}{Operation} objects with the same global mini-\/batch size. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classMLSL_1_1Session_a165a77b678517fd7991777974681916c}{\index{M\-L\-S\-L\-::\-Session@{M\-L\-S\-L\-::\-Session}!Add\-Operation@{Add\-Operation}}
+\index{Add\-Operation@{Add\-Operation}!MLSL::Session@{M\-L\-S\-L\-::\-Session}}
+\subsubsection[{Add\-Operation}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Session\-::\-Add\-Operation (
+\begin{DoxyParamCaption}
+\item[{{\bf Operation\-Reg\-Info} $\ast$}]{info, }
+\item[{{\bf Distribution} $\ast$}]{dist = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Session_a165a77b678517fd7991777974681916c}
+Creates and adds an \hyperlink{classMLSL_1_1Operation}{Operation} object to the current session. 
+\begin{DoxyParams}{Parameters}
+{\em info} & the operation's registration object that holds information about activations and/or parameter sets \\
+\hline
+{\em dist} & the distribution that will be used by the new operation (optional), can be set later with the \hyperlink{classMLSL_1_1Operation_a1712a9b9d34b60d8323370f1cf5b7aa1}{Operation\-::\-Set\-Distribution()} method \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1Session_a246d3dd4a2c5e5c5f49a5634641479f9}{\index{M\-L\-S\-L\-::\-Session@{M\-L\-S\-L\-::\-Session}!Commit@{Commit}}
+\index{Commit@{Commit}!MLSL::Session@{M\-L\-S\-L\-::\-Session}}
+\subsubsection[{Commit}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Session\-::\-Commit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Session_a246d3dd4a2c5e5c5f49a5634641479f9}
+Finalizes creation of the collection of Operations. Must be called after all operations are added to the session. Session-\/wide optimizations take place there. \hypertarget{classMLSL_1_1Session_a882c57575b67320b17e3e357bcde2c31}{\index{M\-L\-S\-L\-::\-Session@{M\-L\-S\-L\-::\-Session}!Create\-Operation\-Reg\-Info@{Create\-Operation\-Reg\-Info}}
+\index{Create\-Operation\-Reg\-Info@{Create\-Operation\-Reg\-Info}!MLSL::Session@{M\-L\-S\-L\-::\-Session}}
+\subsubsection[{Create\-Operation\-Reg\-Info}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Operation\-Reg\-Info}$\ast$ M\-L\-S\-L\-::\-Session\-::\-Create\-Operation\-Reg\-Info (
+\begin{DoxyParamCaption}
+\item[{{\bf Op\-Type}}]{op\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Session_a882c57575b67320b17e3e357bcde2c31}
+Creates an object containing the operation's registration information. 
+\begin{DoxyParams}{Parameters}
+{\em op\-Type} & the compute operation type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The operation's registration object. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Session_af3aef5f1a74cddad39747743787ef1c5}{\index{M\-L\-S\-L\-::\-Session@{M\-L\-S\-L\-::\-Session}!Delete\-Operation\-Reg\-Info@{Delete\-Operation\-Reg\-Info}}
+\index{Delete\-Operation\-Reg\-Info@{Delete\-Operation\-Reg\-Info}!MLSL::Session@{M\-L\-S\-L\-::\-Session}}
+\subsubsection[{Delete\-Operation\-Reg\-Info}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Session\-::\-Delete\-Operation\-Reg\-Info (
+\begin{DoxyParamCaption}
+\item[{{\bf Operation\-Reg\-Info} $\ast$}]{info}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Session_af3aef5f1a74cddad39747743787ef1c5}
+Deletes the previously created \hyperlink{classMLSL_1_1OperationRegInfo}{Operation\-Reg\-Info} object. 
+\begin{DoxyParams}{Parameters}
+{\em info} & the operation's registration object to delete \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1Session_afc5b66026bb9df019723ea8d829e6eb5}{\index{M\-L\-S\-L\-::\-Session@{M\-L\-S\-L\-::\-Session}!Get\-Global\-Minibatch\-Size@{Get\-Global\-Minibatch\-Size}}
+\index{Get\-Global\-Minibatch\-Size@{Get\-Global\-Minibatch\-Size}!MLSL::Session@{M\-L\-S\-L\-::\-Session}}
+\subsubsection[{Get\-Global\-Minibatch\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Session\-::\-Get\-Global\-Minibatch\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Session_afc5b66026bb9df019723ea8d829e6eb5}
+\begin{DoxyReturn}{Returns}
+The global mini-\/batch size. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Session_ad24bd55c98a82b7ede9df63e1f36f7e2}{\index{M\-L\-S\-L\-::\-Session@{M\-L\-S\-L\-::\-Session}!Get\-Operation@{Get\-Operation}}
+\index{Get\-Operation@{Get\-Operation}!MLSL::Session@{M\-L\-S\-L\-::\-Session}}
+\subsubsection[{Get\-Operation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Operation}$\ast$ M\-L\-S\-L\-::\-Session\-::\-Get\-Operation (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{idx}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Session_ad24bd55c98a82b7ede9df63e1f36f7e2}
+Returns the operation by index. 
+\begin{DoxyParams}{Parameters}
+{\em idx} & the operation's index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The operation. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Session_ac29bfe7dfda91a83e24a1181ca3fd070}{\index{M\-L\-S\-L\-::\-Session@{M\-L\-S\-L\-::\-Session}!Get\-Operation\-Count@{Get\-Operation\-Count}}
+\index{Get\-Operation\-Count@{Get\-Operation\-Count}!MLSL::Session@{M\-L\-S\-L\-::\-Session}}
+\subsubsection[{Get\-Operation\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Session\-::\-Get\-Operation\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Session_ac29bfe7dfda91a83e24a1181ca3fd070}
+\begin{DoxyReturn}{Returns}
+The number of operations for the current session. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Session_a89e3d6e9677d9e916fba45c421755478}{\index{M\-L\-S\-L\-::\-Session@{M\-L\-S\-L\-::\-Session}!Get\-Phase\-Type@{Get\-Phase\-Type}}
+\index{Get\-Phase\-Type@{Get\-Phase\-Type}!MLSL::Session@{M\-L\-S\-L\-::\-Session}}
+\subsubsection[{Get\-Phase\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Phase\-Type} M\-L\-S\-L\-::\-Session\-::\-Get\-Phase\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Session_a89e3d6e9677d9e916fba45c421755478}
+\begin{DoxyReturn}{Returns}
+The phase type. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Session_abd65aefd366220d1fc86f1780a8185c7}{\index{M\-L\-S\-L\-::\-Session@{M\-L\-S\-L\-::\-Session}!Get\-Stats@{Get\-Stats}}
+\index{Get\-Stats@{Get\-Stats}!MLSL::Session@{M\-L\-S\-L\-::\-Session}}
+\subsubsection[{Get\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Statistics}$\ast$ M\-L\-S\-L\-::\-Session\-::\-Get\-Stats (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Session_abd65aefd366220d1fc86f1780a8185c7}
+Returns the statistics information for the session \begin{DoxyReturn}{Returns}
+A \hyperlink{classMLSL_1_1Statistics}{Statistics} class instance. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Session_a6bdd4c1df2ce8b00e55b38278b330847}{\index{M\-L\-S\-L\-::\-Session@{M\-L\-S\-L\-::\-Session}!Remove\-Operations@{Remove\-Operations}}
+\index{Remove\-Operations@{Remove\-Operations}!MLSL::Session@{M\-L\-S\-L\-::\-Session}}
+\subsubsection[{Remove\-Operations}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Session\-::\-Remove\-Operations (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Session_a6bdd4c1df2ce8b00e55b38278b330847}
+Removes all operations from the current session. \hypertarget{classMLSL_1_1Session_afa9f32e81f919bdb2ad7552ba7b6336d}{\index{M\-L\-S\-L\-::\-Session@{M\-L\-S\-L\-::\-Session}!Set\-Global\-Minibatch\-Size@{Set\-Global\-Minibatch\-Size}}
+\index{Set\-Global\-Minibatch\-Size@{Set\-Global\-Minibatch\-Size}!MLSL::Session@{M\-L\-S\-L\-::\-Session}}
+\subsubsection[{Set\-Global\-Minibatch\-Size}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Session\-::\-Set\-Global\-Minibatch\-Size (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{global\-Minibatch\-Size}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Session_afa9f32e81f919bdb2ad7552ba7b6336d}
+Sets the global mini-\/batch size. Must be called before any compute operation creation. 
+\begin{DoxyParams}{Parameters}
+{\em global\-Minibatch\-Size} & the global mini-\/batch size \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mlsl_8hpp}{mlsl.\-hpp}\end{DoxyCompactItemize}

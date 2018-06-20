@@ -1,0 +1,306 @@
+\hypertarget{classMLSL_1_1Environment}{\section{M\-L\-S\-L\-:\-:Environment Class Reference}
+\label{classMLSL_1_1Environment}\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}}
+}
+
+
+A singleton object that holds global Intel M\-L\-S\-L functions.  
+
+
+
+
+{\ttfamily \#include $<$mlsl.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classMLSL_1_1Environment_a9be813a8ed0b85dc3a8839e51473e6c0}{Configure} (const char $\ast$config=N\-U\-L\-L)
+\item 
+void \hyperlink{classMLSL_1_1Environment_ae67919c3898381047079de60ba8d7a06}{Init} (int $\ast$argc, char $\ast$$\ast$argv\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{classMLSL_1_1Environment_a90ebcccc5b469bbb2e32a840aaca4192}{Finalize} ()
+\item 
+bool \hyperlink{classMLSL_1_1Environment_a85d1ab0f45d26251438895945c34b02c}{Is\-Initialized} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Environment_ae50e6d87304ebdd530337ad33f61d16c}{Get\-Process\-Idx} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Environment_a23eaf9e8d9414aa192823f1fad15c490}{Get\-Process\-Count} ()
+\item 
+\hyperlink{classMLSL_1_1Session}{Session} $\ast$ \hyperlink{classMLSL_1_1Environment_a5b697cdcd3483460e943ee31938feda8}{Create\-Session} (\hyperlink{namespaceMLSL_a7d1938ee24117d29200c2d29562db712}{Phase\-Type} phase\-Type=\hyperlink{namespaceMLSL_a7d1938ee24117d29200c2d29562db712a1c904b49427b2bbe7e84ee65ad939f05}{P\-T\-\_\-\-T\-R\-A\-I\-N})
+\item 
+void \hyperlink{classMLSL_1_1Environment_a536bbc70aaf25a82e492fc8b7a2b9dfe}{Delete\-Session} (\hyperlink{classMLSL_1_1Session}{Session} $\ast$session)
+\item 
+\hyperlink{classMLSL_1_1Distribution}{Distribution} $\ast$ \hyperlink{classMLSL_1_1Environment_af205e0f9d6fc31d562264d4d40f75af8}{Create\-Distribution} (size\-\_\-t data\-Partitions, size\-\_\-t model\-Partitions)
+\item 
+\hyperlink{classMLSL_1_1Distribution}{Distribution} $\ast$ \hyperlink{classMLSL_1_1Environment_aee14fb5697c5fe3b7a8ef025c0dfa438}{Create\-Distribution\-With\-Colors} (int data\-Color, int model\-Color)
+\item 
+void \hyperlink{classMLSL_1_1Environment_a6ab113964860c6c09186b012ab2d1f2c}{Delete\-Distribution} (\hyperlink{classMLSL_1_1Distribution}{Distribution} $\ast$distribution)
+\item 
+void \hyperlink{classMLSL_1_1Environment_a544ba3dd62063c28d78aa131b4789b74}{Wait} (\hyperlink{namespaceMLSL_aaf6e40eb1d3e48bb109f529d625e4087}{Comm\-Req} $\ast$req)
+\item 
+void \hyperlink{classMLSL_1_1Environment_acee6a46cd0d22d5b7467b5808713f62a}{Test} (\hyperlink{namespaceMLSL_aaf6e40eb1d3e48bb109f529d625e4087}{Comm\-Req} $\ast$req, bool $\ast$is\-Completed)
+\item 
+void $\ast$ \hyperlink{classMLSL_1_1Environment_ad95956dcbc59f786e3463c49b5e47937}{Alloc} (size\-\_\-t size, size\-\_\-t alignment)
+\item 
+void \hyperlink{classMLSL_1_1Environment_a04bd31f3ece4795e61beaa40a2568e3d}{Free} (void $\ast$ptr)
+\item 
+void \hyperlink{classMLSL_1_1Environment_aa04d7afb4713e0be0a83e33f896fb2e8}{Set\-Quantization\-Params} (\hyperlink{structMLSL_1_1QuantParams}{Quant\-Params} $\ast$params)
+\item 
+\hyperlink{structMLSL_1_1QuantParams}{Quant\-Params} $\ast$ \hyperlink{classMLSL_1_1Environment_abec57561f49241450ed358adc623d7a5}{Get\-Quantization\-Params} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classMLSL_1_1Environment}{Environment} \& \hyperlink{classMLSL_1_1Environment_aa196f4c0aa718ae2994b4c23963c7114}{Get\-Env} ()
+\item 
+static int \hyperlink{classMLSL_1_1Environment_aa40c1ec47e82b18a83b4eb5f18e3e716}{Get\-Version} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A singleton object that holds global Intel M\-L\-S\-L functions. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classMLSL_1_1Environment_ad95956dcbc59f786e3463c49b5e47937}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Alloc@{Alloc}}
+\index{Alloc@{Alloc}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Alloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ M\-L\-S\-L\-::\-Environment\-::\-Alloc (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{size, }
+\item[{size\-\_\-t}]{alignment}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_ad95956dcbc59f786e3463c49b5e47937}
+Intel M\-L\-S\-L specific allocation function. Should be used to allocate communication buffers. Allocates size bytes and returns a pointer to the allocated memory. The memory address will be a multiple of alignment, which must be a power of two. 
+\begin{DoxyParams}{Parameters}
+{\em size} & the number of bytes to allocate \\
+\hline
+{\em alignment} & the return pointer alignment \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the allocated memory, or N\-U\-L\-L if the allocation fails. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Environment_a9be813a8ed0b85dc3a8839e51473e6c0}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Configure@{Configure}}
+\index{Configure@{Configure}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Configure}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Environment\-::\-Configure (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{config = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_a9be813a8ed0b85dc3a8839e51473e6c0}
+An optional method to allow passing configuration information e.\-g. configuration file name.\par
+ For the M\-P\-I backend this may be N\-U\-L\-L, but may be handy for the g\-R\-P\-C or Z\-M\-Q implementation. 
+\begin{DoxyParams}{Parameters}
+{\em config} & a configuration string or the path to a configuration file (optional) \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1Environment_af205e0f9d6fc31d562264d4d40f75af8}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Create\-Distribution@{Create\-Distribution}}
+\index{Create\-Distribution@{Create\-Distribution}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Create\-Distribution}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Distribution}$\ast$ M\-L\-S\-L\-::\-Environment\-::\-Create\-Distribution (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{data\-Partitions, }
+\item[{size\-\_\-t}]{model\-Partitions}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_af205e0f9d6fc31d562264d4d40f75af8}
+Creates a new \hyperlink{classMLSL_1_1Distribution}{Distribution} object. 
+\begin{DoxyParams}{Parameters}
+{\em data\-Partitions} & the number of partitions for data (partitions on global mini-\/batch) \\
+\hline
+{\em model\-Partitions} & the number of partitions for model (partitions on input activation) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A distribution. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Environment_aee14fb5697c5fe3b7a8ef025c0dfa438}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Create\-Distribution\-With\-Colors@{Create\-Distribution\-With\-Colors}}
+\index{Create\-Distribution\-With\-Colors@{Create\-Distribution\-With\-Colors}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Create\-Distribution\-With\-Colors}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Distribution}$\ast$ M\-L\-S\-L\-::\-Environment\-::\-Create\-Distribution\-With\-Colors (
+\begin{DoxyParamCaption}
+\item[{int}]{data\-Color, }
+\item[{int}]{model\-Color}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_aee14fb5697c5fe3b7a8ef025c0dfa438}
+Creates a new \hyperlink{classMLSL_1_1Distribution}{Distribution} object based on process colors passed. Don't use this method unless you absolutely need it. 
+\begin{DoxyParams}{Parameters}
+{\em data\-Color} & defines partitions on global mini-\/batch. Processes with the same data\-Color get into the same data group \\
+\hline
+{\em model\-Color} & defines partitions on input activation. Processes with the same model\-Color get into the same model group \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A distribution. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Environment_a5b697cdcd3483460e943ee31938feda8}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Create\-Session@{Create\-Session}}
+\index{Create\-Session@{Create\-Session}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Create\-Session}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Session}$\ast$ M\-L\-S\-L\-::\-Environment\-::\-Create\-Session (
+\begin{DoxyParamCaption}
+\item[{{\bf Phase\-Type}}]{phase\-Type = {\ttfamily {\bf P\-T\-\_\-\-T\-R\-A\-I\-N}}}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_a5b697cdcd3483460e943ee31938feda8}
+Creates a new \hyperlink{classMLSL_1_1Session}{Session} object. 
+\begin{DoxyParams}{Parameters}
+{\em phase\-Type} & the phase type (optional), can be used for internal optimizations \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A session. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Environment_a6ab113964860c6c09186b012ab2d1f2c}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Delete\-Distribution@{Delete\-Distribution}}
+\index{Delete\-Distribution@{Delete\-Distribution}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Delete\-Distribution}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Environment\-::\-Delete\-Distribution (
+\begin{DoxyParamCaption}
+\item[{{\bf Distribution} $\ast$}]{distribution}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_a6ab113964860c6c09186b012ab2d1f2c}
+Deletes the previously created \hyperlink{classMLSL_1_1Distribution}{Distribution} object. 
+\begin{DoxyParams}{Parameters}
+{\em distribution} & the distribution to delete \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1Environment_a536bbc70aaf25a82e492fc8b7a2b9dfe}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Delete\-Session@{Delete\-Session}}
+\index{Delete\-Session@{Delete\-Session}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Delete\-Session}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Environment\-::\-Delete\-Session (
+\begin{DoxyParamCaption}
+\item[{{\bf Session} $\ast$}]{session}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_a536bbc70aaf25a82e492fc8b7a2b9dfe}
+Deletes the previously created \hyperlink{classMLSL_1_1Session}{Session} object. 
+\begin{DoxyParams}{Parameters}
+{\em session} & the session to delete \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1Environment_a90ebcccc5b469bbb2e32a840aaca4192}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Finalize@{Finalize}}
+\index{Finalize@{Finalize}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Finalize}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Environment\-::\-Finalize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_a90ebcccc5b469bbb2e32a840aaca4192}
+Finalizes the library, cleans up and frees all the internally allocated memory. \hypertarget{classMLSL_1_1Environment_a04bd31f3ece4795e61beaa40a2568e3d}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Free@{Free}}
+\index{Free@{Free}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Free}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Environment\-::\-Free (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_a04bd31f3ece4795e61beaa40a2568e3d}
+Intel M\-L\-S\-L specific deallocation function. Frees the memory that was previously allocated with \hyperlink{classMLSL_1_1Environment_ad95956dcbc59f786e3463c49b5e47937}{Alloc()}. 
+\begin{DoxyParams}{Parameters}
+{\em ptr} & the pointer to the memory to be deallocated \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1Environment_aa196f4c0aa718ae2994b4c23963c7114}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Get\-Env@{Get\-Env}}
+\index{Get\-Env@{Get\-Env}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Get\-Env}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Environment}\& M\-L\-S\-L\-::\-Environment\-::\-Get\-Env (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classMLSL_1_1Environment_aa196f4c0aa718ae2994b4c23963c7114}
+\begin{DoxyReturn}{Returns}
+An \hyperlink{classMLSL_1_1Environment}{Environment} class instance. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Environment_a23eaf9e8d9414aa192823f1fad15c490}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Get\-Process\-Count@{Get\-Process\-Count}}
+\index{Get\-Process\-Count@{Get\-Process\-Count}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Get\-Process\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Environment\-::\-Get\-Process\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_a23eaf9e8d9414aa192823f1fad15c490}
+\begin{DoxyReturn}{Returns}
+The global number of processes. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Environment_ae50e6d87304ebdd530337ad33f61d16c}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Get\-Process\-Idx@{Get\-Process\-Idx}}
+\index{Get\-Process\-Idx@{Get\-Process\-Idx}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Get\-Process\-Idx}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Environment\-::\-Get\-Process\-Idx (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_ae50e6d87304ebdd530337ad33f61d16c}
+\begin{DoxyReturn}{Returns}
+The global process index. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Environment_abec57561f49241450ed358adc623d7a5}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Get\-Quantization\-Params@{Get\-Quantization\-Params}}
+\index{Get\-Quantization\-Params@{Get\-Quantization\-Params}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Get\-Quantization\-Params}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Quant\-Params}$\ast$ M\-L\-S\-L\-::\-Environment\-::\-Get\-Quantization\-Params (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_abec57561f49241450ed358adc623d7a5}
+\begin{DoxyReturn}{Returns}
+A pointer to the structure that contains information about quantization library. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Environment_aa40c1ec47e82b18a83b4eb5f18e3e716}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Get\-Version@{Get\-Version}}
+\index{Get\-Version@{Get\-Version}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Get\-Version}]{\setlength{\rightskip}{0pt plus 5cm}static int M\-L\-S\-L\-::\-Environment\-::\-Get\-Version (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classMLSL_1_1Environment_aa40c1ec47e82b18a83b4eb5f18e3e716}
+\begin{DoxyReturn}{Returns}
+The full Intel M\-L\-S\-L A\-P\-I version. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Environment_ae67919c3898381047079de60ba8d7a06}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Init@{Init}}
+\index{Init@{Init}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Environment\-::\-Init (
+\begin{DoxyParamCaption}
+\item[{int $\ast$}]{argc, }
+\item[{char $\ast$$\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_ae67919c3898381047079de60ba8d7a06}
+Initializes the library. Must precede any other library calls (except static methods of the \hyperlink{classMLSL_1_1Environment}{Environment} class). 
+\begin{DoxyParams}{Parameters}
+{\em argc} & a pointer to the number of arguments \\
+\hline
+{\em argv} & an argument vector \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1Environment_a85d1ab0f45d26251438895945c34b02c}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Is\-Initialized@{Is\-Initialized}}
+\index{Is\-Initialized@{Is\-Initialized}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Is\-Initialized}]{\setlength{\rightskip}{0pt plus 5cm}bool M\-L\-S\-L\-::\-Environment\-::\-Is\-Initialized (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_a85d1ab0f45d26251438895945c34b02c}
+\begin{DoxyReturn}{Returns}
+True if \hyperlink{classMLSL_1_1Environment_ae67919c3898381047079de60ba8d7a06}{Init()} has been called, false otherwise. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Environment_aa04d7afb4713e0be0a83e33f896fb2e8}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Set\-Quantization\-Params@{Set\-Quantization\-Params}}
+\index{Set\-Quantization\-Params@{Set\-Quantization\-Params}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Set\-Quantization\-Params}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Environment\-::\-Set\-Quantization\-Params (
+\begin{DoxyParamCaption}
+\item[{{\bf Quant\-Params} $\ast$}]{params}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_aa04d7afb4713e0be0a83e33f896fb2e8}
+Sets quantization parameters. Quantization parameters must be set before calling \hyperlink{classMLSL_1_1OperationRegInfo_ad5212c42654f0fe581684dfd8c327e3a}{Operation\-Reg\-Info\-::\-Add\-Parameter\-Set()} with quantization enabled. 
+\begin{DoxyParams}{Parameters}
+{\em params} & the data structure containing information about the quantization library \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1Environment_acee6a46cd0d22d5b7467b5808713f62a}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Test@{Test}}
+\index{Test@{Test}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Test}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Environment\-::\-Test (
+\begin{DoxyParamCaption}
+\item[{{\bf Comm\-Req} $\ast$}]{req, }
+\item[{bool $\ast$}]{is\-Completed}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_acee6a46cd0d22d5b7467b5808713f62a}
+Tests for completion of a communication request. 
+\begin{DoxyParams}{Parameters}
+{\em req} & the communication request \\
+\hline
+{\em is\-Completed} & the completion status of the request, true if request is completed, false otherwise \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1Environment_a544ba3dd62063c28d78aa131b4789b74}{\index{M\-L\-S\-L\-::\-Environment@{M\-L\-S\-L\-::\-Environment}!Wait@{Wait}}
+\index{Wait@{Wait}!MLSL::Environment@{M\-L\-S\-L\-::\-Environment}}
+\subsubsection[{Wait}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Environment\-::\-Wait (
+\begin{DoxyParamCaption}
+\item[{{\bf Comm\-Req} $\ast$}]{req}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Environment_a544ba3dd62063c28d78aa131b4789b74}
+Waits for a communication request to complete. 
+\begin{DoxyParams}{Parameters}
+{\em req} & the communication request \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mlsl_8hpp}{mlsl.\-hpp}\end{DoxyCompactItemize}

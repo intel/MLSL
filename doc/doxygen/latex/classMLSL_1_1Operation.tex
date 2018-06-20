@@ -1,0 +1,258 @@
+\hypertarget{classMLSL_1_1Operation}{\section{M\-L\-S\-L\-:\-:Operation Class Reference}
+\label{classMLSL_1_1Operation}\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}}
+}
+
+
+A class to hold information about learnable parameters (parameter sets) and activations corresponding to a certain operation of the computational graph.  
+
+
+
+
+{\ttfamily \#include $<$mlsl.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classMLSL_1_1Operation_a1712a9b9d34b60d8323370f1cf5b7aa1}{Set\-Distribution} (\hyperlink{classMLSL_1_1Distribution}{Distribution} $\ast$dist)
+\item 
+\hyperlink{classMLSL_1_1Distribution}{Distribution} $\ast$ \hyperlink{classMLSL_1_1Operation_aa8343c64cb4306d990e54a7fcad772e6}{Get\-Distribution} ()
+\item 
+\hyperlink{classMLSL_1_1Session}{Session} $\ast$ \hyperlink{classMLSL_1_1Operation_a44ae77acd2eff8cad2187bb8d7834ae1}{Get\-Session} ()
+\item 
+\hyperlink{namespaceMLSL_a1366e5621278eafc7ecb03de012824bf}{Op\-Type} \hyperlink{classMLSL_1_1Operation_a4bb9790bbbec02e5fbbe8388077d8ec2}{Get\-Op\-Type} ()
+\item 
+void \hyperlink{classMLSL_1_1Operation_aaba248e9778f276502025d24f09c75d7}{Set\-Prev} (\hyperlink{classMLSL_1_1Operation}{Operation} $\ast$prev, size\-\_\-t act\-Idx, size\-\_\-t prev\-Op\-Act\-Idx)
+\item 
+void \hyperlink{classMLSL_1_1Operation_a8213acc517e27f003672f88fa6c8269d}{Set\-Next} (\hyperlink{classMLSL_1_1Operation}{Operation} $\ast$next, size\-\_\-t act\-Idx, size\-\_\-t next\-Op\-Act\-Idx)
+\item 
+const char $\ast$ \hyperlink{classMLSL_1_1Operation_aca149f1cb4b8450eeddc6a4553e04eb8}{Get\-Name} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Operation_ad3a81ee368247243dd086c21ad92e568}{Get\-Global\-Minibatch\-Size} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Operation_a46dc40ed633ebd52600e1b2152db3817}{Get\-Local\-Minibatch\-Size} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Operation_a8a795140345c41a4ced5131e2287cee6}{Get\-Global\-Minibatch\-Offset} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Operation_aefeaabeb5deab853988bd5bcdae72f6f}{Get\-Input\-Count} ()
+\item 
+\hyperlink{classMLSL_1_1Activation}{Activation} $\ast$ \hyperlink{classMLSL_1_1Operation_aaeba9cab82a79a6e0e07784abfa20333}{Get\-Input} (size\-\_\-t idx)
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Operation_a8c7d5ceff10ba35e6e4f609fedb3294e}{Get\-Output\-Count} ()
+\item 
+\hyperlink{classMLSL_1_1Activation}{Activation} $\ast$ \hyperlink{classMLSL_1_1Operation_ae57fff06168ae2a0b2119553306502a0}{Get\-Output} (size\-\_\-t idx)
+\item 
+bool \hyperlink{classMLSL_1_1Operation_af3a217382484434007bef864c7eb4bab}{Has\-Parameter\-Sets} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Operation_a7748a921c07f896c4c7ade28498b1bb3}{Get\-Parameter\-Set\-Count} ()
+\item 
+\hyperlink{classMLSL_1_1ParameterSet}{Parameter\-Set} $\ast$ \hyperlink{classMLSL_1_1Operation_a78b43c78af0ecbbc95d9250d3d329e37}{Get\-Parameter\-Set} (size\-\_\-t idx)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A class to hold information about learnable parameters (parameter sets) and activations corresponding to a certain operation of the computational graph. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classMLSL_1_1Operation_aa8343c64cb4306d990e54a7fcad772e6}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Get\-Distribution@{Get\-Distribution}}
+\index{Get\-Distribution@{Get\-Distribution}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Get\-Distribution}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Distribution}$\ast$ M\-L\-S\-L\-::\-Operation\-::\-Get\-Distribution (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_aa8343c64cb4306d990e54a7fcad772e6}
+\begin{DoxyReturn}{Returns}
+The distribution used by the current operation. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Operation_a8a795140345c41a4ced5131e2287cee6}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Get\-Global\-Minibatch\-Offset@{Get\-Global\-Minibatch\-Offset}}
+\index{Get\-Global\-Minibatch\-Offset@{Get\-Global\-Minibatch\-Offset}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Get\-Global\-Minibatch\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Operation\-::\-Get\-Global\-Minibatch\-Offset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_a8a795140345c41a4ced5131e2287cee6}
+\begin{DoxyReturn}{Returns}
+The offset of the local mini-\/batch portion within the global mini-\/batch. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Operation_ad3a81ee368247243dd086c21ad92e568}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Get\-Global\-Minibatch\-Size@{Get\-Global\-Minibatch\-Size}}
+\index{Get\-Global\-Minibatch\-Size@{Get\-Global\-Minibatch\-Size}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Get\-Global\-Minibatch\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Operation\-::\-Get\-Global\-Minibatch\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_ad3a81ee368247243dd086c21ad92e568}
+\begin{DoxyReturn}{Returns}
+The length of the global mini-\/batch. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Operation_aaeba9cab82a79a6e0e07784abfa20333}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Get\-Input@{Get\-Input}}
+\index{Get\-Input@{Get\-Input}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Get\-Input}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Activation}$\ast$ M\-L\-S\-L\-::\-Operation\-::\-Get\-Input (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{idx}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_aaeba9cab82a79a6e0e07784abfa20333}
+Returns the input activation by index. 
+\begin{DoxyParams}{Parameters}
+{\em idx} & the input activation's index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The input activation. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Operation_aefeaabeb5deab853988bd5bcdae72f6f}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Get\-Input\-Count@{Get\-Input\-Count}}
+\index{Get\-Input\-Count@{Get\-Input\-Count}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Get\-Input\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Operation\-::\-Get\-Input\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_aefeaabeb5deab853988bd5bcdae72f6f}
+\begin{DoxyReturn}{Returns}
+The number of input activations for the current operation. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Operation_a46dc40ed633ebd52600e1b2152db3817}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Get\-Local\-Minibatch\-Size@{Get\-Local\-Minibatch\-Size}}
+\index{Get\-Local\-Minibatch\-Size@{Get\-Local\-Minibatch\-Size}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Get\-Local\-Minibatch\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Operation\-::\-Get\-Local\-Minibatch\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_a46dc40ed633ebd52600e1b2152db3817}
+\begin{DoxyReturn}{Returns}
+The length of the local mini-\/batch portion. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Operation_aca149f1cb4b8450eeddc6a4553e04eb8}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Get\-Name@{Get\-Name}}
+\index{Get\-Name@{Get\-Name}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Get\-Name}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ M\-L\-S\-L\-::\-Operation\-::\-Get\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_aca149f1cb4b8450eeddc6a4553e04eb8}
+\begin{DoxyReturn}{Returns}
+The operation name. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Operation_a4bb9790bbbec02e5fbbe8388077d8ec2}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Get\-Op\-Type@{Get\-Op\-Type}}
+\index{Get\-Op\-Type@{Get\-Op\-Type}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Get\-Op\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Op\-Type} M\-L\-S\-L\-::\-Operation\-::\-Get\-Op\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_a4bb9790bbbec02e5fbbe8388077d8ec2}
+\begin{DoxyReturn}{Returns}
+The operation type. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Operation_ae57fff06168ae2a0b2119553306502a0}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Get\-Output@{Get\-Output}}
+\index{Get\-Output@{Get\-Output}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Get\-Output}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Activation}$\ast$ M\-L\-S\-L\-::\-Operation\-::\-Get\-Output (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{idx}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_ae57fff06168ae2a0b2119553306502a0}
+Returns the output activation by index. 
+\begin{DoxyParams}{Parameters}
+{\em idx} & the output activation's index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The output activation. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Operation_a8c7d5ceff10ba35e6e4f609fedb3294e}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Get\-Output\-Count@{Get\-Output\-Count}}
+\index{Get\-Output\-Count@{Get\-Output\-Count}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Get\-Output\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Operation\-::\-Get\-Output\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_a8c7d5ceff10ba35e6e4f609fedb3294e}
+\begin{DoxyReturn}{Returns}
+The number of output activations for the current operation. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Operation_a78b43c78af0ecbbc95d9250d3d329e37}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Get\-Parameter\-Set@{Get\-Parameter\-Set}}
+\index{Get\-Parameter\-Set@{Get\-Parameter\-Set}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Get\-Parameter\-Set}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Parameter\-Set}$\ast$ M\-L\-S\-L\-::\-Operation\-::\-Get\-Parameter\-Set (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{idx}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_a78b43c78af0ecbbc95d9250d3d329e37}
+Returns the parameter set by index 
+\begin{DoxyParams}{Parameters}
+{\em idx} & the parameter set's index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The parameter set. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Operation_a7748a921c07f896c4c7ade28498b1bb3}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Get\-Parameter\-Set\-Count@{Get\-Parameter\-Set\-Count}}
+\index{Get\-Parameter\-Set\-Count@{Get\-Parameter\-Set\-Count}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Get\-Parameter\-Set\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Operation\-::\-Get\-Parameter\-Set\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_a7748a921c07f896c4c7ade28498b1bb3}
+\begin{DoxyReturn}{Returns}
+The number of parameter sets for the current operation. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Operation_a44ae77acd2eff8cad2187bb8d7834ae1}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Get\-Session@{Get\-Session}}
+\index{Get\-Session@{Get\-Session}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Get\-Session}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Session}$\ast$ M\-L\-S\-L\-::\-Operation\-::\-Get\-Session (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_a44ae77acd2eff8cad2187bb8d7834ae1}
+\begin{DoxyReturn}{Returns}
+The session to which the current operation belongs. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Operation_af3a217382484434007bef864c7eb4bab}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Has\-Parameter\-Sets@{Has\-Parameter\-Sets}}
+\index{Has\-Parameter\-Sets@{Has\-Parameter\-Sets}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Has\-Parameter\-Sets}]{\setlength{\rightskip}{0pt plus 5cm}bool M\-L\-S\-L\-::\-Operation\-::\-Has\-Parameter\-Sets (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_af3a217382484434007bef864c7eb4bab}
+\begin{DoxyReturn}{Returns}
+True if the current operation has parameter sets (weights or bias), false otherwise. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Operation_a1712a9b9d34b60d8323370f1cf5b7aa1}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Set\-Distribution@{Set\-Distribution}}
+\index{Set\-Distribution@{Set\-Distribution}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Set\-Distribution}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Operation\-::\-Set\-Distribution (
+\begin{DoxyParamCaption}
+\item[{{\bf Distribution} $\ast$}]{dist}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_a1712a9b9d34b60d8323370f1cf5b7aa1}
+Sets the operation's distribution for the case when the operation has been created without the distribution through {\ttfamily session-\/$>$Add\-Operation(reg\-Info, N\-U\-L\-L)} \hypertarget{classMLSL_1_1Operation_a8213acc517e27f003672f88fa6c8269d}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Set\-Next@{Set\-Next}}
+\index{Set\-Next@{Set\-Next}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Set\-Next}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Operation\-::\-Set\-Next (
+\begin{DoxyParamCaption}
+\item[{{\bf Operation} $\ast$}]{next, }
+\item[{size\-\_\-t}]{act\-Idx, }
+\item[{size\-\_\-t}]{next\-Op\-Act\-Idx}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_a8213acc517e27f003672f88fa6c8269d}
+Sets the next operation in the computational graph. 
+\begin{DoxyParams}{Parameters}
+{\em next} & the next operation \\
+\hline
+{\em act\-Idx} & the index of the current operation's output activation correspoding to the next operation \\
+\hline
+{\em next\-Op\-Act\-Idx} & the index of the next operation's input activation correspoding to the current operation \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1Operation_aaba248e9778f276502025d24f09c75d7}{\index{M\-L\-S\-L\-::\-Operation@{M\-L\-S\-L\-::\-Operation}!Set\-Prev@{Set\-Prev}}
+\index{Set\-Prev@{Set\-Prev}!MLSL::Operation@{M\-L\-S\-L\-::\-Operation}}
+\subsubsection[{Set\-Prev}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Operation\-::\-Set\-Prev (
+\begin{DoxyParamCaption}
+\item[{{\bf Operation} $\ast$}]{prev, }
+\item[{size\-\_\-t}]{act\-Idx, }
+\item[{size\-\_\-t}]{prev\-Op\-Act\-Idx}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Operation_aaba248e9778f276502025d24f09c75d7}
+Sets the previous operation in the computational graph. 
+\begin{DoxyParams}{Parameters}
+{\em prev} & the previous operation \\
+\hline
+{\em act\-Idx} & the index of the current operation's input activation correspoding to the previous operation \\
+\hline
+{\em prev\-Op\-Act\-Idx} & the index of the previous operation's output activation correspoding to the current operation \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mlsl_8hpp}{mlsl.\-hpp}\end{DoxyCompactItemize}

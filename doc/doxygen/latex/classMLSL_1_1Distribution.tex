@@ -1,0 +1,365 @@
+\hypertarget{classMLSL_1_1Distribution}{\section{M\-L\-S\-L\-:\-:Distribution Class Reference}
+\label{classMLSL_1_1Distribution}\index{M\-L\-S\-L\-::\-Distribution@{M\-L\-S\-L\-::\-Distribution}}
+}
+
+
+A class to hold information about the parallelism scheme being used.  
+
+
+
+
+{\ttfamily \#include $<$mlsl.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Distribution_a477e334955de1821d6df50a0ff79b299}{Get\-Process\-Idx} (\hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95}{Group\-Type} group\-Type)
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Distribution_af5383f6bb85dec6dacc571320723c3e4}{Get\-Process\-Count} (\hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95}{Group\-Type} group\-Type)
+\item 
+\hyperlink{namespaceMLSL_aaf6e40eb1d3e48bb109f529d625e4087}{Comm\-Req} $\ast$ \hyperlink{classMLSL_1_1Distribution_a3b8a002da3ec6f6e72bcc13064257df8}{Bcast} (void $\ast$buffer, size\-\_\-t count, \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} data\-Type, size\-\_\-t root\-Idx, \hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95}{Group\-Type} group\-Type)
+\item 
+\hyperlink{namespaceMLSL_aaf6e40eb1d3e48bb109f529d625e4087}{Comm\-Req} $\ast$ \hyperlink{classMLSL_1_1Distribution_ac22445628780dfce8120f617d9d0b45b}{Reduce} (void $\ast$send\-Buffer, void $\ast$recv\-Buffer, size\-\_\-t count, \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} data\-Type, \hyperlink{namespaceMLSL_a6513313f07b5a1b8b93ee7dd5557b27c}{Reduction\-Type} red\-Type, size\-\_\-t root\-Idx, \hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95}{Group\-Type} group\-Type)
+\item 
+\hyperlink{namespaceMLSL_aaf6e40eb1d3e48bb109f529d625e4087}{Comm\-Req} $\ast$ \hyperlink{classMLSL_1_1Distribution_af3c4ce169214ee560ee83a0d7e8445a0}{All\-Reduce} (void $\ast$send\-Buffer, void $\ast$recv\-Buffer, size\-\_\-t count, \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} data\-Type, \hyperlink{namespaceMLSL_a6513313f07b5a1b8b93ee7dd5557b27c}{Reduction\-Type} red\-Type, \hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95}{Group\-Type} group\-Type)
+\item 
+\hyperlink{namespaceMLSL_aaf6e40eb1d3e48bb109f529d625e4087}{Comm\-Req} $\ast$ \hyperlink{classMLSL_1_1Distribution_a3e8e2d765cb7023bb7e66f2b3a209190}{Allto\-All} (void $\ast$send\-Buffer, size\-\_\-t send\-Count, void $\ast$recv\-Buffer, \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} data\-Type, \hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95}{Group\-Type} group\-Type)
+\item 
+\hyperlink{namespaceMLSL_aaf6e40eb1d3e48bb109f529d625e4087}{Comm\-Req} $\ast$ \hyperlink{classMLSL_1_1Distribution_ad084740adee0f8fd8f13dacc2abf42b9}{Allto\-Allv} (void $\ast$send\-Buffer, size\-\_\-t $\ast$send\-Counts, size\-\_\-t $\ast$send\-Offsets, void $\ast$recv\-Buffer, size\-\_\-t $\ast$recv\-Counts, size\-\_\-t $\ast$recv\-Offsets, \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} data\-Type, \hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95}{Group\-Type} group\-Type)
+\item 
+\hyperlink{namespaceMLSL_aaf6e40eb1d3e48bb109f529d625e4087}{Comm\-Req} $\ast$ \hyperlink{classMLSL_1_1Distribution_a9d4d04666d3e5c5dee225e0dc01df2e2}{Gather} (void $\ast$send\-Buffer, size\-\_\-t send\-Count, void $\ast$recv\-Buffer, \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} data\-Type, size\-\_\-t root\-Idx, \hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95}{Group\-Type} group\-Type)
+\item 
+\hyperlink{namespaceMLSL_aaf6e40eb1d3e48bb109f529d625e4087}{Comm\-Req} $\ast$ \hyperlink{classMLSL_1_1Distribution_a5dae9afadecee65e8f60e084b5bc16a2}{All\-Gather} (void $\ast$send\-Buffer, size\-\_\-t send\-Count, void $\ast$recv\-Buffer, \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} data\-Type, \hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95}{Group\-Type} group\-Type)
+\item 
+\hyperlink{namespaceMLSL_aaf6e40eb1d3e48bb109f529d625e4087}{Comm\-Req} $\ast$ \hyperlink{classMLSL_1_1Distribution_ab3de8f49c9c21f905fcc860c121dd01b}{Scatter} (void $\ast$send\-Buffer, void $\ast$recv\-Buffer, size\-\_\-t recv\-Count, \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} data\-Type, size\-\_\-t root\-Idx, \hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95}{Group\-Type} group\-Type)
+\item 
+\hyperlink{namespaceMLSL_aaf6e40eb1d3e48bb109f529d625e4087}{Comm\-Req} $\ast$ \hyperlink{classMLSL_1_1Distribution_a7d65790975910bda14ac82b9d6156c5e}{Reduce\-Scatter} (void $\ast$send\-Buffer, void $\ast$recv\-Buffer, size\-\_\-t recv\-Count, \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} data\-Type, \hyperlink{namespaceMLSL_a6513313f07b5a1b8b93ee7dd5557b27c}{Reduction\-Type} red\-Type, \hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95}{Group\-Type} group\-Type)
+\item 
+void \hyperlink{classMLSL_1_1Distribution_a196aac75af9ca05e371a348a956f9a8d}{Barrier} (\hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95}{Group\-Type} group\-Type)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A class to hold information about the parallelism scheme being used. 
+
+Holds information about the parallelism scheme currently in use (data/model/hybrid parallelism) and provides the low-\/level A\-P\-I for collectives over data/model/global groups of processes.\par
+ These collectives can be used, for example, to broadcast initial parameters, and to collect the snapshot in model/hybrid parallelism. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classMLSL_1_1Distribution_a5dae9afadecee65e8f60e084b5bc16a2}{\index{M\-L\-S\-L\-::\-Distribution@{M\-L\-S\-L\-::\-Distribution}!All\-Gather@{All\-Gather}}
+\index{All\-Gather@{All\-Gather}!MLSL::Distribution@{M\-L\-S\-L\-::\-Distribution}}
+\subsubsection[{All\-Gather}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Comm\-Req}$\ast$ M\-L\-S\-L\-::\-Distribution\-::\-All\-Gather (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{send\-Buffer, }
+\item[{size\-\_\-t}]{send\-Count, }
+\item[{void $\ast$}]{recv\-Buffer, }
+\item[{{\bf Data\-Type}}]{data\-Type, }
+\item[{{\bf Group\-Type}}]{group\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Distribution_a5dae9afadecee65e8f60e084b5bc16a2}
+Gathers values from all processes of the group and distribute the combined values to all processes of the group. 
+\begin{DoxyParams}{Parameters}
+{\em send\-Buffer} & the address of the send buffer \\
+\hline
+{\em send\-Count} & the number of elements in the send buffer \\
+\hline
+{\em recv\-Buffer} & the address of the receive buffer, the receive buffer should be large enough to hold messages from all processes of the group \\
+\hline
+{\em data\-Type} & the data type of buffers' elements \\
+\hline
+{\em group\-Type} & the group type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A communication request. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Distribution_af3c4ce169214ee560ee83a0d7e8445a0}{\index{M\-L\-S\-L\-::\-Distribution@{M\-L\-S\-L\-::\-Distribution}!All\-Reduce@{All\-Reduce}}
+\index{All\-Reduce@{All\-Reduce}!MLSL::Distribution@{M\-L\-S\-L\-::\-Distribution}}
+\subsubsection[{All\-Reduce}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Comm\-Req}$\ast$ M\-L\-S\-L\-::\-Distribution\-::\-All\-Reduce (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{send\-Buffer, }
+\item[{void $\ast$}]{recv\-Buffer, }
+\item[{size\-\_\-t}]{count, }
+\item[{{\bf Data\-Type}}]{data\-Type, }
+\item[{{\bf Reduction\-Type}}]{red\-Type, }
+\item[{{\bf Group\-Type}}]{group\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Distribution_af3c4ce169214ee560ee83a0d7e8445a0}
+Reduces values from all processes of the group and distributes the result back to all the processes. 
+\begin{DoxyParams}{Parameters}
+{\em send\-Buffer} & the address of the send buffer \\
+\hline
+{\em recv\-Buffer} & the address of the receive buffer, meaningful only at the root process \\
+\hline
+{\em count} & the number of elements in send/receive buffers \\
+\hline
+{\em data\-Type} & the data type of buffer's elements \\
+\hline
+{\em red\-Type} & the reduction operation type \\
+\hline
+{\em group\-Type} & the group type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A communication request. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Distribution_a3e8e2d765cb7023bb7e66f2b3a209190}{\index{M\-L\-S\-L\-::\-Distribution@{M\-L\-S\-L\-::\-Distribution}!Allto\-All@{Allto\-All}}
+\index{Allto\-All@{Allto\-All}!MLSL::Distribution@{M\-L\-S\-L\-::\-Distribution}}
+\subsubsection[{Allto\-All}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Comm\-Req}$\ast$ M\-L\-S\-L\-::\-Distribution\-::\-Allto\-All (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{send\-Buffer, }
+\item[{size\-\_\-t}]{send\-Count, }
+\item[{void $\ast$}]{recv\-Buffer, }
+\item[{{\bf Data\-Type}}]{data\-Type, }
+\item[{{\bf Group\-Type}}]{group\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Distribution_a3e8e2d765cb7023bb7e66f2b3a209190}
+Sends values from all processes of the group to all processes of the group. 
+\begin{DoxyParams}{Parameters}
+{\em send\-Buffer} & the address of the send buffer \\
+\hline
+{\em send\-Count} & the number of elements in the send group buffer, the send buffer should be large enough to hold messages for all processes of the group (at least ({\ttfamily send\-Count} $\ast$ {\ttfamily Get\-Process\-Count(group\-Type)}) elements) \\
+\hline
+{\em recv\-Buffer} & the address of the receive buffer, the receive buffer should be large enough to hold messages from all processes of the group \\
+\hline
+{\em data\-Type} & the data type of buffers' elements \\
+\hline
+{\em group\-Type} & the group type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A communication request. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Distribution_ad084740adee0f8fd8f13dacc2abf42b9}{\index{M\-L\-S\-L\-::\-Distribution@{M\-L\-S\-L\-::\-Distribution}!Allto\-Allv@{Allto\-Allv}}
+\index{Allto\-Allv@{Allto\-Allv}!MLSL::Distribution@{M\-L\-S\-L\-::\-Distribution}}
+\subsubsection[{Allto\-Allv}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Comm\-Req}$\ast$ M\-L\-S\-L\-::\-Distribution\-::\-Allto\-Allv (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{send\-Buffer, }
+\item[{size\-\_\-t $\ast$}]{send\-Counts, }
+\item[{size\-\_\-t $\ast$}]{send\-Offsets, }
+\item[{void $\ast$}]{recv\-Buffer, }
+\item[{size\-\_\-t $\ast$}]{recv\-Counts, }
+\item[{size\-\_\-t $\ast$}]{recv\-Offsets, }
+\item[{{\bf Data\-Type}}]{data\-Type, }
+\item[{{\bf Group\-Type}}]{group\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Distribution_ad084740adee0f8fd8f13dacc2abf42b9}
+Gathers data from and scatters data to all members of a group. 
+\begin{DoxyParams}{Parameters}
+{\em send\-Buffer} & the address of the send buffer \\
+\hline
+{\em send\-Counts} & the number of data elements that the process sends in the buffer that is specified in the sendbuf parameter \\
+\hline
+{\em send\-Offsets} & the location, relative to the sendbuf parameter, of the data for each communicator process \\
+\hline
+{\em recv\-Buffer} & the address of recieve buffer the receive buffer should be large enough to hold messages from all processes of the group \\
+\hline
+{\em recv\-Counts} & the number of data elements from each communicator process in the receive buffer \\
+\hline
+{\em recv\-Offsets} & the location, relative to the recvbuf parameter, of the data from each communicator process \\
+\hline
+{\em data\-Type} & the data type of buffers' elements \\
+\hline
+{\em group\-Type} & the group type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A communication request. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Distribution_a196aac75af9ca05e371a348a956f9a8d}{\index{M\-L\-S\-L\-::\-Distribution@{M\-L\-S\-L\-::\-Distribution}!Barrier@{Barrier}}
+\index{Barrier@{Barrier}!MLSL::Distribution@{M\-L\-S\-L\-::\-Distribution}}
+\subsubsection[{Barrier}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Distribution\-::\-Barrier (
+\begin{DoxyParamCaption}
+\item[{{\bf Group\-Type}}]{group\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Distribution_a196aac75af9ca05e371a348a956f9a8d}
+Sets a barrier for all the processes within a group. 
+\begin{DoxyParams}{Parameters}
+{\em group\-Type} & the group type \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1Distribution_a3b8a002da3ec6f6e72bcc13064257df8}{\index{M\-L\-S\-L\-::\-Distribution@{M\-L\-S\-L\-::\-Distribution}!Bcast@{Bcast}}
+\index{Bcast@{Bcast}!MLSL::Distribution@{M\-L\-S\-L\-::\-Distribution}}
+\subsubsection[{Bcast}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Comm\-Req}$\ast$ M\-L\-S\-L\-::\-Distribution\-::\-Bcast (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{buffer, }
+\item[{size\-\_\-t}]{count, }
+\item[{{\bf Data\-Type}}]{data\-Type, }
+\item[{size\-\_\-t}]{root\-Idx, }
+\item[{{\bf Group\-Type}}]{group\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Distribution_a3b8a002da3ec6f6e72bcc13064257df8}
+Broadcasts a values from the root process to all other processes of the group. 
+\begin{DoxyParams}{Parameters}
+{\em buffer} & the starting address of the buffer \\
+\hline
+{\em count} & the number of elements in the buffer \\
+\hline
+{\em data\-Type} & the data type of the buffer elements \\
+\hline
+{\em root\-Idx} & the index of the root process within a group \\
+\hline
+{\em group\-Type} & group type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A communication request. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Distribution_a9d4d04666d3e5c5dee225e0dc01df2e2}{\index{M\-L\-S\-L\-::\-Distribution@{M\-L\-S\-L\-::\-Distribution}!Gather@{Gather}}
+\index{Gather@{Gather}!MLSL::Distribution@{M\-L\-S\-L\-::\-Distribution}}
+\subsubsection[{Gather}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Comm\-Req}$\ast$ M\-L\-S\-L\-::\-Distribution\-::\-Gather (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{send\-Buffer, }
+\item[{size\-\_\-t}]{send\-Count, }
+\item[{void $\ast$}]{recv\-Buffer, }
+\item[{{\bf Data\-Type}}]{data\-Type, }
+\item[{size\-\_\-t}]{root\-Idx, }
+\item[{{\bf Group\-Type}}]{group\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Distribution_a9d4d04666d3e5c5dee225e0dc01df2e2}
+Gathers values from all processes of the group to the root process. 
+\begin{DoxyParams}{Parameters}
+{\em send\-Buffer} & the address of the send buffer \\
+\hline
+{\em send\-Count} & the number of elements in the send buffer \\
+\hline
+{\em recv\-Buffer} & the address of the receive buffer, meaningful only at the root process, the receive buffer should be large enough to hold messages from all processes of the group \\
+\hline
+{\em data\-Type} & the data type of buffers' elements \\
+\hline
+{\em root\-Idx} & the index of the root process within a group \\
+\hline
+{\em group\-Type} & the group type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A communication request. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Distribution_af5383f6bb85dec6dacc571320723c3e4}{\index{M\-L\-S\-L\-::\-Distribution@{M\-L\-S\-L\-::\-Distribution}!Get\-Process\-Count@{Get\-Process\-Count}}
+\index{Get\-Process\-Count@{Get\-Process\-Count}!MLSL::Distribution@{M\-L\-S\-L\-::\-Distribution}}
+\subsubsection[{Get\-Process\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Distribution\-::\-Get\-Process\-Count (
+\begin{DoxyParamCaption}
+\item[{{\bf Group\-Type}}]{group\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Distribution_af5383f6bb85dec6dacc571320723c3e4}
+Returns the number of processes within a group. 
+\begin{DoxyParams}{Parameters}
+{\em group\-Type} & the group type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of processes. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Distribution_a477e334955de1821d6df50a0ff79b299}{\index{M\-L\-S\-L\-::\-Distribution@{M\-L\-S\-L\-::\-Distribution}!Get\-Process\-Idx@{Get\-Process\-Idx}}
+\index{Get\-Process\-Idx@{Get\-Process\-Idx}!MLSL::Distribution@{M\-L\-S\-L\-::\-Distribution}}
+\subsubsection[{Get\-Process\-Idx}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Distribution\-::\-Get\-Process\-Idx (
+\begin{DoxyParamCaption}
+\item[{{\bf Group\-Type}}]{group\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Distribution_a477e334955de1821d6df50a0ff79b299}
+Returns the process index within a group. 
+\begin{DoxyParams}{Parameters}
+{\em group\-Type} & the group type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The process index. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Distribution_ac22445628780dfce8120f617d9d0b45b}{\index{M\-L\-S\-L\-::\-Distribution@{M\-L\-S\-L\-::\-Distribution}!Reduce@{Reduce}}
+\index{Reduce@{Reduce}!MLSL::Distribution@{M\-L\-S\-L\-::\-Distribution}}
+\subsubsection[{Reduce}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Comm\-Req}$\ast$ M\-L\-S\-L\-::\-Distribution\-::\-Reduce (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{send\-Buffer, }
+\item[{void $\ast$}]{recv\-Buffer, }
+\item[{size\-\_\-t}]{count, }
+\item[{{\bf Data\-Type}}]{data\-Type, }
+\item[{{\bf Reduction\-Type}}]{red\-Type, }
+\item[{size\-\_\-t}]{root\-Idx, }
+\item[{{\bf Group\-Type}}]{group\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Distribution_ac22445628780dfce8120f617d9d0b45b}
+Reduces values on all processes within a group. 
+\begin{DoxyParams}{Parameters}
+{\em send\-Buffer} & the address of the send buffer \\
+\hline
+{\em recv\-Buffer} & the address of the receive buffer, meaningful only at the root process \\
+\hline
+{\em count} & the number of elements in send/receive buffers \\
+\hline
+{\em data\-Type} & data the type of buffers' elements \\
+\hline
+{\em red\-Type} & the reduction operation type \\
+\hline
+{\em root\-Idx} & the index of the root process within a group \\
+\hline
+{\em group\-Type} & the group type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A communication request. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Distribution_a7d65790975910bda14ac82b9d6156c5e}{\index{M\-L\-S\-L\-::\-Distribution@{M\-L\-S\-L\-::\-Distribution}!Reduce\-Scatter@{Reduce\-Scatter}}
+\index{Reduce\-Scatter@{Reduce\-Scatter}!MLSL::Distribution@{M\-L\-S\-L\-::\-Distribution}}
+\subsubsection[{Reduce\-Scatter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Comm\-Req}$\ast$ M\-L\-S\-L\-::\-Distribution\-::\-Reduce\-Scatter (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{send\-Buffer, }
+\item[{void $\ast$}]{recv\-Buffer, }
+\item[{size\-\_\-t}]{recv\-Count, }
+\item[{{\bf Data\-Type}}]{data\-Type, }
+\item[{{\bf Reduction\-Type}}]{red\-Type, }
+\item[{{\bf Group\-Type}}]{group\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Distribution_a7d65790975910bda14ac82b9d6156c5e}
+Combines values from all processes of the group and scatters the results in blocks back to all the processes. 
+\begin{DoxyParams}{Parameters}
+{\em send\-Buffer} & the address of the send buffer \\
+\hline
+{\em recv\-Buffer} & the address of the receive buffer \\
+\hline
+{\em recv\-Count} & the number of elements in the receive buffer (the number of elements in a block) \\
+\hline
+{\em data\-Type} & the data type of buffers' elements \\
+\hline
+{\em red\-Type} & the reduction operation type \\
+\hline
+{\em group\-Type} & the group type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A communication request. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Distribution_ab3de8f49c9c21f905fcc860c121dd01b}{\index{M\-L\-S\-L\-::\-Distribution@{M\-L\-S\-L\-::\-Distribution}!Scatter@{Scatter}}
+\index{Scatter@{Scatter}!MLSL::Distribution@{M\-L\-S\-L\-::\-Distribution}}
+\subsubsection[{Scatter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Comm\-Req}$\ast$ M\-L\-S\-L\-::\-Distribution\-::\-Scatter (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{send\-Buffer, }
+\item[{void $\ast$}]{recv\-Buffer, }
+\item[{size\-\_\-t}]{recv\-Count, }
+\item[{{\bf Data\-Type}}]{data\-Type, }
+\item[{size\-\_\-t}]{root\-Idx, }
+\item[{{\bf Group\-Type}}]{group\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Distribution_ab3de8f49c9c21f905fcc860c121dd01b}
+Sends values from the root process to all processes of the group. 
+\begin{DoxyParams}{Parameters}
+{\em send\-Buffer} & the address of the send buffer, meaningful only at the root process, the send buffer should be large enough to hold messages for all processes of the group \\
+\hline
+{\em recv\-Buffer} & the address of the receive buffer \\
+\hline
+{\em recv\-Count} & the number of elements in the receive buffer \\
+\hline
+{\em data\-Type} & the data type of buffers' elements \\
+\hline
+{\em root\-Idx} & the index of the root process within a group \\
+\hline
+{\em group\-Type} & the group type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A communication request. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mlsl_8hpp}{mlsl.\-hpp}\end{DoxyCompactItemize}

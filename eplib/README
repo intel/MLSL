@@ -1,0 +1,149 @@
+# EPLIB
+
+The Endpoints Library, EPLIB, was originally created to prototype the
+MPI Endpoints interface. It has since evolved to support a number of
+capabilities for accelerating MPI applications, such as, asynchronous
+progress, mapping regular communicators to separate network endpoints,
+splitting large messages across multiple network endpoints, etc.
+
+# Memory allocation
+
+EPLIB maintains a heap allocated using POSIX shared memory and manages
+it using ptmalloc. Communication buffers need to be allocated in this
+heap to allow endpoint servers communicate them to other nodes without
+extra memory copies. This is done using one of the following techniques:
+
+- Set EPLIB_USE_MEM_HOOKS=1 at runtime. This overloads posix_memalign,
+malloc, and free. _mm_malloc and _mm_free is not supported since they
+don't support memory hooks functionality. All buffers, even those not
+used in communication, will be allocated on EPLIB's heap. If this is
+not desireable, use one of the following options. 
+
+- Or, use MPI standard memory alloc/free functions:
+malloc -> MPI_Alloc_mem
+free -> MPI_Free_mem
+
+MPI's alloctor function do not support memory alignment. If alignment
+is a requirement, then it is advisable to use EPLIB_memalign. EPLIB's
+implementation of MPI_Alloc_mem aligns buffers to page-boundaries.
+
+- Or, add eplib.h and use EPLIB memory management operations:
+posix_memalign or _mm_malloc -> EPLIB_memalign
+malloc -> EPLIB_malloc
+free or _mm_free -> EPLIB_free
+
+This is the preferred option for greater than one endpoint but requires
+source code changes and use of non-standard memory allocation interfaces.
+
+# Building
+
+## Building EPLIB
+
+make clean; make MPIRT_DIR=<path to MPI installation>
+
+## Building applications using EPLIB
+
+Compiler flags: -I$(EPLIB_ROOT)
+Linker flags (for static linking): $(EPLIB_ROOT)/libep.a
+Linker flags (for dynamic linking): -L$(EPLIB_ROOT) -lep
+
+# Running
+
+## Required settings
+
+Set the following environment variables to enable EPLIB at runtime:
+- EPLIB_ROOT=<path to EPLIB server binary and library>
+- EPLIB_MAX_EP_PER_TASK=<number of servers or communication endpoints>
+- EPLIB_SERVER_AFFINITY=<comma separate list of hardware thread ids>
+
+## Setting affinity
+
+By default EPLIB will use the last few cores for the endpoint servers.
+On OPA, given SDMA interrupt mapping to cores 8 (sdma 3) onwards, it
+is advisable users set the affinity for endpoint servers to match its
+corresponding SDMA interrupt handling core. Core 8 maps to application's
+SDMA interrupt. Core 9 onwards maps to endpoint servers.
+
+We expect future OPA SW updates to allow users to choose which cores
+would be responsible for handling these interrupts. 
+
+# Assuming one compute thread per core
+export KMP_HW_SUBSET=1t
+numcores=66
+maxcores=`cat /proc/cpuinfo | grep -m 1 "cpu cores" | awk '{print $4}'`
+freecores=$((maxcores-numcores))
+export KMP_AFFINITY="proclist=[0-8,$((8+freecores+1))-$((maxcores-1))],granularity=thread,explicit"
+export OMP_NUM_THREADS=$numcores
+export EPLIB_MAX_EP_PER_TASK=$freecores
+export EPLIB_SERVER_AFFINITY=9,10
+
+## Accelerating communication on regular communicators
+
+EPLIB supports different modes for accelerating MPI communication calls
+that use regular MPI communicators. This can be chosen at runtime by
+setting the EPLIB_STD_MPI_MODE environment variable:
+
+- EPLIB_STD_MPI_MODE=explicit. For applications that use multiple
+communicators and need EPLIB to map them to separate network endpoints
+and to enable asynchronous progress of these operations.
+
+- EPLIB_STD_MPI_MODE=implicit. For applications that need EPLIB to split
+messages across multiple network endpoints and to enable asynchronous progess
+for these operations. Use cases are limited given MPI semantics limitations.
+Useful for applications with blocking collective operations, e.g. DeepBench.
+
+- EPLIB_STD_MPI_MODE=none. Default behavior. For applications that use
+the MPI endpoints interface and/or do not need EPLIB to accelerate MPI
+operations on regular communicators.
+
+## Server process vs. thread options
+
+EPLIB supports different options for server.
+- EPLIB_DYNAMIC_SERVER=disable. Spawn endpoint servers using separate MPI job.
+- EPLIB_DYNAMIC_SERVER=thread. Spawn threads for endpoint servers. Similar to
+Karthik's CML thread.
+- EPLIB_DYNAMIC_SERVER=threadasync. Spawn thread only for async progress. Similar
+to MPICH async thread (no mpi offload).
+- EPLIB_DYNAMIC_SERVER=process. Spawn processes for endpoint servers.	
+- EPLIB_DYNAMIC_SERVER=hybrid. Spawn thread for single endpoint and processes for
+greater than one endpoint (default).
+
+## Running Deepbench
+
+See run_allreduce_ia.sh in deepbench directory.
+
+## Running applications with EPLIB
+
+1. Single endpoint: No application changes required. Statically link libep.a or
+LD_PRELOAD libep.so at runtime.
+
+export EPLIB_MAX_EP_PER_TASK=1
+LD_PRELOAD=$EPLIB_ROOT/libep.so.1.0 mpiexec.hydra -ppn 1 -np 4 ./a.out 
+
+2. Multiple endpoints: 
+
+(A) Memory hooks enabled. No application changes required. Statically link libep.a
+or LD_PRELOAD libep.so at runtime.
+
+export EPLIB_USE_MEM_HOOKS=1
+export EPLIB_MAX_EP_PER_TASK=4
+LD_PRELOAD=$EPLIB_ROOT/libep.so.1.0 mpiexec.hydra -ppn 1 -np 4 ./a.out 
+
+(B) Use MPI_Alloc_mem/MPI_Free_mem or EPLIB_memalign/EPLIB_malloc/EPLIB_free.
+Compile/link with EPLIB (see "Building applications using EPLIB"). Preferred option
+for greater than one endpoint but requires source code changes.
+
+export EPLIB_MAX_EP_PER_TASK=4
+mpiexec.hydra -ppn 1 -np 4 ./a.out 
+
+# References
+
+@inproceedings{Sridharan:2014:EEM:2683593.2683647,
+ author = {Sridharan, Srinivas and Dinan, James and Kalamkar, Dhiraj D.},
+ title = {Enabling Efficient Multithreaded MPI Communication Through a Library-based Implementation of MPI Endpoints},
+ booktitle = {Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis},
+ series = {SC '14},
+ year = {2014},
+ location = {New Orleans, Louisana},
+ pages = {487--498},
+}

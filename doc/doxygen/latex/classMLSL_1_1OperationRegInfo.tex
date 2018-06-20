@@ -1,0 +1,131 @@
+\hypertarget{classMLSL_1_1OperationRegInfo}{\section{M\-L\-S\-L\-:\-:Operation\-Reg\-Info Class Reference}
+\label{classMLSL_1_1OperationRegInfo}\index{M\-L\-S\-L\-::\-Operation\-Reg\-Info@{M\-L\-S\-L\-::\-Operation\-Reg\-Info}}
+}
+
+
+A class to hold \hyperlink{classMLSL_1_1Operation}{Operation} registration information.  
+
+
+
+
+{\ttfamily \#include $<$mlsl.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classMLSL_1_1OperationRegInfo_a3ed51c1c39660fb44f56a2b26ced6e20}{Set\-Name} (const char $\ast$name)
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1OperationRegInfo_a2c161b0c438d107ee7382f72021c2c66}{Add\-Input} (size\-\_\-t feature\-Map\-Count, size\-\_\-t feature\-Map\-Size, \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} data\-Type)
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1OperationRegInfo_a45cbce304460cf8ca13adb7b2ed194ce}{Add\-Output} (size\-\_\-t feature\-Map\-Count, size\-\_\-t feature\-Map\-Size, \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} data\-Type)
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1OperationRegInfo_ad5212c42654f0fe581684dfd8c327e3a}{Add\-Parameter\-Set} (size\-\_\-t kernel\-Count, size\-\_\-t kernel\-Size, \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} data\-Type, bool distributed\-Update=false, \hyperlink{namespaceMLSL_a68b033a19889eaa288c1d10b85d23ea2}{Compression\-Type} compress\-Type=\hyperlink{namespaceMLSL_a68b033a19889eaa288c1d10b85d23ea2aff711dbf9b304ee795e007e5e667cd52}{C\-T\-\_\-\-N\-O\-N\-E})
+\item 
+void \hyperlink{classMLSL_1_1OperationRegInfo_ab85cd09ead3ca351625f457a1e88555b}{Validate} (\hyperlink{classMLSL_1_1Distribution}{Distribution} $\ast$dist=N\-U\-L\-L)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A class to hold \hyperlink{classMLSL_1_1Operation}{Operation} registration information. 
+
+Holds the information about learnable parameters and activation shapes and is used for creation of an \hyperlink{classMLSL_1_1Operation}{Operation} object. All the input/output activation shapes and parameter shapes (if any) should be added before calling \hyperlink{classMLSL_1_1Session_a165a77b678517fd7991777974681916c}{Session\-::\-Add\-Operation()} 
+
+\subsection{Member Function Documentation}
+\hypertarget{classMLSL_1_1OperationRegInfo_a2c161b0c438d107ee7382f72021c2c66}{\index{M\-L\-S\-L\-::\-Operation\-Reg\-Info@{M\-L\-S\-L\-::\-Operation\-Reg\-Info}!Add\-Input@{Add\-Input}}
+\index{Add\-Input@{Add\-Input}!MLSL::OperationRegInfo@{M\-L\-S\-L\-::\-Operation\-Reg\-Info}}
+\subsubsection[{Add\-Input}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Operation\-Reg\-Info\-::\-Add\-Input (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{feature\-Map\-Count, }
+\item[{size\-\_\-t}]{feature\-Map\-Size, }
+\item[{{\bf Data\-Type}}]{data\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1OperationRegInfo_a2c161b0c438d107ee7382f72021c2c66}
+Adds an input activation shape to the operation. 
+\begin{DoxyParams}{Parameters}
+{\em feature\-Map\-Count} & the number of feature maps \\
+\hline
+{\em feature\-Map\-Size} & the size of feature maps in \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{M\-L\-S\-L\-::\-Data\-Type} elements \\
+\hline
+{\em data\-Type} & the data type of feature map elements \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The index of the input activation. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1OperationRegInfo_a45cbce304460cf8ca13adb7b2ed194ce}{\index{M\-L\-S\-L\-::\-Operation\-Reg\-Info@{M\-L\-S\-L\-::\-Operation\-Reg\-Info}!Add\-Output@{Add\-Output}}
+\index{Add\-Output@{Add\-Output}!MLSL::OperationRegInfo@{M\-L\-S\-L\-::\-Operation\-Reg\-Info}}
+\subsubsection[{Add\-Output}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Operation\-Reg\-Info\-::\-Add\-Output (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{feature\-Map\-Count, }
+\item[{size\-\_\-t}]{feature\-Map\-Size, }
+\item[{{\bf Data\-Type}}]{data\-Type}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1OperationRegInfo_a45cbce304460cf8ca13adb7b2ed194ce}
+Adds an output activation shape to the operation. 
+\begin{DoxyParams}{Parameters}
+{\em feature\-Map\-Count} & the number of feature maps \\
+\hline
+{\em feature\-Map\-Size} & the size of feature maps in \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{M\-L\-S\-L\-::\-Data\-Type} elements \\
+\hline
+{\em data\-Type} & the data type of feature map's elements \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The index of the output activation. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1OperationRegInfo_ad5212c42654f0fe581684dfd8c327e3a}{\index{M\-L\-S\-L\-::\-Operation\-Reg\-Info@{M\-L\-S\-L\-::\-Operation\-Reg\-Info}!Add\-Parameter\-Set@{Add\-Parameter\-Set}}
+\index{Add\-Parameter\-Set@{Add\-Parameter\-Set}!MLSL::OperationRegInfo@{M\-L\-S\-L\-::\-Operation\-Reg\-Info}}
+\subsubsection[{Add\-Parameter\-Set}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Operation\-Reg\-Info\-::\-Add\-Parameter\-Set (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{kernel\-Count, }
+\item[{size\-\_\-t}]{kernel\-Size, }
+\item[{{\bf Data\-Type}}]{data\-Type, }
+\item[{bool}]{distributed\-Update = {\ttfamily false}, }
+\item[{{\bf Compression\-Type}}]{compress\-Type = {\ttfamily {\bf C\-T\-\_\-\-N\-O\-N\-E}}}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1OperationRegInfo_ad5212c42654f0fe581684dfd8c327e3a}
+Adds a parameter set shape to the operation. 
+\begin{DoxyParams}{Parameters}
+{\em kernel\-Count} & the number of kernels \\
+\hline
+{\em kernel\-Size} & the size of a single kernel in \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{M\-L\-S\-L\-::\-Data\-Type} elements \\
+\hline
+{\em data\-Type} & the data type of kernel's elements \\
+\hline
+{\em distributed\-Update} & tells whether to use the distributed update of parameters (Reduce\-Scatter() + All\-Gather() instead of All\-Reduce()) \\
+\hline
+{\em compress\-Type} & the type of compression (\hyperlink{classMLSL_1_1Environment_aa04d7afb4713e0be0a83e33f896fb2e8}{Environment\-::\-Set\-Quantization\-Params()} must be called before \hyperlink{classMLSL_1_1OperationRegInfo_ad5212c42654f0fe581684dfd8c327e3a}{Add\-Parameter\-Set()} with quantization enabled) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The index of the parameter set. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1OperationRegInfo_a3ed51c1c39660fb44f56a2b26ced6e20}{\index{M\-L\-S\-L\-::\-Operation\-Reg\-Info@{M\-L\-S\-L\-::\-Operation\-Reg\-Info}!Set\-Name@{Set\-Name}}
+\index{Set\-Name@{Set\-Name}!MLSL::OperationRegInfo@{M\-L\-S\-L\-::\-Operation\-Reg\-Info}}
+\subsubsection[{Set\-Name}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Operation\-Reg\-Info\-::\-Set\-Name (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1OperationRegInfo_a3ed51c1c39660fb44f56a2b26ced6e20}
+Sets the operation name (for debugging purposes) 
+\begin{DoxyParams}{Parameters}
+{\em name} & the operation name \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1OperationRegInfo_ab85cd09ead3ca351625f457a1e88555b}{\index{M\-L\-S\-L\-::\-Operation\-Reg\-Info@{M\-L\-S\-L\-::\-Operation\-Reg\-Info}!Validate@{Validate}}
+\index{Validate@{Validate}!MLSL::OperationRegInfo@{M\-L\-S\-L\-::\-Operation\-Reg\-Info}}
+\subsubsection[{Validate}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Operation\-Reg\-Info\-::\-Validate (
+\begin{DoxyParamCaption}
+\item[{{\bf Distribution} $\ast$}]{dist = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1OperationRegInfo_ab85cd09ead3ca351625f457a1e88555b}
+Validates the activations/parameter sets information. 
+\begin{DoxyParams}{Parameters}
+{\em dist} & the distribution (currently not used) \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mlsl_8hpp}{mlsl.\-hpp}\end{DoxyCompactItemize}

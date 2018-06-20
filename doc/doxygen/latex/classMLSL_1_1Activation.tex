@@ -1,0 +1,196 @@
+\hypertarget{classMLSL_1_1Activation}{\section{M\-L\-S\-L\-:\-:Activation Class Reference}
+\label{classMLSL_1_1Activation}\index{M\-L\-S\-L\-::\-Activation@{M\-L\-S\-L\-::\-Activation}}
+}
+
+
+A wrapper class for operation input and output activations.  
+
+
+
+
+{\ttfamily \#include $<$mlsl.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Activation_af105b2a9b3f3ca51f71a5372c8af8012}{Get\-Global\-Fm\-Count} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Activation_a7b3f57465e6e485920d6df70eec212e7}{Get\-Global\-Fm\-Offset} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Activation_adbc1a830a339e767da99d5721b50b0c0}{Get\-Local\-Fm\-Count} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Activation_a99c80c7951309ae0f1b809d50da061d9}{Get\-Pack\-Block\-Count} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Activation_a7149c6eab8edb219a88688ae63ce7c6c}{Get\-Unpack\-Block\-Count} ()
+\item 
+\hyperlink{classMLSL_1_1CommBlockInfo}{Comm\-Block\-Info} $\ast$ \hyperlink{classMLSL_1_1Activation_a6927390c4660175b74add98320b740f6}{Get\-Pack\-Block} (size\-\_\-t idx)
+\item 
+\hyperlink{classMLSL_1_1CommBlockInfo}{Comm\-Block\-Info} $\ast$ \hyperlink{classMLSL_1_1Activation_a0f706f93ca26c1f522d6d7f56a72d878}{Get\-Unpack\-Block} (size\-\_\-t idx)
+\item 
+\hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{Data\-Type} \hyperlink{classMLSL_1_1Activation_a6df9d76224dbe137b88fea2c55ce3708}{Get\-Data\-Type} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Activation_ad7ef946e5e52a5cbc2c39ed147a814e6}{Get\-Fm\-Size} ()
+\item 
+void $\ast$ \hyperlink{classMLSL_1_1Activation_ac05d33b303e0f33acfff79a8d99cf267}{Get\-Comm\-Buf} ()
+\item 
+size\-\_\-t \hyperlink{classMLSL_1_1Activation_a46a52035bdde07e3d8501745e7023baa}{Get\-Comm\-Buf\-Size} ()
+\item 
+void \hyperlink{classMLSL_1_1Activation_a23a1448b3653d0f950b004fb901f8ae0}{Start\-Comm} (void $\ast$buf)
+\item 
+void $\ast$ \hyperlink{classMLSL_1_1Activation_a8ea1aa22f4f0d55e7334839cdb005356}{Wait\-Comm} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A wrapper class for operation input and output activations. 
+
+Holds information about the input/output activation shape and allows performing associated communications. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classMLSL_1_1Activation_ac05d33b303e0f33acfff79a8d99cf267}{\index{M\-L\-S\-L\-::\-Activation@{M\-L\-S\-L\-::\-Activation}!Get\-Comm\-Buf@{Get\-Comm\-Buf}}
+\index{Get\-Comm\-Buf@{Get\-Comm\-Buf}!MLSL::Activation@{M\-L\-S\-L\-::\-Activation}}
+\subsubsection[{Get\-Comm\-Buf}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ M\-L\-S\-L\-::\-Activation\-::\-Get\-Comm\-Buf (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Activation_ac05d33b303e0f33acfff79a8d99cf267}
+\begin{DoxyReturn}{Returns}
+A pointer to internally allocated buffer sufficient for packing/unpacking. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Activation_a46a52035bdde07e3d8501745e7023baa}{\index{M\-L\-S\-L\-::\-Activation@{M\-L\-S\-L\-::\-Activation}!Get\-Comm\-Buf\-Size@{Get\-Comm\-Buf\-Size}}
+\index{Get\-Comm\-Buf\-Size@{Get\-Comm\-Buf\-Size}!MLSL::Activation@{M\-L\-S\-L\-::\-Activation}}
+\subsubsection[{Get\-Comm\-Buf\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Activation\-::\-Get\-Comm\-Buf\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Activation_a46a52035bdde07e3d8501745e7023baa}
+\begin{DoxyReturn}{Returns}
+The size of internally allocated buffer sufficient for packing/unpacking. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Activation_a6df9d76224dbe137b88fea2c55ce3708}{\index{M\-L\-S\-L\-::\-Activation@{M\-L\-S\-L\-::\-Activation}!Get\-Data\-Type@{Get\-Data\-Type}}
+\index{Get\-Data\-Type@{Get\-Data\-Type}!MLSL::Activation@{M\-L\-S\-L\-::\-Activation}}
+\subsubsection[{Get\-Data\-Type}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Data\-Type} M\-L\-S\-L\-::\-Activation\-::\-Get\-Data\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Activation_a6df9d76224dbe137b88fea2c55ce3708}
+\begin{DoxyReturn}{Returns}
+The data type of the feature map elements. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Activation_ad7ef946e5e52a5cbc2c39ed147a814e6}{\index{M\-L\-S\-L\-::\-Activation@{M\-L\-S\-L\-::\-Activation}!Get\-Fm\-Size@{Get\-Fm\-Size}}
+\index{Get\-Fm\-Size@{Get\-Fm\-Size}!MLSL::Activation@{M\-L\-S\-L\-::\-Activation}}
+\subsubsection[{Get\-Fm\-Size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Activation\-::\-Get\-Fm\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Activation_ad7ef946e5e52a5cbc2c39ed147a814e6}
+\begin{DoxyReturn}{Returns}
+The size of a feature map in \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{M\-L\-S\-L\-::\-Data\-Type} elements. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Activation_af105b2a9b3f3ca51f71a5372c8af8012}{\index{M\-L\-S\-L\-::\-Activation@{M\-L\-S\-L\-::\-Activation}!Get\-Global\-Fm\-Count@{Get\-Global\-Fm\-Count}}
+\index{Get\-Global\-Fm\-Count@{Get\-Global\-Fm\-Count}!MLSL::Activation@{M\-L\-S\-L\-::\-Activation}}
+\subsubsection[{Get\-Global\-Fm\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Activation\-::\-Get\-Global\-Fm\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Activation_af105b2a9b3f3ca51f71a5372c8af8012}
+\begin{DoxyReturn}{Returns}
+The global count of feature maps. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Activation_a7b3f57465e6e485920d6df70eec212e7}{\index{M\-L\-S\-L\-::\-Activation@{M\-L\-S\-L\-::\-Activation}!Get\-Global\-Fm\-Offset@{Get\-Global\-Fm\-Offset}}
+\index{Get\-Global\-Fm\-Offset@{Get\-Global\-Fm\-Offset}!MLSL::Activation@{M\-L\-S\-L\-::\-Activation}}
+\subsubsection[{Get\-Global\-Fm\-Offset}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Activation\-::\-Get\-Global\-Fm\-Offset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Activation_a7b3f57465e6e485920d6df70eec212e7}
+\begin{DoxyReturn}{Returns}
+The offset of the local portion of feature maps in the global count of feature maps. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Activation_adbc1a830a339e767da99d5721b50b0c0}{\index{M\-L\-S\-L\-::\-Activation@{M\-L\-S\-L\-::\-Activation}!Get\-Local\-Fm\-Count@{Get\-Local\-Fm\-Count}}
+\index{Get\-Local\-Fm\-Count@{Get\-Local\-Fm\-Count}!MLSL::Activation@{M\-L\-S\-L\-::\-Activation}}
+\subsubsection[{Get\-Local\-Fm\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Activation\-::\-Get\-Local\-Fm\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Activation_adbc1a830a339e767da99d5721b50b0c0}
+\begin{DoxyReturn}{Returns}
+The local count of feature maps (the length of the local portion being processed by this process). 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Activation_a6927390c4660175b74add98320b740f6}{\index{M\-L\-S\-L\-::\-Activation@{M\-L\-S\-L\-::\-Activation}!Get\-Pack\-Block@{Get\-Pack\-Block}}
+\index{Get\-Pack\-Block@{Get\-Pack\-Block}!MLSL::Activation@{M\-L\-S\-L\-::\-Activation}}
+\subsubsection[{Get\-Pack\-Block}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Comm\-Block\-Info}$\ast$ M\-L\-S\-L\-::\-Activation\-::\-Get\-Pack\-Block (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{idx}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Activation_a6927390c4660175b74add98320b740f6}
+Returns the \hyperlink{classMLSL_1_1CommBlockInfo}{Comm\-Block\-Info} object containing information for packing. 
+\begin{DoxyParams}{Parameters}
+{\em idx} & the object index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Block information for packing. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Activation_a99c80c7951309ae0f1b809d50da061d9}{\index{M\-L\-S\-L\-::\-Activation@{M\-L\-S\-L\-::\-Activation}!Get\-Pack\-Block\-Count@{Get\-Pack\-Block\-Count}}
+\index{Get\-Pack\-Block\-Count@{Get\-Pack\-Block\-Count}!MLSL::Activation@{M\-L\-S\-L\-::\-Activation}}
+\subsubsection[{Get\-Pack\-Block\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Activation\-::\-Get\-Pack\-Block\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Activation_a99c80c7951309ae0f1b809d50da061d9}
+\begin{DoxyReturn}{Returns}
+The count of data blocks being sent for this \hyperlink{classMLSL_1_1Activation}{Activation} instance. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Activation_a0f706f93ca26c1f522d6d7f56a72d878}{\index{M\-L\-S\-L\-::\-Activation@{M\-L\-S\-L\-::\-Activation}!Get\-Unpack\-Block@{Get\-Unpack\-Block}}
+\index{Get\-Unpack\-Block@{Get\-Unpack\-Block}!MLSL::Activation@{M\-L\-S\-L\-::\-Activation}}
+\subsubsection[{Get\-Unpack\-Block}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Comm\-Block\-Info}$\ast$ M\-L\-S\-L\-::\-Activation\-::\-Get\-Unpack\-Block (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{idx}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Activation_a0f706f93ca26c1f522d6d7f56a72d878}
+Returns the \hyperlink{classMLSL_1_1CommBlockInfo}{Comm\-Block\-Info} object containing information for unpacking. 
+\begin{DoxyParams}{Parameters}
+{\em idx} & the object index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Block information for unpacking. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Activation_a7149c6eab8edb219a88688ae63ce7c6c}{\index{M\-L\-S\-L\-::\-Activation@{M\-L\-S\-L\-::\-Activation}!Get\-Unpack\-Block\-Count@{Get\-Unpack\-Block\-Count}}
+\index{Get\-Unpack\-Block\-Count@{Get\-Unpack\-Block\-Count}!MLSL::Activation@{M\-L\-S\-L\-::\-Activation}}
+\subsubsection[{Get\-Unpack\-Block\-Count}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t M\-L\-S\-L\-::\-Activation\-::\-Get\-Unpack\-Block\-Count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Activation_a7149c6eab8edb219a88688ae63ce7c6c}
+\begin{DoxyReturn}{Returns}
+The count of data blocks being received for this \hyperlink{classMLSL_1_1Activation}{Activation} instance. 
+\end{DoxyReturn}
+\hypertarget{classMLSL_1_1Activation_a23a1448b3653d0f950b004fb901f8ae0}{\index{M\-L\-S\-L\-::\-Activation@{M\-L\-S\-L\-::\-Activation}!Start\-Comm@{Start\-Comm}}
+\index{Start\-Comm@{Start\-Comm}!MLSL::Activation@{M\-L\-S\-L\-::\-Activation}}
+\subsubsection[{Start\-Comm}]{\setlength{\rightskip}{0pt plus 5cm}void M\-L\-S\-L\-::\-Activation\-::\-Start\-Comm (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{buf}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Activation_a23a1448b3653d0f950b004fb901f8ae0}
+Starts the non-\/blocking activation/gradient exchange with respect to activation. 
+\begin{DoxyParams}{Parameters}
+{\em buf} & the buffer containing the packed activation \\
+\hline
+\end{DoxyParams}
+\hypertarget{classMLSL_1_1Activation_a8ea1aa22f4f0d55e7334839cdb005356}{\index{M\-L\-S\-L\-::\-Activation@{M\-L\-S\-L\-::\-Activation}!Wait\-Comm@{Wait\-Comm}}
+\index{Wait\-Comm@{Wait\-Comm}!MLSL::Activation@{M\-L\-S\-L\-::\-Activation}}
+\subsubsection[{Wait\-Comm}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ M\-L\-S\-L\-::\-Activation\-::\-Wait\-Comm (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classMLSL_1_1Activation_a8ea1aa22f4f0d55e7334839cdb005356}
+Waits for completion of the activation/gradient exchange with respect to activation. \begin{DoxyReturn}{Returns}
+A pointer to the buffer containing the activation to be unpacked. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{mlsl_8hpp}{mlsl.\-hpp}\end{DoxyCompactItemize}

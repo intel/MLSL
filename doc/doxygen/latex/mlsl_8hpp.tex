@@ -1,0 +1,214 @@
+\hypertarget{mlsl_8hpp}{\section{mlsl.\-hpp File Reference}
+\label{mlsl_8hpp}\index{mlsl.\-hpp@{mlsl.\-hpp}}
+}
+
+
+Public external interface to Intel® Machine Learning Scaling Library (Intel® M\-L\-S\-L)  
+
+
+{\ttfamily \#include $<$cstddef$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structMLSL_1_1QuantParams}{M\-L\-S\-L\-::\-Quant\-Params}
+\begin{DoxyCompactList}\small\item\em A struct to hold quantization parameters. \end{DoxyCompactList}\item 
+class \hyperlink{classMLSL_1_1CommBlockInfo}{M\-L\-S\-L\-::\-Comm\-Block\-Info}
+\begin{DoxyCompactList}\small\item\em A class to hold block information for activations packing/unpacking. \end{DoxyCompactList}\item 
+class \hyperlink{classMLSL_1_1Activation}{M\-L\-S\-L\-::\-Activation}
+\begin{DoxyCompactList}\small\item\em A wrapper class for operation input and output activations. \end{DoxyCompactList}\item 
+class \hyperlink{classMLSL_1_1ParameterSet}{M\-L\-S\-L\-::\-Parameter\-Set}
+\begin{DoxyCompactList}\small\item\em A wrapper class for operation parameters. \end{DoxyCompactList}\item 
+class \hyperlink{classMLSL_1_1Distribution}{M\-L\-S\-L\-::\-Distribution}
+\begin{DoxyCompactList}\small\item\em A class to hold information about the parallelism scheme being used. \end{DoxyCompactList}\item 
+class \hyperlink{classMLSL_1_1OperationRegInfo}{M\-L\-S\-L\-::\-Operation\-Reg\-Info}
+\begin{DoxyCompactList}\small\item\em A class to hold \hyperlink{classMLSL_1_1Operation}{Operation} registration information. \end{DoxyCompactList}\item 
+class \hyperlink{classMLSL_1_1Operation}{M\-L\-S\-L\-::\-Operation}
+\begin{DoxyCompactList}\small\item\em A class to hold information about learnable parameters (parameter sets) and activations corresponding to a certain operation of the computational graph. \end{DoxyCompactList}\item 
+class \hyperlink{classMLSL_1_1Statistics}{M\-L\-S\-L\-::\-Statistics}
+\begin{DoxyCompactList}\small\item\em A class to measure and store performance statistics of communication among processes that perform computation in the computational graph. \end{DoxyCompactList}\item 
+class \hyperlink{classMLSL_1_1Session}{M\-L\-S\-L\-::\-Session}
+\begin{DoxyCompactList}\small\item\em A class to represent a collection of \hyperlink{classMLSL_1_1Operation}{Operation} objects with the same global mini-\/batch size. \end{DoxyCompactList}\item 
+class \hyperlink{classMLSL_1_1Environment}{M\-L\-S\-L\-::\-Environment}
+\begin{DoxyCompactList}\small\item\em A singleton object that holds global Intel M\-L\-S\-L functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespaceMLSL}{M\-L\-S\-L}
+\begin{DoxyCompactList}\small\item\em The namespace containing all Intel M\-L\-S\-L classes and types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{mlsl_8hpp_a14f225df0080c0839dab1c935ce6e387}{M\-L\-S\-L\-\_\-\-M\-A\-J\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N}~1
+\item 
+\#define \hyperlink{mlsl_8hpp_add59a05c06884a3994918a8de667cae1}{M\-L\-S\-L\-\_\-\-M\-I\-N\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N}~0
+\item 
+\#define \hyperlink{mlsl_8hpp_ad00a0c5e0a78a13e87423635a6fadb46}{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N}(major, minor)~((major $<$$<$ 16) $|$ (minor))
+\item 
+\#define \hyperlink{mlsl_8hpp_a062c569aaedd66ace2df50801cd40782}{M\-L\-S\-L\-\_\-\-M\-A\-J\-O\-R}(version)~(version $>$$>$ 16)
+\item 
+\#define \hyperlink{mlsl_8hpp_ae217b9248e13073f2d1f8f89d07d808c}{M\-L\-S\-L\-\_\-\-M\-I\-N\-O\-R}(version)~(version \& 0x\-F\-F\-F\-F)
+\item 
+\#define \hyperlink{mlsl_8hpp_a3bb88341a16b33c7be24f7534e34fcaa}{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N\-\_\-\-G\-E}(v1, v2)
+\item 
+\#define \hyperlink{mlsl_8hpp_aaf671079a20a6bd0c263cf1b1866b6b5}{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N\-\_\-\-L\-T}(v1, v2)
+\item 
+\#define \hyperlink{mlsl_8hpp_afc13d3b02db2e4d5b034ef0fbdcd4798}{N\-O\-\_\-\-E\-X\-P\-L\-I\-C\-I\-T\-\_\-\-C\-R\-E\-A\-T\-I\-O\-N}(Class\-Name)
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef int \hyperlink{namespaceMLSL_aaf6e40eb1d3e48bb109f529d625e4087}{M\-L\-S\-L\-::\-Comm\-Req}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840ba}{M\-L\-S\-L\-::\-Data\-Type} \{ \hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840baaaff0417a027fdca78a786341e8738b9b}{M\-L\-S\-L\-::\-D\-T\-\_\-\-F\-L\-O\-A\-T} = 0, 
+\hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840baaa95b7af7c2724d0edd7733d08bdfada5}{M\-L\-S\-L\-::\-D\-T\-\_\-\-D\-O\-U\-B\-L\-E} = 1, 
+\hyperlink{namespaceMLSL_a09825f36959e78645dd9bc70bdf840baad2c6c5e4363f8da3cc9f2c8d7c6c3296}{M\-L\-S\-L\-::\-D\-T\-\_\-\-B\-Y\-T\-E} = 2
+ \}
+\item 
+enum \hyperlink{namespaceMLSL_a7d1938ee24117d29200c2d29562db712}{M\-L\-S\-L\-::\-Phase\-Type} \{ \hyperlink{namespaceMLSL_a7d1938ee24117d29200c2d29562db712a1c904b49427b2bbe7e84ee65ad939f05}{M\-L\-S\-L\-::\-P\-T\-\_\-\-T\-R\-A\-I\-N} = 0, 
+\hyperlink{namespaceMLSL_a7d1938ee24117d29200c2d29562db712a2ff42be7234d913c778f6c8cf8a259a3}{M\-L\-S\-L\-::\-P\-T\-\_\-\-T\-E\-S\-T} = 1
+ \}
+\item 
+enum \hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95}{M\-L\-S\-L\-::\-Group\-Type} \{ \hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95af88ffdbe7280e91f4567aaa1529209d1}{M\-L\-S\-L\-::\-G\-T\-\_\-\-D\-A\-T\-A} = 0, 
+\hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95a86219d2c56b5d2d980fa1611e8c24353}{M\-L\-S\-L\-::\-G\-T\-\_\-\-M\-O\-D\-E\-L} = 1, 
+\hyperlink{namespaceMLSL_a9629292da8a376647d4b14a34cda9b95af7f072326039cee9c6a9c0d810c98700}{M\-L\-S\-L\-::\-G\-T\-\_\-\-G\-L\-O\-B\-A\-L} = 2
+ \}
+\begin{DoxyCompactList}\small\item\em Groups of processes supported by Intel M\-L\-S\-L. \end{DoxyCompactList}\item 
+enum \hyperlink{namespaceMLSL_a6513313f07b5a1b8b93ee7dd5557b27c}{M\-L\-S\-L\-::\-Reduction\-Type} \{ \hyperlink{namespaceMLSL_a6513313f07b5a1b8b93ee7dd5557b27ca9ce70a1366a7c2d3025f3052b95163de}{M\-L\-S\-L\-::\-R\-T\-\_\-\-S\-U\-M} = 0, 
+\hyperlink{namespaceMLSL_a6513313f07b5a1b8b93ee7dd5557b27ca3c2808b1ae87ba0c3aa97195ce4b8774}{M\-L\-S\-L\-::\-R\-T\-\_\-\-M\-I\-N} = 1, 
+\hyperlink{namespaceMLSL_a6513313f07b5a1b8b93ee7dd5557b27caa478b673a991fa9c4884802138a9710d}{M\-L\-S\-L\-::\-R\-T\-\_\-\-M\-A\-X} = 2
+ \}
+\item 
+enum \hyperlink{namespaceMLSL_a1366e5621278eafc7ecb03de012824bf}{M\-L\-S\-L\-::\-Op\-Type} \{ \\*
+\hyperlink{namespaceMLSL_a1366e5621278eafc7ecb03de012824bfa70295c28704cb7c887a072686c4f5305}{M\-L\-S\-L\-::\-O\-T\-\_\-\-C\-C} = 0, 
+\hyperlink{namespaceMLSL_a1366e5621278eafc7ecb03de012824bfa49a50543b1b277ebfac7e22f02608ad2}{M\-L\-S\-L\-::\-O\-T\-\_\-\-B\-I\-A\-S} = 1, 
+\hyperlink{namespaceMLSL_a1366e5621278eafc7ecb03de012824bfa7eac245be19cf57e6395510671ebba1a}{M\-L\-S\-L\-::\-O\-T\-\_\-\-A\-C\-T} = 2, 
+\hyperlink{namespaceMLSL_a1366e5621278eafc7ecb03de012824bfa6c34e19d18d2aca59c17031314d07208}{M\-L\-S\-L\-::\-O\-T\-\_\-\-P\-O\-O\-L} = 3, 
+\\*
+\hyperlink{namespaceMLSL_a1366e5621278eafc7ecb03de012824bfa246415eb6cf586ba7e9ea582bb514972}{M\-L\-S\-L\-::\-O\-T\-\_\-\-S\-P\-L\-I\-T} = 4, 
+\hyperlink{namespaceMLSL_a1366e5621278eafc7ecb03de012824bfa07a4c6f2426bda90f3885a9e702ed9bc}{M\-L\-S\-L\-::\-O\-T\-\_\-\-C\-O\-N\-C\-A\-T} = 5, 
+\hyperlink{namespaceMLSL_a1366e5621278eafc7ecb03de012824bfafdf3fd4cbd9bc9c8da2dc189c49290fa}{M\-L\-S\-L\-::\-O\-T\-\_\-\-B\-C\-A\-S\-T} = 6, 
+\hyperlink{namespaceMLSL_a1366e5621278eafc7ecb03de012824bfa9558b22712b606975ce648e1235ad723}{M\-L\-S\-L\-::\-O\-T\-\_\-\-R\-E\-D\-U\-C\-E} = 7, 
+\\*
+\hyperlink{namespaceMLSL_a1366e5621278eafc7ecb03de012824bfa731eb8ebe65dbc30a5b45f2060c96843}{M\-L\-S\-L\-::\-O\-T\-\_\-\-D\-A\-T\-A} = 8, 
+\hyperlink{namespaceMLSL_a1366e5621278eafc7ecb03de012824bfa0fe51fe8337683217b9523cc0ce8b31c}{M\-L\-S\-L\-::\-O\-T\-\_\-\-E\-V\-A\-L} = 9
+ \}
+\begin{DoxyCompactList}\small\item\em Compute operation types. \end{DoxyCompactList}\item 
+enum \hyperlink{namespaceMLSL_a68b033a19889eaa288c1d10b85d23ea2}{M\-L\-S\-L\-::\-Compression\-Type} \{ \hyperlink{namespaceMLSL_a68b033a19889eaa288c1d10b85d23ea2aff711dbf9b304ee795e007e5e667cd52}{M\-L\-S\-L\-::\-C\-T\-\_\-\-N\-O\-N\-E} = 0, 
+\hyperlink{namespaceMLSL_a68b033a19889eaa288c1d10b85d23ea2a387a43f9648f4692e3d939b34082c395}{M\-L\-S\-L\-::\-C\-T\-\_\-\-Q\-U\-A\-N\-T\-I\-Z\-A\-T\-I\-O\-N} = 1
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Public external interface to Intel® Machine Learning Scaling Library (Intel® M\-L\-S\-L) 
+
+\subsection{Macro Definition Documentation}
+\hypertarget{mlsl_8hpp_a062c569aaedd66ace2df50801cd40782}{\index{mlsl.\-hpp@{mlsl.\-hpp}!M\-L\-S\-L\-\_\-\-M\-A\-J\-O\-R@{M\-L\-S\-L\-\_\-\-M\-A\-J\-O\-R}}
+\index{M\-L\-S\-L\-\_\-\-M\-A\-J\-O\-R@{M\-L\-S\-L\-\_\-\-M\-A\-J\-O\-R}!mlsl.hpp@{mlsl.\-hpp}}
+\subsubsection[{M\-L\-S\-L\-\_\-\-M\-A\-J\-O\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-L\-S\-L\-\_\-\-M\-A\-J\-O\-R(
+\begin{DoxyParamCaption}
+\item[{}]{version}
+\end{DoxyParamCaption}
+)~(version $>$$>$ 16)}}\label{mlsl_8hpp_a062c569aaedd66ace2df50801cd40782}
+A macro to retrieve the major A\-P\-I version from the full A\-P\-I version. 
+\begin{DoxyParams}{Parameters}
+{\em version} & full A\-P\-I version \\
+\hline
+\end{DoxyParams}
+\hypertarget{mlsl_8hpp_a14f225df0080c0839dab1c935ce6e387}{\index{mlsl.\-hpp@{mlsl.\-hpp}!M\-L\-S\-L\-\_\-\-M\-A\-J\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N@{M\-L\-S\-L\-\_\-\-M\-A\-J\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N}}
+\index{M\-L\-S\-L\-\_\-\-M\-A\-J\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N@{M\-L\-S\-L\-\_\-\-M\-A\-J\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N}!mlsl.hpp@{mlsl.\-hpp}}
+\subsubsection[{M\-L\-S\-L\-\_\-\-M\-A\-J\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-L\-S\-L\-\_\-\-M\-A\-J\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N~1}}\label{mlsl_8hpp_a14f225df0080c0839dab1c935ce6e387}
+Intel M\-L\-S\-L A\-P\-I major version. \hypertarget{mlsl_8hpp_ae217b9248e13073f2d1f8f89d07d808c}{\index{mlsl.\-hpp@{mlsl.\-hpp}!M\-L\-S\-L\-\_\-\-M\-I\-N\-O\-R@{M\-L\-S\-L\-\_\-\-M\-I\-N\-O\-R}}
+\index{M\-L\-S\-L\-\_\-\-M\-I\-N\-O\-R@{M\-L\-S\-L\-\_\-\-M\-I\-N\-O\-R}!mlsl.hpp@{mlsl.\-hpp}}
+\subsubsection[{M\-L\-S\-L\-\_\-\-M\-I\-N\-O\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-L\-S\-L\-\_\-\-M\-I\-N\-O\-R(
+\begin{DoxyParamCaption}
+\item[{}]{version}
+\end{DoxyParamCaption}
+)~(version \& 0x\-F\-F\-F\-F)}}\label{mlsl_8hpp_ae217b9248e13073f2d1f8f89d07d808c}
+A macro to retrieve the minor version from the full version. 
+\begin{DoxyParams}{Parameters}
+{\em version} & full A\-P\-I version \\
+\hline
+\end{DoxyParams}
+\hypertarget{mlsl_8hpp_add59a05c06884a3994918a8de667cae1}{\index{mlsl.\-hpp@{mlsl.\-hpp}!M\-L\-S\-L\-\_\-\-M\-I\-N\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N@{M\-L\-S\-L\-\_\-\-M\-I\-N\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N}}
+\index{M\-L\-S\-L\-\_\-\-M\-I\-N\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N@{M\-L\-S\-L\-\_\-\-M\-I\-N\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N}!mlsl.hpp@{mlsl.\-hpp}}
+\subsubsection[{M\-L\-S\-L\-\_\-\-M\-I\-N\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-L\-S\-L\-\_\-\-M\-I\-N\-O\-R\-\_\-\-V\-E\-R\-S\-I\-O\-N~0}}\label{mlsl_8hpp_add59a05c06884a3994918a8de667cae1}
+Intel M\-L\-S\-L A\-P\-I minor version. \hypertarget{mlsl_8hpp_ad00a0c5e0a78a13e87423635a6fadb46}{\index{mlsl.\-hpp@{mlsl.\-hpp}!M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N@{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N}}
+\index{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N@{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N}!mlsl.hpp@{mlsl.\-hpp}}
+\subsubsection[{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N(
+\begin{DoxyParamCaption}
+\item[{}]{major, }
+\item[{}]{minor}
+\end{DoxyParamCaption}
+)~((major $<$$<$ 16) $|$ (minor))}}\label{mlsl_8hpp_ad00a0c5e0a78a13e87423635a6fadb46}
+A macro to create a full A\-P\-I version from the major and minor A\-P\-I versions. 
+\begin{DoxyParams}{Parameters}
+{\em major} & major A\-P\-I version \\
+\hline
+{\em minor} & minor A\-P\-I version \\
+\hline
+\end{DoxyParams}
+\hypertarget{mlsl_8hpp_a3bb88341a16b33c7be24f7534e34fcaa}{\index{mlsl.\-hpp@{mlsl.\-hpp}!M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N\-\_\-\-G\-E@{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N\-\_\-\-G\-E}}
+\index{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N\-\_\-\-G\-E@{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N\-\_\-\-G\-E}!mlsl.hpp@{mlsl.\-hpp}}
+\subsubsection[{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N\-\_\-\-G\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N\-\_\-\-G\-E(
+\begin{DoxyParamCaption}
+\item[{}]{v1, }
+\item[{}]{v2}
+\end{DoxyParamCaption}
+)}}\label{mlsl_8hpp_a3bb88341a16b33c7be24f7534e34fcaa}
+{\bfseries Value\-:}
+\begin{DoxyCode}
+((\hyperlink{mlsl_8hpp_a062c569aaedd66ace2df50801cd40782}{MLSL\_MAJOR}(v1) > \hyperlink{mlsl_8hpp_a062c569aaedd66ace2df50801cd40782}{MLSL\_MAJOR}(v2)) ||                                      \(\backslash\)
+                                    (\hyperlink{mlsl_8hpp_a062c569aaedd66ace2df50801cd40782}{MLSL\_MAJOR}(v1) == \hyperlink{mlsl_8hpp_a062c569aaedd66ace2df50801cd40782}{MLSL\_MAJOR}(v2) && 
+      \hyperlink{mlsl_8hpp_ae217b9248e13073f2d1f8f89d07d808c}{MLSL\_MINOR}(v1) == \hyperlink{mlsl_8hpp_ae217b9248e13073f2d1f8f89d07d808c}{MLSL\_MINOR}(v2)) || \(\backslash\)
+                                    (\hyperlink{mlsl_8hpp_a062c569aaedd66ace2df50801cd40782}{MLSL\_MAJOR}(v1) == \hyperlink{mlsl_8hpp_a062c569aaedd66ace2df50801cd40782}{MLSL\_MAJOR}(v2) && 
+      \hyperlink{mlsl_8hpp_ae217b9248e13073f2d1f8f89d07d808c}{MLSL\_MINOR}(v1) > \hyperlink{mlsl_8hpp_ae217b9248e13073f2d1f8f89d07d808c}{MLSL\_MINOR}(v2)))
+\end{DoxyCode}
+A macro to check the condition (v1 $>$= v2). 
+\begin{DoxyParams}{Parameters}
+{\em v1} & the first full A\-P\-I version to compare \\
+\hline
+{\em v2} & the second full A\-P\-I version to compare \\
+\hline
+\end{DoxyParams}
+\hypertarget{mlsl_8hpp_aaf671079a20a6bd0c263cf1b1866b6b5}{\index{mlsl.\-hpp@{mlsl.\-hpp}!M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N\-\_\-\-L\-T@{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N\-\_\-\-L\-T}}
+\index{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N\-\_\-\-L\-T@{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N\-\_\-\-L\-T}!mlsl.hpp@{mlsl.\-hpp}}
+\subsubsection[{M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N\-\_\-\-L\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-L\-S\-L\-\_\-\-V\-E\-R\-S\-I\-O\-N\-\_\-\-L\-T(
+\begin{DoxyParamCaption}
+\item[{}]{v1, }
+\item[{}]{v2}
+\end{DoxyParamCaption}
+)}}\label{mlsl_8hpp_aaf671079a20a6bd0c263cf1b1866b6b5}
+{\bfseries Value\-:}
+\begin{DoxyCode}
+((\hyperlink{mlsl_8hpp_a062c569aaedd66ace2df50801cd40782}{MLSL\_MAJOR}(v1) < \hyperlink{mlsl_8hpp_a062c569aaedd66ace2df50801cd40782}{MLSL\_MAJOR}(v2)) ||                                   \(\backslash\)
+                                    (\hyperlink{mlsl_8hpp_a062c569aaedd66ace2df50801cd40782}{MLSL\_MAJOR}(v1) == \hyperlink{mlsl_8hpp_a062c569aaedd66ace2df50801cd40782}{MLSL\_MAJOR}(v2) && 
+      \hyperlink{mlsl_8hpp_ae217b9248e13073f2d1f8f89d07d808c}{MLSL\_MINOR}(v1) < \hyperlink{mlsl_8hpp_ae217b9248e13073f2d1f8f89d07d808c}{MLSL\_MINOR}(v2)))
+\end{DoxyCode}
+A macro to check the condition (v1 $<$ v2). 
+\begin{DoxyParams}{Parameters}
+{\em v1} & the first full A\-P\-I version to compare \\
+\hline
+{\em v2} & the second full A\-P\-I version to compare \\
+\hline
+\end{DoxyParams}
+\hypertarget{mlsl_8hpp_afc13d3b02db2e4d5b034ef0fbdcd4798}{\index{mlsl.\-hpp@{mlsl.\-hpp}!N\-O\-\_\-\-E\-X\-P\-L\-I\-C\-I\-T\-\_\-\-C\-R\-E\-A\-T\-I\-O\-N@{N\-O\-\_\-\-E\-X\-P\-L\-I\-C\-I\-T\-\_\-\-C\-R\-E\-A\-T\-I\-O\-N}}
+\index{N\-O\-\_\-\-E\-X\-P\-L\-I\-C\-I\-T\-\_\-\-C\-R\-E\-A\-T\-I\-O\-N@{N\-O\-\_\-\-E\-X\-P\-L\-I\-C\-I\-T\-\_\-\-C\-R\-E\-A\-T\-I\-O\-N}!mlsl.hpp@{mlsl.\-hpp}}
+\subsubsection[{N\-O\-\_\-\-E\-X\-P\-L\-I\-C\-I\-T\-\_\-\-C\-R\-E\-A\-T\-I\-O\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define N\-O\-\_\-\-E\-X\-P\-L\-I\-C\-I\-T\-\_\-\-C\-R\-E\-A\-T\-I\-O\-N(
+\begin{DoxyParamCaption}
+\item[{}]{Class\-Name}
+\end{DoxyParamCaption}
+)}}\label{mlsl_8hpp_afc13d3b02db2e4d5b034ef0fbdcd4798}
+{\bfseries Value\-:}
+\begin{DoxyCode}
+\textcolor{keyword}{protected}:                                \(\backslash\)
+    ClassName() \{\}                          \(\backslash\)
+    ~ClassName() \{\}                         \(\backslash\)
+  private:                                  \(\backslash\)
+    ClassName(\textcolor{keyword}{const} ClassName&);            \(\backslash\)
+    ClassName& operator=(\textcolor{keyword}{const} ClassName&); \(\backslash\)
+\end{DoxyCode}
+A macro to prevent explicit creation of a class instance by user. 
