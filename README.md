@@ -72,7 +72,7 @@ Log file with output will be in the same directory.
 Here  <install_dir> is the Intel MLSL installation directory.
 
 ## License ##
-Intel MLSL is licensed under [Intel Simplified Software License](https://github.com/01org/MLSL/blob/master/LICENSE).
+Intel MLSL is licensed under [Apache License, Version 2.0](https://github.com/01org/MLSL/blob/master/LICENSE).
 ## Optimization Notice ##
 Intel's compilers may or may not optimize to the same degree for non-Intel
 microprocessors for optimizations that are not unique to Intel microprocessors.
