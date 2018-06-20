@@ -1,4 +1,6 @@
 # Intel(R) Machine Learning Scaling Library for Linux* OS
+[![Apache License, Version 2.0](https://img.shields.io/badge/license-Apache%20License,%20Version%202.0-green.svg)](LICENSE)
+![v2018.0 Preview](https://img.shields.io/badge/v.2018.1-Preview-orange.svg)
 ## Introduction ##
 Intel(R) Machine Learning Scaling Library (Intel(R) MLSL) is a library providing
 an efficient implementation of communication patterns used in deep learning.
