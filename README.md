@@ -57,7 +57,7 @@ Installing Intel(R) MLSL using RPM Package Manager (root mode):
 
 Installing Intel(R) MLSL using the tar file (user mode):
 
-        $ tar txf l_mlsl-devel-64-<version>.<update>.<package#>.tgz
+        $ tar zxf l_mlsl-devel-64-<version>.<update>.<package#>.tgz
         $ cd l_mlsl_<version>.<update>.<package#>
         $ ./install.sh
 
