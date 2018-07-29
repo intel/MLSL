@@ -421,7 +421,7 @@ namespace MLSL
          *  @param sendBuffer the address of the send buffer
          *  @param sendCounts the number of data elements that the process sends in the buffer that is specified in the sendbuf parameter
          *  @param sendOffsets the location, relative to the sendbuf parameter, of the data for each communicator process
-         *  @param recvBuffer the address of recieve buffer
+         *  @param recvBuffer the address of receive buffer
          *                    the receive buffer should be large enough to hold messages from all processes of the group
          *  @param recvCounts the number of data elements from each communicator process in the receive buffer
          *  @param recvOffsets the location, relative to the recvbuf parameter, of the data from each communicator process
