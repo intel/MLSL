@@ -32,7 +32,16 @@ Virtual Environments:
     - Docker*
     - KVM*
 ## Installing Intel(R) Machine Learning Scaling Library ##
-Installing the Intel(R) MLSL using RPM Package Manager (root mode):
+Installing Intel(R) MLSL by building from source:
+
+        $ make
+        $ [MLSL_INSTALL_PATH=/path] make install
+
+    By default MLSL_INSTALL_PATH=$PWD/_install
+
+Binary releases are available on our [release page](https://github.com/intel/MLSL/releases).
+
+Installing Intel(R) MLSL using RPM Package Manager (root mode):
 
     1. Log in as root
 
@@ -42,33 +51,35 @@ Installing the Intel(R) MLSL using RPM Package Manager (root mode):
 
         where <version>.<update>-<package#> is a string, such as: 2017.0-009
 
-    3. Uninstalling the Intel(R) MLSL using the RPM Package Manager
+    3. Uninstalling Intel(R) MLSL using the RPM Package Manager
 
         $ rpm -e intel-mlsl-devel-64-<version>.<update>-<package#>.x86_64
 
-Installing the Intel(R) MLSL using install.sh (user mode):
+Installing Intel(R) MLSL using the tar file (user mode):
 
-    1. Run install.sh and follow the instructions.
+        $ tar zxf l_mlsl-devel-64-<version>.<update>.<package#>.tgz
+        $ cd l_mlsl_<version>.<update>.<package#>
+        $ ./install.sh
 
-    There is no uninstall script. To uninstall the Intel(R) MLSL, delete the
+    There is no uninstall script. To uninstall Intel(R) MLSL, delete the
     full directory you have installed the package into.
-Installing the Intel(R) MLSL using Makefile:
-
-    1. make
-
-    2. [MLSL_INSTALL_PATH=/path] make install
-    By default MLSL_INSTALL_PATH=$PWD/_install
 
 ## Launching Sample Application ##
 
-Before you start using the Intel(R) MLSL, make sure to set up the library environment.
+The sample application needs python with the numpy package
+installed. You can use
+[Intel Distribution for
+Python](https://software.intel.com/en-us/distribution-for-python), [Anaconda](https://conda.io/docs/user-guide/install/download.html), or the python and numpy that comes with your OS.
+Before you start using Intel(R) MLSL, make sure to set up the
+library environment.
+
 Use the command:
 
     $ source <install_dir>/intel64/bin/mlslvars.sh
     $ cd <install_dir>/test
     $ make run
 
-Log file with output will be in the same directory.
+If the test fails, look in the log files in the same directory.
 Here  <install_dir> is the Intel MLSL installation directory.
 
 ## License ##
@@ -86,3 +97,5 @@ applicable product User and Reference Guides for more information regarding the
 specific instruction sets covered by this notice.
 
 Notice revision #20110804
+
+*Other names and brands may be claimed as the property of others.
