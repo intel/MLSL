@@ -41,8 +41,8 @@ else
   SERVER_FLAGS = -O2 $(CFLAGS)
 endif
 
-CLIENT_FLAGS        += -Wall -std=gnu99 -I. -fPIC -DENABLE_CLIENT_ONLY -DENABLE_FASTPATH -D_GNU_SOURCE -DENABLE_ASYNC_PROGRESS -lm
-SERVER_FLAGS        += -Wall -std=gnu99 -I. -DENABLE_FASTPATH -D_GNU_SOURCE -DENABLE_ASYNC_PROGRESS -lm
+CLIENT_FLAGS        += -Wall -std=gnu99 -I. -fPIC -DENABLE_CLIENT_ONLY -DENABLE_FASTPATH -D_GNU_SOURCE -DENABLE_ASYNC_PROGRESS
+SERVER_FLAGS        += -Wall -std=gnu99 -I. -DENABLE_FASTPATH -D_GNU_SOURCE -DENABLE_ASYNC_PROGRESS
 SERVER_TARGET       = ep_server
 CLIENT_TARGET       = libep
 
@@ -55,9 +55,9 @@ else ifeq ($(CC), gcc)
 endif
 
 ifeq ($(MPIRT),$(filter $(MPIRT), intel openmpi))
-    LDFLAGS += -L$(MPIRT_DIR)/lib -lmpi -ldl -lrt -lpthread
+    LDFLAGS += -L$(MPIRT_DIR)/lib -lmpi -ldl -lrt -lpthread -lm
 else ifeq ($(MPIRT), cray)
-    LDFLAGS += -L$(MPIRT_DIR)/lib -lmpich -ldl -lrt -lpthread
+    LDFLAGS += -L$(MPIRT_DIR)/lib -lmpich -ldl -lrt -lpthread -lm
 endif
 
 ifneq ($(PEERCOMM), 0)
