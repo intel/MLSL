@@ -1,6 +1,4 @@
 # Intel(R) Machine Learning Scaling Library for Linux* OS
-[![Apache License, Version 2.0](https://img.shields.io/badge/license-Apache%20License,%20Version%202.0-green.svg)](LICENSE)
-![v2018.0 Preview](https://img.shields.io/badge/v.2018.1-Preview-orange.svg)
 ## Introduction ##
 Intel(R) Machine Learning Scaling Library (Intel(R) MLSL) is a library providing
 an efficient implementation of communication patterns used in deep learning.
@@ -34,7 +32,7 @@ Virtual Environments:
 ## Installing Intel(R) Machine Learning Scaling Library ##
 Installing Intel(R) MLSL by building from source:
 
-        $ make
+        $ make all
         $ [MLSL_INSTALL_PATH=/path] make install
 
     By default MLSL_INSTALL_PATH=$PWD/_install
@@ -66,12 +64,12 @@ Installing Intel(R) MLSL using the tar file (user mode):
 
 ## Launching Sample Application ##
 
-The sample application needs python with the numpy package
-installed. You can use
-[Intel Distribution for
-Python](https://software.intel.com/en-us/distribution-for-python), [Anaconda](https://conda.io/docs/user-guide/install/download.html), or the python and numpy that comes with your OS.
-Before you start using Intel(R) MLSL, make sure to set up the
-library environment.
+The sample application needs python with the numpy package installed.
+You can use [Intel Distribution for Python]
+(https://software.intel.com/en-us/distribution-for-python),
+[Anaconda](https://conda.io/docs/user-guide/install/download.html),
+or the python and numpy that comes with your OS.
+Before you start using Intel(R) MLSL, make sure to set up the library environment.
 
 Use the command:
 
@@ -83,7 +81,7 @@ If the test fails, look in the log files in the same directory.
 Here  <install_dir> is the Intel MLSL installation directory.
 
 ## License ##
-Intel MLSL is licensed under [Apache License, Version 2.0](https://github.com/01org/MLSL/blob/master/LICENSE).
+Intel MLSL is licensed under [Intel Simplified Software License](https://github.com/01org/MLSL/blob/master/LICENSE).
 ## Optimization Notice ##
 Intel's compilers may or may not optimize to the same degree for non-Intel
 microprocessors for optimizations that are not unique to Intel microprocessors.

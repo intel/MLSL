@@ -17,7 +17,7 @@
 ENABLE_DEBUG ?= 1
 SHELL = bash
 INCLUDES = -I$(MLSL_ROOT)/intel64/include
-LDFLAGS  = -L$(MLSL_ROOT)/intel64/lib -lmlsl -lrt
+LDFLAGS  = -L$(MLSL_ROOT)/intel64/lib/$(MLSL_MODE) -lmlsl -lrt
 CC      ?= gcc
 CXX     ?= g++
 

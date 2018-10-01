@@ -732,7 +732,11 @@ namespace MLSL
         if (incompleteReqCount) MLSL_LOG(INFO, "there are %zu incompleted requests", incompleteReqCount);
 
         if (globalQuantParam != NULL)
+#ifdef USE_EPLIB
             EPLIB_free(globalQuantParam);
+#else
+            MLSL_FREE(globalQuantParam);
+#endif
         globalQuantParam = NULL;
 
         isInitialized = false;
@@ -793,7 +797,12 @@ namespace MLSL
     void Environment::SetQuantizationParams(QuantParams* qparams)
     {
         MLSL_ASSERT(!globalQuantParam, "quantization parameters can be set only once");
+#ifdef USE_EPLIB
         globalQuantParam = (QuantParams*)EPLIB_quant_params_submit((void*)qparams);
+#else
+        if (globalQuantParam) MLSL_FREE(globalQuantParam);
+        globalQuantParam = (QuantParams*)MLSL_MALLOC(sizeof(QuantParams), CACHELINE_SIZE);
+#endif
     }
 
     QuantParams* Environment::GetQuantizationParams()

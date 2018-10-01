@@ -760,7 +760,13 @@ class MLSL(object):
                     mlsl_module._log_level = int(log_level)
 
                 root_path = os.getenv("MLSL_ROOT", "")
-                mlsl_path = os.path.join(root_path, "intel64/lib/libmlsl.so")
+                ld_lib_path = os.getenv("LD_LIBRARY_PATH")
+                root_path_idx=ld_lib_path.find(root_path)
+                if root_path_idx == -1:
+                    logging.error("Could not find MLSL_ROOT in LD_LIBRARY_PATH, please ensure that mlslvars.sh is sourced")
+                    sys.exit(1)
+                lib_path=ld_lib_path[root_path_idx:].partition(":")[0]
+                mlsl_path = os.path.join(lib_path, "libmlsl.so")
                 logging.debug("mlsl_path: %s", mlsl_path)
                 MLSL.__dll = cdll.LoadLibrary(mlsl_path)
                 logging.debug("Intel(R) MLSL library is loaded from %s", mlsl_path)

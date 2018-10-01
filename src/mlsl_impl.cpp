@@ -19,7 +19,10 @@
 
 #include "common.hpp"
 #include "mlsl_impl.hpp"
+
+#ifdef USE_EPLIB
 #include "eplib.h"
+#endif
 
 namespace MLSL
 {

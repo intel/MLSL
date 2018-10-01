@@ -32,7 +32,10 @@
 #include "common.hpp"
 #include "env.hpp"
 #include "mlsl.hpp"
+
+#ifdef USE_EPLIB
 #include "eplib.h"
+#endif
 
 #define STATS_OUTPUT_FILE "mlsl_stats.log"
 #define INVALID_OP_IDX    "invalid operation idx"

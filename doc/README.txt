@@ -43,27 +43,6 @@ II.  Installing Intel(R) MLSL using install.sh (user mode):
      There is no uninstall script. To uninstall Intel(R) MLSL, delete the entire
      directory where you have installed the package.
 
-III. Installing the Intel(R) MLSL using Makefile:
-
-    1. make
-
-    2. [MLSL_INSTALL_PATH=/path] make install
-    By default MLSL_INSTALL_PATH=$PWD/_install
-
-----------------------------------------------------
-Launching the Sample
-----------------------------------------------------
-
-Before you start using the Intel(R) MLSL, make sure to set up the library environment.
-Use the command:
-
-    $ source <install_dir>/intel64/bin/mlslvars.sh
-    $ cd <install_dir>/test
-    $ make run
-
-Log file with output will be in the same directory.
-Here  <install_dir> is the Intel MLSL installation directory.
-
 -------------------
 Directory Structure
 -------------------
@@ -84,47 +63,93 @@ default structure and identifies the file types stored in each sub-directory:
                 |   |-- Release_Notes.txt
                 |   |-- api     Subdirectory with API reference.
                 |-- example     Intel(R) MLSL example
-                |   |-- Makefile
-                |   `-- mlsl_example.cpp 
+                |   |-- Makefile
+                |   `-- mlsl_example.cpp
                 |-- intel64     Files for specific architecture.
-                |   |-- bin     Binaries, scripts, and executable files.
-                |   |   |-- ep_server
-                |   |   |-- hydra_persist
-                |   |   |-- mlslvars.sh
-                |   |   |-- mpiexec -> mpiexec.hydra
-                |   |   |-- mpiexec.hydra
-                |   |   |-- mpirun
-                |   |   `-- pmi_proxy
-                |   |-- etc     Configuration files.
-                |   |   |-- mpiexec.conf
-                |   |   `-- tmi.conf
-                |   |-- include Include and header files.
-                |   |   |-- mlsl    Subdirectory for Python* module
-                |   |   |-- mlsl.hpp
-                |   |   `-- mlsl.h
-                |   `-- lib     Libraries
-                |       |-- libmlsl.so -> libmlsl.so.1
-                |       |-- libmlsl.so.1 -> libmlsl.so.1.0
-                |       |-- libmlsl.so.1.0
-                |       |-- libmpi.so -> libmpi.so.12
-                |       |-- libmpi.so.12 -> libmpi.so.12.0
-                |       |-- libmpi.so.12.0
-                |       |-- libtmi.so -> libtmi.so.1.2
-                |       |-- libtmi.so.1.2
-                |       |-- libtmip_psm.so -> libtmip_psm.so.1.2
-                |       |-- libtmip_psm.so.1.2
-                |       |-- libtmip_psm2.so -> libtmip_psm2.so.1.0
-                |       `-- libtmip_psm2.so.1.0
+                |   |-- bin     Binaries, scripts, and executable files.
+                |   |   |-- ep_server
+                |   |   |-- mlslvars.sh
+                |   |   |-- process
+                |   |   |   |-- hydra_persist
+                |   |   |   |-- mpiexec -> mpiexec.hydra
+                |   |   |   |-- mpiexec.hydra
+                |   |   |   |-- mpirun
+                |   |   |   `-- pmi_proxy
+                |   |   `-- thread
+                |   |       |-- fi_info
+                |   |       |-- hydra_bstrap_proxy
+                |   |       |-- hydra_nameserver
+                |   |       |-- hydra_pmi_proxy
+                |   |       |-- mpiexec -> mpiexec.hydra
+                |   |       |-- mpiexec.hydra
+                |   |       `-- mpirun
+                |   |-- etc      Configuration files.
+                |   |   |-- mpiexec.conf
+                |   |   |-- tmi.conf
+                |   |   |-- tuning_knl_ofi.dat
+                |   |   |-- tuning_knl_shm-ofi.dat
+                |   |   |-- tuning_skx_ofi.dat
+                |   |   `-- tuning_skx_shm-ofi.dat
+                |   |-- include   Include and header files.
+                |   |   |-- mlsl  Subdirectory for Python* module
+                |   |   |   |-- __init__.py
+                |   |   |   `-- mlsl.py
+                |   |   |-- mlsl.h
+                |   |   `-- mlsl.hpp
+                |   `-- lib 
+                |       |-- libmlsl.so -> process/libmlsl.so.1.0
+                |       |-- libmlsl.so.1 -> process/libmlsl.so.1.0
+                |       |-- process
+                |       |   |-- libmlsl.so -> libmlsl.so.1
+                |       |   |-- libmlsl.so.1 -> libmlsl.so.1.0
+                |       |   |-- libmlsl.so.1.0
+                |       |   |-- libmpi.so -> libmpi.so.12.0
+                |       |   |-- libmpi.so.12 -> libmpi.so.12.0
+                |       |   |-- libmpi.so.12.0
+                |       |   |-- libtmip_psm2.so -> libtmip_psm2.so.1.0
+                |       |   |-- libtmip_psm2.so.1.0
+                |       |   |-- libtmip_psm.so -> libtmip_psm.so.1.2
+                |       |   |-- libtmip_psm.so.1.0 -> libtmip_psm.so.1.2
+                |       |   |-- libtmip_psm.so.1.1 -> libtmip_psm.so.1.2
+                |       |   |-- libtmip_psm.so.1.2
+                |       |   |-- libtmi.so -> libtmi.so.1.2
+                |       |   |-- libtmi.so.1.0 -> libtmi.so.1.2
+                |       |   |-- libtmi.so.1.1 -> libtmi.so.1.2
+                |       |   `-- libtmi.so.1.2
+                |       `-- thread
+                |           |-- libfabric.so -> libfabric.so.1
+                |           |-- libfabric.so.1
+                |           |-- libmlsl.so -> libmlsl.so.1
+                |           |-- libmlsl.so.1 -> libmlsl.so.1.0
+                |           |-- libmlsl.so.1.0
+                |           |-- libmpi.so -> libmpi.so.12.0.0
+                |           |-- libmpi.so.12 -> libmpi.so.12.0.0
+                |           |-- libmpi.so.12.0 -> libmpi.so.12.0.0
+                |           |-- libmpi.so.12.0.0
+                |           `-- prov
+                |               |-- libpsmx2-fi.so
+                |               |-- librxm-fi.so
+                |               |-- libsockets-fi.so
+                |               `-- libverbs-fi.so
                 |-- licensing
-                |   |-- mlsl    Subdirectory for supported files, license 
+                |   |-- mlsl    Subdirectory for supported files, license
                 |   |           of the Intel(R) MLSL
-                |   `-- mpi     Subdirectory for supported files, EULAs,
+                |   |   |-- LICENSE
+                |   |   `-- third-party-programs.txt
+                |   `-- mpi     Subdirectory for supported files, EULAs,
                 |               redist files, third-party-programs file 
                 |               of the Intel(R) MPI Library
-                `-- test        Intel(R) MLSL tests
+                |       |-- process
+                |       |   |-- license.txt
+                |       |   `-- third-party-programs.txt
+                |       `-- thread
+                |           |-- license.txt
+                |           `-- third-party-programs.txt
+                `-- test       Intel(R) MLSL tests
+                    |-- cmlsl_test.c
                     |-- Makefile
-                    |-- mlsl_test.py
-                    `-- mlsl_test.cpp
+                    |-- mlsl_test.cpp
+                    `-- mlsl_test.py
 
 --------------------------------
 Disclaimer and Legal Information

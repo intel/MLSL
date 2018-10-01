@@ -6,12 +6,12 @@ to the corresponding third party licenses that solely and exclusively govern
 your use of the third party programs.
 
 This third-party-programs.txt file applies to Intel(R) Machine Learning Scaling 
-Library (Intel(R) MLSL) 2018 Update 1 Preview.
+Library (Intel(R) MLSL) 2018 Update 2 Preview.
 
 This third-party-programs.txt file contains a list of licenses and links to the 
 Intel(R) MLSL components' third-party-programs.txt files.
 
-The combination of all these files covers Intel(R) MLSL 2018 Update 1 Preview.
+The combination of all these files covers Intel(R) MLSL 2018 Update 2 Preview.
 
 All paths are relative to the Intel(R) MLSL installation directory.
 By default, it is /opt/intel
@@ -20,8 +20,8 @@ List of Third Party Programs:
 
 Intel(R) MPI Library <install_dir>/mlsl_<version>.<update>.<package#>/licensing/mpi/third-party-programs.txt
 
-* Intel(R) MPI Library: Intel Simplified Software License
-  <install_dir>/mlsl_<version>.<update>.<package#>/licensing/mpi/license.txt
+* Intel(R) MPI Library: End User License Agreement for the Intel(R) Software Development Products
+  <install_dir>/mlsl_<version>.<update>.<package#>/licensing/mpi/mpi-rtEULA.txt
 * dlmalloc*: CC0 1.0 Universal 
   https://creativecommons.org/publicdomain/zero/1.0/legalcode
 * uthash: Troy Hanson BSD Revised (1-Clause) License

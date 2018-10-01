@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
-Intel(R) Machine Learning Scaling Library 2018 Update 1 Preview for Linux* OS
+Intel(R) Machine Learning Scaling Library 2018 Update 2 Preview for Linux* OS
 Release Notes
 ------------------------------------------------------------------------------
 
@@ -37,6 +37,12 @@ and the Intel(R) MPI Library Runtime components.
 ----------
 What's New
 ----------
+
+Intel MLSL 2018 Update 2:
+   - Added support for collective operations execution using communication threads (in addition to the previous approach with processes).
+     This functionality is built on top of asynchronous progress threads from Intel(R) MPI Library 2019
+     and simplifies job launching and memory management (no need for explicit MLSL::Alloc/Free calls for communication buffers).
+   - Bug fixes.
 
 Intel MLSL 2018 Update 1:
    - Intel(R) MPI Library runtime updated to version 2018 Update 3.

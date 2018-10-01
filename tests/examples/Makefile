@@ -22,7 +22,7 @@ DIRS = $(shell ls -d $(BASE_DIR)/*/)
 all:
 	for DIR in $(DIRS); \
 	do \
-		$(MAKE) -C $$DIR CC="$(CC)" CXX="$(CXX)" EXTRA_CFLAGS="$(EXTRA_CFLAGS)" EXTRA_LDFLAGS="$(EXTRA_LDFLAGS)" ENABLE_DEBUG=$(ENABLE_DEBUG) all; \
+		$(MAKE) MLSL_MODE="$(MLSL_MODE)" -C $$DIR CC="$(CC)" CXX="$(CXX)" EXTRA_CFLAGS="$(EXTRA_CFLAGS)" EXTRA_LDFLAGS="$(EXTRA_LDFLAGS)" ENABLE_DEBUG=$(ENABLE_DEBUG) all; \
 		if [ "$${PIPESTATUS[0]}" -ne 0 ]; then \
 			echo "Make FAILED." ; \
 		fi ; \
@@ -31,7 +31,7 @@ all:
 run:
 	for DIR in $(DIRS); \
 	do \
-		$(MAKE) -C $$DIR run; \
+		$(MAKE) MLSL_MODE="$(MLSL_MODE)" -C $$DIR run; \
 		if [ "$${PIPESTATUS[0]}" -ne 0 ]; then \
 			echo "Run FAILED." ; \
 		fi ; \

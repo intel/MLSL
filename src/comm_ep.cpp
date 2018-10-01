@@ -1859,11 +1859,6 @@ namespace MLSL
         EPLIB_free(ptr);
     }
 
-    void CommSetMemHooks()
-    {
-        if (epNum > 0) EPLIB_set_mem_hooks();
-    }
-
     CommRequest* CommCreateRequest(DataType dataType, int opUniqueId, CommDesc::CompType compType)
     {
         CommRequestImpl* p = new CommRequestImpl(dataType, opUniqueId, compType);

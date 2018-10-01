@@ -17,23 +17,32 @@
 
 export MLSL_ROOT=MLSL_SUBSTITUTE_INSTALLDIR
 
-if [ -z "${I_MPI_ROOT}" ]
-then
-    export I_MPI_ROOT="${MLSL_ROOT}"
-fi
+print_help()
+{
+    echo ""
+    echo "Usage: mlslvars.sh [mode]"
+    echo ""
+    echo "mode can be one of the following:"
+    echo "      process (default) "
+    echo "      thread            "
+    echo ""
+
+}
+
+export I_MPI_ROOT="${MLSL_ROOT}"
 
 if [ -z "${PATH}" ]
 then
-    export PATH="${MLSL_ROOT}/intel64/bin"
+    PATH="${MLSL_ROOT}/intel64/bin"; export PATH
 else
-    export PATH="${MLSL_ROOT}/intel64/bin:${PATH}"
+    PATH="${MLSL_ROOT}/intel64/bin:${PATH}"; export PATH
 fi
 
 if [ -z "${LD_LIBRARY_PATH}" ]
 then
-    export LD_LIBRARY_PATH="${MLSL_ROOT}/intel64/lib"
+    LD_LIBRARY_PATH="${MLSL_ROOT}/intel64/lib"; export LD_LIBRARY_PATH
 else
-    export LD_LIBRARY_PATH="${MLSL_ROOT}/intel64/lib:${LD_LIBRARY_PATH}"
+    LD_LIBRARY_PATH="${MLSL_ROOT}/intel64/lib:${LD_LIBRARY_PATH}"; export LD_LIBRARY_PATH
 fi
 
 if [ -z "${PYTHONPATH}" ]
@@ -42,3 +51,24 @@ then
 else
     export PYTHONPATH="${MLSL_ROOT}/intel64/include:${PYTHONPATH}"
 fi
+
+mode="process"
+if [ $# -ne 0 ]
+then
+    if [ "$1" == "thread" ]; then
+        mode="thread"
+    fi
+fi
+
+case "$mode" in
+    "process"|"thread")
+        PATH="${MLSL_ROOT}/intel64/bin/process:${PATH}"; export PATH
+        LD_LIBRARY_PATH="${MLSL_ROOT}/intel64/lib/${mode}:${LD_LIBRARY_PATH}"; export LD_LIBRARY_PATH
+        if [ "$mode" == "thread" ]; then
+            FI_PROVIDER_PATH="${MLSL_ROOT}/intel64/lib/thread/prov"; export FI_PROVIDER_PATH
+        fi
+        ;;
+    -h|--help)
+        print_help
+        ;;
+esac
