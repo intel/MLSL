@@ -20,6 +20,11 @@
 #include "comm.hpp"
 #include "common.hpp"
 
+#ifdef INTERNAL_ENV_UPDATE
+#include <dlfcn.h>
+#include <sys/stat.h>
+#endif
+
 #define START_COMM(reqExpr, name)                           \
   do {                                                      \
       size_t reqIdx;                                        \
@@ -779,6 +784,67 @@ namespace MLSL
             MLSL_LOG(INFO, "unexpected MPI version: %s, expected: %s",
                      mpiVersion, EXPECTED_MPI_VERSION);
         }
+
+#ifdef INTERNAL_ENV_UPDATE
+        //MPI with libfabric requires FI_PROVIDER_PATH env variable which points to the
+        //directory with FI providers. Typically providers are located in the "prov" sub-directory
+        //of MPI lib directory. We need to find path to MPI library using dladdr() use
+        //it to build path to the providers
+        //We also update PATH with path to the near "bin" directory
+        //MPI_T_PVAR_ALL_HANDLES symbol is chosen randomly
+        Dl_info mpi_sym_info{};
+        if(dladdr(static_cast<const void*>(MPI_T_PVAR_ALL_HANDLES), &mpi_sym_info) > 0)
+        {
+            std::string mpi_path{mpi_sym_info.dli_fname};
+            mpi_path = mpi_path.substr(0, mpi_path.find_last_of("/"));
+
+            std::string fi_prov_path(mpi_path);
+            //Check if "prov" sub-directory exists and add it to the path
+            struct stat path_stat;
+            if(stat((fi_prov_path + "/prov").c_str(), &path_stat) == 0)
+            {
+                if(S_ISDIR(path_stat.st_mode))
+                {
+                    fi_prov_path += "/prov";
+                }
+            }
+            setenv("FI_PROVIDER_PATH", fi_prov_path.c_str(), 1);
+
+            //update PATH if "/lib" is presented in mpi_path
+            size_t install_root_pos = mpi_path.rfind("/lib");
+            if(install_root_pos != std::string::npos)
+            {
+                std::string path_to_bin = mpi_path.substr(0, install_root_pos);
+                if(stat((path_to_bin + "/bin").c_str(), &path_stat) == 0)
+                {
+                    if(S_ISDIR(path_stat.st_mode))
+                    {
+                        path_to_bin += "/bin";
+                        std::string common_path = std::getenv("PATH");
+                        if(common_path.length() > 0)
+                        {
+                            common_path += ":";
+                        }
+                        common_path += path_to_bin;
+                        if(stat((path_to_bin + "/process").c_str(), &path_stat) == 0)
+                        {
+                            if(S_ISDIR(path_stat.st_mode))
+                            {
+                                common_path += ":";
+                                common_path += path_to_bin + "/process";
+                            }
+                        }
+                        setenv("PATH", common_path.c_str(), 1);
+                    }
+                }
+            }
+        }
+        else
+        {
+            //Should never happen since libmpi.so must be loaded on start of the binary
+            MLSL_ASSERT(0, "Failed to locate libmpi");
+        }
+#endif
 
         commCount = MAX(threadCount, 1);
 

@@ -56,6 +56,7 @@ ENABLE_DEBUG       ?= 0
 ENABLE_CHKP        ?= 0
 ENABLE_CHKP_INT    ?= 0
 ENABLE_MT_MEMCPY   ?= 0
+ENABLE_INTERNAL_ENV_UPDATE ?= 0
 
 ifeq ($(COMM_EP),1)
     ifeq ($(COMM_HANDOFF),1)
@@ -166,6 +167,9 @@ ifeq ($(COMM_EP),1)
     endif
 else ifeq ($(COMM_HANDOFF),1)
     SRCS        += src/comm_handoff.cpp
+    ifeq ($(ENABLE_INTERNAL_ENV_UPDATE),1)
+        CXXFLAGS += -DINTERNAL_ENV_UPDATE
+    endif
 endif
 
 OBJS := $(SRCS:.cpp=.o)
