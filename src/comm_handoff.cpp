@@ -25,10 +25,10 @@
 #include <sys/stat.h>
 #endif
 
-#define START_COMM(reqExpr, name)                           \
+#define START_COMM(reqExpr, name, leftIdx, rightIdx)        \
   do {                                                      \
       size_t reqIdx;                                        \
-      for (reqIdx = 0; reqIdx < nonBlockReqCount; reqIdx++) \
+      for (reqIdx = leftIdx; reqIdx < rightIdx; reqIdx++)   \
       {                                                     \
           MLSL_LOG(DEBUG, "start %s: reqIdx %zu, "          \
                    "elems %zu, offset_in_bytes %zu",        \
@@ -69,19 +69,27 @@
 #define MLSL_SERVER_AFFINITY_ENV    "MLSL_SERVER_AFFINITY"
 #define MLSL_MAX_SHORT_MSG_SIZE_ENV "MLSL_MAX_SHORT_MSG_SIZE"
 #define MLSL_THP_THRESHOLD_MB_ENV   "MLSL_THP_THRESHOLD_MB"
+#define MLSL_ALLTOALL_SPLIT_ENV     "MLSL_ALLTOALL_SPLIT"
 
 #define STR_OR_NULL(str) ((str) ? str : "null")
 
 #define EXPECTED_MPI_VERSION "Intel(R) MPI Library 2019"
 
-#define COMM_KEY                 "ep_idx"
-#define THREAD_COUNT_MAX         16
-#define THREAD_COUNT_DEFAULT     4
-#define MAX_SHORT_MSG_SIZE       0
-#define THP_THRESHOLD_MB_DEFAULT 128
+#define COMM_KEY                     "ep_idx"
+#define THREAD_COUNT_MAX             16
+#define THREAD_COUNT_DEFAULT         4
+#define MAX_SHORT_MSG_SIZE           1024
+#define THP_THRESHOLD_MB_DEFAULT     128
+#define ALLTOALL_SPLIT_PARTS_DEFAULT 1
 
 #define ONE_MB 1048576
 #define TWO_MB 2097152
+
+#define GATHER_TAG  20000
+#define SCATTER_TAG 30000
+
+#define EP_IDX_MAX_LEN       (4)
+#define THREAD_COUNT_MAX_LEN (4)
 
 namespace MLSL
 {
@@ -93,6 +101,7 @@ namespace MLSL
     size_t commCount = THREAD_COUNT_DEFAULT;
     size_t maxShortMsgSize = MAX_SHORT_MSG_SIZE;
     size_t thpThresholdMb = THP_THRESHOLD_MB_DEFAULT;
+    size_t allToAllSplitParts = ALLTOALL_SPLIT_PARTS_DEFAULT;
     int isExternalInit = 0;
 
     class ProcessGroupImpl
@@ -286,6 +295,7 @@ namespace MLSL
 
         void Setup()
         {
+            size_t reqIdx;
             CommDesc* cd = bp->GetDesc();
             if (cd->GetOpCount() == 0)
             {
@@ -310,6 +320,7 @@ namespace MLSL
                 CommOpAllGather* aOp = static_cast<CommOpAllGather*>(op);
                 length = aOp->GetLen();
                 bp->tmpSz = length * op->GetProcessGroup()->GetSize() * dataTypeSize;
+                nonBlockReqCount = op->GetProcessGroup()->GetSize();
             }
             else if (reqType == CommOp::AllGatherv)
             {
@@ -321,16 +332,23 @@ namespace MLSL
                 for (size_t i = 1; i < op->GetProcessGroup()->GetSize(); i++)
                      bufSize += rcounts[i];
                 bp->tmpSz = bufSize * dataTypeSize;
+                nonBlockReqCount = op->GetProcessGroup()->GetSize();
             }
             else if (reqType == CommOp::ReduceScatter)
             {
                 CommOpReduceScatter* aOp = static_cast<CommOpReduceScatter*>(op);
                 length = aOp->GetLen();
                 SetMPIOp(aOp->GetOp());
+
+                /* In-place not supported when messages split across endpoints */
+                bp->isInPlace = false;
+
                 if (bp->isInPlace)
                     bp->tmpSz = length * op->GetProcessGroup()->GetSize() * dataTypeSize;
                 else
                     bp->tmpSz = length * (op->GetProcessGroup()->GetSize() + 1) * dataTypeSize;
+
+                nonBlockReqCount = op->GetProcessGroup()->GetSize();
             }
             else if (reqType == CommOp::AllReduce)
             {
@@ -353,12 +371,14 @@ namespace MLSL
                 length = aOp->GetLen();
                 rootIdx = aOp->GetRootIdx();
                 bp->isInPlace = false;
+                nonBlockReqCount = op->GetProcessGroup()->GetSize() + 1;
             }
             else if (reqType == CommOp::Scatter)
             {
                 CommOpScatter* aOp = static_cast<CommOpScatter*>(op);
                 length = aOp->GetLen();
                 rootIdx = aOp->GetRootIdx();
+                nonBlockReqCount = op->GetProcessGroup()->GetSize() + 1;
             }
             else if (reqType == CommOp::Bcast)
             {
@@ -371,10 +391,17 @@ namespace MLSL
             {
                 CommOpAlltoAll* aOp = static_cast<CommOpAlltoAll*>(op);
                 length = aOp->GetLen();
+
+                /* In-place not supported when messages split across endpoints */
+                bp->isInPlace = false;
+
                 if (bp->isInPlace)
                     bp->tmpSz = length * op->GetProcessGroup()->GetSize() * dataTypeSize;
                 else
                     bp->tmpSz = length * (op->GetProcessGroup()->GetSize() * 2) * dataTypeSize;
+
+                /* Two requests per process - alltoall using send/recv */
+                nonBlockReqCount = op->GetProcessGroup()->GetSize() * 2;
             }
             else if (reqType == CommOp::AlltoAllv)
             {
@@ -396,7 +423,13 @@ namespace MLSL
                     sndOffsets[procIdx] = aOp->GetSendOffsets()[procIdx];
                     rcvOffsets[procIdx] = aOp->GetRecvOffsets()[procIdx];
                 }
+
+                /* In-place not supported when messages split across endpoints */
+                bp->isInPlace = false;
                 bp->tmpSz = length * dataTypeSize;
+
+                /* Two requests per process - alltoallv using send/recv */
+                nonBlockReqCount = op->GetProcessGroup()->GetSize() * 2;
             }
             else if (reqType == CommOp::Barrier)
             {
@@ -408,32 +441,112 @@ namespace MLSL
             epCount = commCount;
             if (length <= maxShortMsgSize) epCount = 1;
             if (length < epCount) epCount = 1;
-            if (!(reqType == CommOp::Bcast     ||
-                  reqType == CommOp::AllReduce ||
-                  reqType == CommOp::Reduce    ||
-                  reqType == CommOp::AllGatherv))
-                epCount = 1;
 
-            if (reqType == CommOp::AllGatherv)
+            if (reqType == CommOp::AllGather  ||
+                reqType == CommOp::AllGatherv ||
+                reqType == CommOp::ReduceScatter)
             {
-                CommOpAllGatherv* aOp = static_cast<CommOpAllGatherv*>(op);
-                nonBlockReqCount = op->GetProcessGroup()->GetSize();
-                size_t* recvCounts = aOp->GetRecvCounts();
                 reqCounts = (size_t*)MLSL_MALLOC(nonBlockReqCount * sizeof(size_t), CACHELINE_SIZE);
                 reqOffsets = (size_t*)MLSL_MALLOC(nonBlockReqCount * sizeof(size_t), CACHELINE_SIZE);
 
-                reqCounts[0] = recvCounts[0];
-                reqOffsets[0] = 0;
-
-                size_t reqIdx;
-                for (reqIdx = 1; reqIdx < nonBlockReqCount; reqIdx++)
+                size_t* recvCounts;
+                if (reqType == CommOp::AllGatherv)
                 {
-                    reqCounts[reqIdx] = recvCounts[reqIdx];
-                    reqOffsets[reqIdx] = reqOffsets[reqIdx - 1] + reqCounts[reqIdx - 1] * dataTypeSize;
+                    CommOpAllGatherv* aOp = static_cast<CommOpAllGatherv*>(op);
+                    recvCounts = aOp->GetRecvCounts();
+                }
+
+                for (reqIdx = 0; reqIdx < nonBlockReqCount; reqIdx++)
+                {
+                    if (reqType == CommOp::AllGatherv)
+                        reqCounts[reqIdx] = recvCounts[reqIdx];
+                    else
+                        reqCounts[reqIdx] = length;
+
+                    if (reqIdx == 0)
+                        reqOffsets[reqIdx] = 0;
+                    else
+                        reqOffsets[reqIdx] = reqOffsets[reqIdx - 1] + reqCounts[reqIdx - 1] * dataTypeSize;
                 }
             }
-            else
+            else if (reqType == CommOp::Gather ||
+                     reqType == CommOp::Scatter)
             {
+                reqCounts = (size_t*)MLSL_MALLOC(nonBlockReqCount * sizeof(size_t), CACHELINE_SIZE);
+                reqOffsets = (size_t*)MLSL_MALLOC(nonBlockReqCount * sizeof(size_t), CACHELINE_SIZE);
+                MLSL_ASSERT(reqCounts && reqOffsets, "NULL pointers");
+                for (reqIdx = 0; reqIdx < nonBlockReqCount; reqIdx++)
+                {
+                    reqCounts[reqIdx] = length;
+
+                    if (reqIdx == (nonBlockReqCount - 1))
+                        reqOffsets[reqIdx] = 0;
+                    else
+                        reqOffsets[reqIdx] = length * dataTypeSize * reqIdx;
+                }
+            }
+            else if (reqType == CommOp::AlltoAll ||
+                     reqType == CommOp::AlltoAllv)
+            {
+                nonBlockReqCount *= allToAllSplitParts;
+                reqCounts = (size_t*)MLSL_MALLOC(nonBlockReqCount * sizeof(size_t), CACHELINE_SIZE);
+                reqOffsets = (size_t*)MLSL_MALLOC(nonBlockReqCount * sizeof(size_t), CACHELINE_SIZE);
+                MLSL_ASSERT(reqCounts && reqOffsets, "NULL pointers");
+
+                size_t elemCount, elemOffset;
+                for (size_t procIdx = 0; procIdx < numprocs; procIdx++)
+                {
+                    size_t recvRank = (myRank - procIdx + numprocs) % numprocs;
+                    if (reqType == CommOp::AlltoAllv)
+                    {
+                        elemCount = rcvCounts[recvRank];
+                        elemOffset = rcvOffsets[recvRank];
+                    }
+                    else
+                    {
+                        elemCount = length;
+                        elemOffset = recvRank * length;
+                    }
+                    for (size_t splitIdx = 0; splitIdx < allToAllSplitParts; splitIdx++)
+                    {
+                        size_t globalSplitIdx = procIdx * allToAllSplitParts + splitIdx;
+                        reqCounts[globalSplitIdx] = elemCount / allToAllSplitParts;
+                        if (splitIdx == (allToAllSplitParts - 1))
+                            reqCounts[globalSplitIdx] += elemCount % allToAllSplitParts;
+                        reqOffsets[globalSplitIdx] =
+                            (elemOffset + (splitIdx * (elemCount / allToAllSplitParts))) * dataTypeSize;
+                    }
+                }
+                size_t idxOffset = numprocs * allToAllSplitParts;
+                for (size_t procIdx = 0; procIdx < numprocs; procIdx++)
+                {
+                    size_t sendRank = (myRank + procIdx + numprocs) % numprocs;
+                    if (reqType == CommOp::AlltoAllv)
+                    {
+                        elemCount = sndCounts[sendRank];
+                        elemOffset = sndOffsets[sendRank];
+                    }
+                    else
+                    {
+                        elemCount = length;
+                        elemOffset = sendRank * length;
+                    }
+                    for (size_t splitIdx = 0; splitIdx < allToAllSplitParts; splitIdx++)
+                    {
+                        size_t globalSplitIdx = idxOffset + procIdx * allToAllSplitParts + splitIdx;
+                        reqCounts[globalSplitIdx] = elemCount / allToAllSplitParts;
+                        if (splitIdx == (allToAllSplitParts - 1))
+                            reqCounts[globalSplitIdx] += elemCount % allToAllSplitParts;
+                        reqOffsets[globalSplitIdx] =
+                            (elemOffset + (splitIdx * (elemCount / allToAllSplitParts))) * dataTypeSize;
+                    }
+                }
+            }
+            else if (reqType == CommOp::Bcast     ||
+                     reqType == CommOp::AllReduce ||
+                     reqType == CommOp::Reduce)
+            {
+                /* pure data-parallel approach */
                 nonBlockReqCount = epCount;
                 reqCounts = (size_t*)MLSL_MALLOC(nonBlockReqCount * sizeof(size_t), CACHELINE_SIZE);
                 reqOffsets = (size_t*)MLSL_MALLOC(nonBlockReqCount * sizeof(size_t), CACHELINE_SIZE);
@@ -446,9 +559,9 @@ namespace MLSL
                 }
                 reqCounts[nonBlockReqCount - 1] += length % nonBlockReqCount;
             }
-            MLSL_ASSERT(nonBlockReqCount, "nonBlockReqCount");
-            MLSL_ASSERT(reqCounts, "reqCounts");
-            MLSL_ASSERT(reqOffsets, "reqOffsets");
+
+            if (reqType != CommOp::Barrier)
+                MLSL_ASSERT(nonBlockReqCount, "nonBlockReqCount");
 
             nonBlockReqs = (MPI_Request*)MLSL_MALLOC(nonBlockReqCount * sizeof(MPI_Request), CACHELINE_SIZE);
             MLSL_LOG(DEBUG, "nonBlockReqs %p, nonBlockReqCount %zu", nonBlockReqs, nonBlockReqCount);
@@ -463,8 +576,9 @@ namespace MLSL
             for (size_t idx = 0; idx < nonBlockReqCount; idx++)
             {
                 MLSL_LOG(DEBUG, "(%p): op %s, req %zu, count %zu, byte_offset %zu",
-                         bp, bp->GetDesc()->GetOp(0)->GetReqName().c_str(),
-                         idx, reqCounts[idx], reqOffsets[idx]);
+                         bp, bp->GetDesc()->GetOp(0)->GetReqName().c_str(), idx,
+                         reqCounts ? reqCounts[idx] : 0,
+                         reqOffsets ? reqOffsets[idx] : 0);
             }
         }
 
@@ -472,23 +586,15 @@ namespace MLSL
         {
             if (isNullReq) return 0;
 
-            if (reqType == CommOp::AllGather)
-            {
-                if (buf == retBuf)
-                    MPI_Allgather(MPI_IN_PLACE, 0, MPI_DATATYPE_NULL,
-                                  buf, length, dataType, epComms[0]);
-                else
-                    MPI_Allgather(buf, length, dataType, retBuf,
-                                  length, dataType, epComms[0]);
-            }
-            else if (reqType == CommOp::AllGatherv)
+            if (reqType == CommOp::AllGather ||
+                reqType == CommOp::AllGatherv)
             {
                 if (buf == retBuf)
                 {
                     START_COMM(
                         MPI_Ibcast((char*)buf + reqOffsets[reqIdx], reqCounts[reqIdx], dataType,
                                    reqIdx, epComms[reqIdx % epCount], &nonBlockReqs[reqIdx]),
-                        "ibcast"
+                        "ibcast", 0, nonBlockReqCount
                     );
                 }
                 else
@@ -497,7 +603,7 @@ namespace MLSL
                     START_COMM(
                         MPI_Ibcast((char*)retBuf + reqOffsets[reqIdx], reqCounts[reqIdx], dataType,
                                    reqIdx, epComms[reqIdx % epCount], &nonBlockReqs[reqIdx]),
-                        "ibcast"
+                        "ibcast", 0, nonBlockReqCount
                     );
                 }
             }
@@ -507,17 +613,26 @@ namespace MLSL
                     MPI_Ibcast((char*)buf + reqOffsets[reqIdx],
                                reqCounts[reqIdx], dataType, rootIdx,
                                epComms[reqIdx % epCount], &nonBlockReqs[reqIdx]),
-                    "ibcast"
+                    "ibcast", 0, nonBlockReqCount
                 );
             }
             else if (reqType == CommOp::ReduceScatter)
             {
-                if (bp->isInPlace)
+                if (buf == retBuf)
+                {
                     MPI_Reduce_scatter_block(MPI_IN_PLACE, buf, length,
-                                             dataType, redOp, epComms[0]);
+                                             dataType, redOp, epComms[0]);                    
+                }
                 else
-                    MPI_Reduce_scatter_block(buf, retBuf, length,
-                                             dataType, redOp, epComms[0]);
+                {
+                    START_COMM(
+                        MPI_Ireduce((char*)buf + reqOffsets[reqIdx],
+                                    (char*)retBuf,
+                                    reqCounts[reqIdx], dataType, redOp, reqIdx,
+                                    epComms[reqIdx % epCount], &nonBlockReqs[reqIdx]),
+                        "ireduce", 0, nonBlockReqCount
+                    );
+                }
             }
             else if (reqType == CommOp::AllReduce)
             {
@@ -528,7 +643,7 @@ namespace MLSL
                                        (char*)buf + reqOffsets[reqIdx],
                                        reqCounts[reqIdx], dataType, redOp,
                                        epComms[reqIdx % epCount], &nonBlockReqs[reqIdx]),
-                        "iallreduce"
+                        "iallreduce", 0, nonBlockReqCount
                     );
                 }
                 else
@@ -538,7 +653,7 @@ namespace MLSL
                                        (char*)retBuf + reqOffsets[reqIdx],
                                        reqCounts[reqIdx], dataType, redOp,
                                        epComms[reqIdx % epCount], &nonBlockReqs[reqIdx]),
-                        "iallreduce"
+                        "iallreduce", 0, nonBlockReqCount
                     );
                 }
             }
@@ -553,7 +668,7 @@ namespace MLSL
                                         (char*)buf + reqOffsets[reqIdx],
                                         reqCounts[reqIdx], dataType, redOp, rootIdx,
                                         epComms[reqIdx % epCount], &nonBlockReqs[reqIdx]),
-                            "ireduce"
+                            "ireduce", 0, nonBlockReqCount
                         );
                     }
                     else
@@ -563,7 +678,7 @@ namespace MLSL
                                         (char*)buf + reqOffsets[reqIdx],
                                         reqCounts[reqIdx], dataType, redOp, rootIdx,
                                         epComms[reqIdx % epCount], &nonBlockReqs[reqIdx]),
-                            "ireduce"
+                            "ireduce", 0, nonBlockReqCount
                         );
                     }
                 }
@@ -574,65 +689,84 @@ namespace MLSL
                                     (char*)retBuf + reqOffsets[reqIdx],
                                     reqCounts[reqIdx], dataType, redOp, rootIdx,
                                     epComms[reqIdx % epCount], &nonBlockReqs[reqIdx]),
-                        "ireduce"
+                        "ireduce", 0, nonBlockReqCount
                     );
                 }
             }
             else if (reqType == CommOp::Gather)
             {
-                if (buf == retBuf)
+                if (myRank == rootIdx)
                 {
-                    if (myRank == rootIdx)
-                        MPI_Gather(MPI_IN_PLACE, length, dataType, buf,
-                                   length, dataType, rootIdx, epComms[0]);
-                    else
-                        MPI_Gather(buf, length, dataType, retBuf,
-                                   length, dataType, rootIdx, epComms[0]);
+                    START_COMM(
+                        MPI_Irecv((char*)retBuf + reqOffsets[reqIdx], reqCounts[reqIdx], dataType,
+                                  reqIdx, GATHER_TAG, epComms[reqIdx % epCount], &nonBlockReqs[reqIdx]),
+                        "irecv", 0, (nonBlockReqCount - 1)
+                    );
                 }
-                else
-                {
-                    MPI_Gather(buf, length, dataType, retBuf,
-                               length, dataType, rootIdx, epComms[0]);
-                }
+                START_COMM(
+                    MPI_Isend((char*)buf + reqOffsets[reqIdx], reqCounts[reqIdx], dataType, rootIdx,
+                              GATHER_TAG, epComms[myRank % epCount], &nonBlockReqs[reqIdx]),
+                    "isend", (nonBlockReqCount - 1), nonBlockReqCount
+                );
             }
             else if (reqType == CommOp::Scatter)
             {
-                if (buf == retBuf)
+                if (myRank == rootIdx)
                 {
-                    if (myRank == rootIdx)
-                        MPI_Scatter(buf, length, dataType, MPI_IN_PLACE,
-                                    length, dataType, rootIdx, epComms[0]);
-                    else
-                        MPI_Scatter(buf, length, dataType, retBuf,
-                                    length, dataType, rootIdx, epComms[0]);
+                    START_COMM(
+                        MPI_Isend((char*)buf + reqOffsets[reqIdx], reqCounts[reqIdx], dataType,
+                                  reqIdx, SCATTER_TAG, epComms[reqIdx % epCount], &nonBlockReqs[reqIdx]),
+                        "isend", 0, (nonBlockReqCount - 1)
+                    );
                 }
-                else
-                {
-                    MPI_Scatter(buf, length, dataType, retBuf,
-                                length, dataType, rootIdx, epComms[0]);
-                }
+                START_COMM(
+                    MPI_Irecv((char*)retBuf + reqOffsets[reqIdx], reqCounts[reqIdx], dataType, rootIdx,
+                               SCATTER_TAG, epComms[myRank % epCount], &nonBlockReqs[reqIdx]),
+                    "irecv", (nonBlockReqCount - 1), nonBlockReqCount
+                );
             }
             else if (reqType == CommOp::Barrier)
             {
                 MPI_Barrier(epComms[0]);
             }
-            else if (reqType == CommOp::AlltoAll)
+            else if (reqType == CommOp::AlltoAll ||
+                     reqType == CommOp::AlltoAllv)
             {
                 if (buf == retBuf)
-                    MPI_Alltoall(MPI_IN_PLACE, 0, MPI_DATATYPE_NULL, buf,
-                                 length, dataType, epComms[0]);
+                {
+                    if (reqType == CommOp::AlltoAll)
+                        MPI_Alltoall(MPI_IN_PLACE, 0, MPI_DATATYPE_NULL, buf,
+                                     length, dataType, epComms[0]);
+                    else
+                        MPI_Alltoallv(MPI_IN_PLACE, NULL, NULL, MPI_DATATYPE_NULL, buf,
+                                      rcvCounts, rcvOffsets, dataType, epComms[0]);
+                }
                 else
-                    MPI_Alltoall(buf, length, dataType, retBuf,
-                                 length, dataType, epComms[0]);
-            }
-            else if (reqType == CommOp::AlltoAllv)
-            {
-                if (buf == retBuf)
-                    MPI_Alltoallv(MPI_IN_PLACE, NULL, NULL, MPI_DATATYPE_NULL, buf,
-                                  rcvCounts, rcvOffsets, dataType, epComms[0]);
-                else
-                    MPI_Alltoallv(buf, sndCounts, sndOffsets, dataType, retBuf,
-                                  rcvCounts, rcvOffsets, dataType, epComms[0]);
+                {
+                    for (size_t procIdx = 0; procIdx < numprocs; procIdx++)
+                    {
+                        size_t recvRank = (myRank - procIdx + numprocs) % numprocs;
+                        START_COMM(
+                            int tag = (myRank + recvRank + reqIdx);
+                            size_t epIdx = tag % epCount;
+                            MPI_Irecv((char*)retBuf + reqOffsets[reqIdx], reqCounts[reqIdx], dataType, recvRank,
+                                       tag, epComms[epIdx], &nonBlockReqs[reqIdx]),
+                            "irecv", allToAllSplitParts * procIdx, allToAllSplitParts * (procIdx + 1)
+                        );
+                    }
+                    size_t idxOffset = numprocs * allToAllSplitParts;
+                    for (size_t procIdx = 0; procIdx < numprocs; procIdx++)
+                    {
+                        size_t sendRank = (myRank + procIdx + numprocs) % numprocs;
+                        START_COMM(
+                            int tag = (myRank + sendRank + reqIdx - idxOffset);
+                            size_t epIdx = tag % epCount;
+                            MPI_Isend((char*)buf + reqOffsets[reqIdx], reqCounts[reqIdx], dataType, sendRank,
+                                      tag, epComms[epIdx], &nonBlockReqs[reqIdx]),
+                            "isend", idxOffset + allToAllSplitParts * procIdx, idxOffset + allToAllSplitParts * (procIdx + 1)
+                        );
+                    }
+                }
             }
             else
                 MLSL_ASSERT(0, "reqType %d is not supported", reqType);
@@ -746,6 +880,11 @@ namespace MLSL
         if ((thpThresholdMbEnv = getenv(MLSL_THP_THRESHOLD_MB_ENV)) != NULL)
             thpThresholdMb = atoi(thpThresholdMbEnv);
 
+        char* allToAllSplitEnv = NULL;
+        if ((allToAllSplitEnv = getenv(MLSL_ALLTOALL_SPLIT_ENV)) != NULL)
+            allToAllSplitParts = atoi(allToAllSplitEnv);
+        allToAllSplitParts = MAX(allToAllSplitParts, 1);
+
         char* threadCountEnv = NULL;
         if ((threadCountEnv = getenv(MLSL_NUM_SERVERS_ENV)) != NULL)
             threadCount = atoi(threadCountEnv);
@@ -753,7 +892,7 @@ namespace MLSL
         MLSL_ASSERT(CHECK_RANGE(threadCount, 0, (THREAD_COUNT_MAX + 1)), "set %s in [0-%zu] range",
                     MLSL_NUM_SERVERS_ENV, (size_t)THREAD_COUNT_MAX);
 
-        char* server_affinity_env = NULL;
+        char* serverAffinityEnv = NULL;
 
         char mpiVersion[MPI_MAX_LIBRARY_VERSION_STRING];
         int resultLen;
@@ -769,8 +908,8 @@ namespace MLSL
                 setenv("I_MPI_ASYNC_PROGRESS", "1", 0);
                 setenv("I_MPI_ASYNC_PROGRESS_THREADS", threadCountStr, 0);
                 setenv("I_MPI_ASYNC_PROGRESS_ID_KEY", COMM_KEY, 0);
-                if ((server_affinity_env = getenv(MLSL_SERVER_AFFINITY_ENV)) != NULL)
-                    setenv("I_MPI_ASYNC_PROGRESS_PIN", server_affinity_env, 0);
+                if ((serverAffinityEnv = getenv(MLSL_SERVER_AFFINITY_ENV)) != NULL)
+                    setenv("I_MPI_ASYNC_PROGRESS_PIN", serverAffinityEnv, 0);
             }
             else
             {
@@ -876,11 +1015,13 @@ namespace MLSL
             MLSL_LOG(INFO, "%s = %s, actual value %zu",
                      MLSL_NUM_SERVERS_ENV, STR_OR_NULL(threadCountEnv), threadCount);
             MLSL_LOG(INFO, "%s = %s",
-                     MLSL_SERVER_AFFINITY_ENV, STR_OR_NULL(server_affinity_env));
+                     MLSL_SERVER_AFFINITY_ENV, STR_OR_NULL(serverAffinityEnv));
             MLSL_LOG(INFO, "%s = %s, actual value %zu",
                      MLSL_MAX_SHORT_MSG_SIZE_ENV, STR_OR_NULL(maxShortMsgSizeEnv), maxShortMsgSize);
             MLSL_LOG(INFO, "%s = %s, actual value %zu",
                      MLSL_THP_THRESHOLD_MB_ENV, STR_OR_NULL(thpThresholdMbEnv), thpThresholdMb);
+            MLSL_LOG(INFO, "%s = %s, actual value %zu",
+                     MLSL_ALLTOALL_SPLIT_ENV, STR_OR_NULL(allToAllSplitEnv), allToAllSplitParts);
         }
 
         return ret;
