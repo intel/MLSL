@@ -72,7 +72,7 @@
 
 #define STR_OR_NULL(str) ((str) ? str : "null")
 
-#define EXPECTED_MPI_VERSION "Intel(R) MPI Library 2019 for Linux* OS"
+#define EXPECTED_MPI_VERSION "Intel(R) MPI Library 2019"
 
 #define COMM_KEY                 "ep_idx"
 #define THREAD_COUNT_MAX         16
