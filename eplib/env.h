@@ -27,7 +27,7 @@
 #define MAX_PPN                      8
 #define AFFINITY_LEN                 (MAX_PPN * MAX_EP_LIMIT)
 
-#define SHM_SIZE_STR_LEN             5
+#define SHM_SIZE_STR_LEN             12
 #define GIGABYTE                     (1024L * 1024L * 1024L)
 #define SHM_SIZE_DEFAULT             (4 * GIGABYTE)
 
