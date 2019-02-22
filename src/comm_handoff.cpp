@@ -70,6 +70,7 @@
 #define MLSL_MAX_SHORT_MSG_SIZE_ENV "MLSL_MAX_SHORT_MSG_SIZE"
 #define MLSL_THP_THRESHOLD_MB_ENV   "MLSL_THP_THRESHOLD_MB"
 #define MLSL_ALLTOALL_SPLIT_ENV     "MLSL_ALLTOALL_SPLIT"
+#define MLSL_USE_MPI_FORCE_ENV      "MLSL_USE_MPI_FORCE"
 
 #define STR_OR_NULL(str) ((str) ? str : "null")
 
@@ -81,6 +82,7 @@
 #define MAX_SHORT_MSG_SIZE           1024
 #define THP_THRESHOLD_MB_DEFAULT     128
 #define ALLTOALL_SPLIT_PARTS_DEFAULT 1
+#define USE_MPI_FORCE_DEFAULT        0
 
 #define ONE_MB 1048576
 #define TWO_MB 2097152
@@ -102,6 +104,7 @@ namespace MLSL
     size_t maxShortMsgSize = MAX_SHORT_MSG_SIZE;
     size_t thpThresholdMb = THP_THRESHOLD_MB_DEFAULT;
     size_t allToAllSplitParts = ALLTOALL_SPLIT_PARTS_DEFAULT;
+    int useMpiForce = USE_MPI_FORCE_DEFAULT;
     int isExternalInit = 0;
 
     class ProcessGroupImpl
@@ -892,6 +895,10 @@ namespace MLSL
         MLSL_ASSERT(CHECK_RANGE(threadCount, 0, (THREAD_COUNT_MAX + 1)), "set %s in [0-%zu] range",
                     MLSL_NUM_SERVERS_ENV, (size_t)THREAD_COUNT_MAX);
 
+        char* useMpiForceEnv = NULL;
+        if ((useMpiForceEnv = getenv(MLSL_USE_MPI_FORCE_ENV)) != NULL)
+            useMpiForce = atoi(useMpiForceEnv);
+
         char* serverAffinityEnv = NULL;
 
         char mpiVersion[MPI_MAX_LIBRARY_VERSION_STRING];
@@ -920,8 +927,8 @@ namespace MLSL
         else
         {
             threadCount = 0;
-            MLSL_LOG(INFO, "unexpected MPI version: %s, expected: %s",
-                     mpiVersion, EXPECTED_MPI_VERSION);
+            MLSL_ASSERT(useMpiForce, "unexpected MPI version: %s, expected: %s, set %s=1 to skip this check",
+                        mpiVersion, EXPECTED_MPI_VERSION, MLSL_USE_MPI_FORCE_ENV);
         }
 
 #ifdef INTERNAL_ENV_UPDATE
@@ -1022,6 +1029,8 @@ namespace MLSL
                      MLSL_THP_THRESHOLD_MB_ENV, STR_OR_NULL(thpThresholdMbEnv), thpThresholdMb);
             MLSL_LOG(INFO, "%s = %s, actual value %zu",
                      MLSL_ALLTOALL_SPLIT_ENV, STR_OR_NULL(allToAllSplitEnv), allToAllSplitParts);
+            MLSL_LOG(INFO, "%s = %s, actual value %d",
+                     MLSL_USE_MPI_FORCE_ENV, STR_OR_NULL(useMpiForceEnv), useMpiForce);
         }
 
         return ret;
