@@ -452,7 +452,7 @@ namespace MLSL
                 reqCounts = (size_t*)MLSL_MALLOC(nonBlockReqCount * sizeof(size_t), CACHELINE_SIZE);
                 reqOffsets = (size_t*)MLSL_MALLOC(nonBlockReqCount * sizeof(size_t), CACHELINE_SIZE);
 
-                size_t* recvCounts;
+                size_t* recvCounts = NULL;
                 if (reqType == CommOp::AllGatherv)
                 {
                     CommOpAllGatherv* aOp = static_cast<CommOpAllGatherv*>(op);
