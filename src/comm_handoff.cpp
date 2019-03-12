@@ -442,7 +442,7 @@ namespace MLSL
                 MLSL_ASSERT(0, "reqType %d is not supported yet", reqType);
 
             epCount = commCount;
-            if (length <= maxShortMsgSize  && reqType != CommOp::AllGatherv) epCount = 1;
+            if (length <= maxShortMsgSize && reqType != CommOp::AllGatherv) epCount = 1;
             if (length < epCount) epCount = 1;
 
             if (reqType == CommOp::AllGather  ||
