@@ -1,0 +1,33 @@
+
+ENABLE_DEBUG ?= 1
+SHELL = bash
+INCLUDES = -I$(MLSL_ROOT)/intel64/include
+LDFLAGS  = -L$(MLSL_ROOT)/intel64/lib -lmlsl
+CXX     ?= g++
+tests    = mlsl_sample
+
+ifeq ($(ENABLE_DEBUG),1)
+  CFLAGS += -O0 -g
+else
+  CFLAGS += -O2
+endif
+
+CXX_COMPILE = $(CXX) $(CFLAGS) $(INCLUDES)
+
+.SUFFIXES:
+.SUFFIXES: .cpp
+
+.cpp:
+	$(CXX_COMPILE) -o $* $< $(LDFLAGS)
+
+all: $(tests)
+
+run: all
+	echo "running mlsl_example ..." ; \
+	mpiexec.hydra -n 4 -ppn 1 -l ./$(tests); \
+	if [ "$${PIPESTATUS[0]}" -ne 0 ]; then \
+		echo "Run FAILED." ; \
+	fi ; \
+
+clean:
+	-rm -f $(tests).o $(tests) *.log
