@@ -1,4 +1,5 @@
 # Intel(R) Machine Learning Scaling Library for Linux* OS
+Intel® MLSL is no longer supported, no new releases are available. Please switch to the new API introduced in [Intel® oneAPI Collective Communications Library (oneCCL)](http://github.com/intel/oneccl)
 ## Introduction ##
 Intel(R) Machine Learning Scaling Library (Intel(R) MLSL) is a library providing
 an efficient implementation of communication patterns used in deep learning.
@@ -82,8 +83,9 @@ Here  <install_dir> is the Intel MLSL installation directory.
 
 ## Migration to oneCCL ##
 
-Intel® MLSL is no longer supported, no new releases are available, please switch to the new API introduced in Intel® oneAPI Collective Communications Library (oneCCL) http://github.com/intel/oneccl.
-There are some examples that can help you get started with oneCCL, simply try to perform following:
+Intel® MLSL is no longer supported, no new releases are available. Please switch to the new API introduced in [Intel® oneAPI Collective Communications Library (oneCCL)](http://github.com/intel/oneccl)
+There are some examples that can help you get started with oneCCL, simply try to perform the following:
+
 ```
 $ cd ./mlsl_to_ccl
 $ . ${MLSL_ROOT}/intel64/bin/mlslvars.sh
@@ -92,7 +94,7 @@ $ . ${CCL_ROOT}/env/vars.sh
 $ make run -f Makefile_ccl
 ```
 
-If you used MLSL before, here’s an example of key difference between librares API.
+If you used MLSL before, here is an example that demonstrates the key differences between libraries' APIs.
 
 ```diff
 #include <iostream>
