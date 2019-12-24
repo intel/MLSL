@@ -643,6 +643,7 @@ namespace MLSL
                 break;
             }
         }
+        free(arg);
     }
 
     void AutoConfig(AutoConfigType autoConfigType)
