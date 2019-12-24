@@ -89,9 +89,8 @@ There are some examples that can help you get started with oneCCL, simply try to
 ```
 $ cd ./mlsl_to_ccl
 $ . ${MLSL_ROOT}/intel64/bin/mlslvars.sh
-$ make run -f Makefile_mlsl
 $ . ${CCL_ROOT}/env/vars.sh
-$ make run -f Makefile_ccl
+$ make run -f Makefile
 ```
 
 If you used MLSL before, here is an example that demonstrates the key differences between libraries' APIs.
